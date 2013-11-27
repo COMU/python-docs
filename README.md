@@ -1,4 +1,4 @@
 python-docs
 ===========
 
-Python HOWTOs are documents that cover a single, specific topic, and attempt to cover it fairly completely. Modelled on the Linux Documentation Project’s HOWTO collection, this collection is an effort to foster documentation that’s more detailed than the Python Library Reference.
+Python NASIL-YAPILIR(HOWTO) dosyaları tek bir konuya özel ve o konuyu tamamen kapsamaya çalışan dosyalardır.Linux'un NASIL-YAPILIR(HOWTO) Dökümentasyon projesinden şekillendirilmiştir ve bu kaynağın amacı Python kütüphane referansından daha geniş ve daha detaylı bir dökümentasyon belgesi hazırlamaktır.
