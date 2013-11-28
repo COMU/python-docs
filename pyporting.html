@@ -98,19 +98,12 @@ lütfen <a class="reference internal" href="cporting.html#cporting-howto"><em>Ek
 <p>Son olarak, <a class="reference internal" href="#use-2to3"><em>Python 2'den 3'e(2to3)</em></a> kullanarak Python 2 Kodlarınız python 3 e çevirme seçeneğiniz de mevcut(birazcık kılavuz yardımıyla).Bu kodunuzun ait olduğu branşı şekillendirir ve Pyton 2'den 3'e(2to3) kullanarak Python 3 branşına dönüştürebilirsiniz.Ayrıca kullanıcıların bu dönüşümü yükleme anında yapmasını sağlayabilir ve sadece Python 2 kod tabanı sürdürebilirsiniz..</p>
 <p>Hangi yaklaşımı seçtiğinize bağlı olmaksızın,uygun hale getirme işlemi aslında düşündüğünüz kadar zor ve zaman alıcı bir iş değildir.Ayrıca bu işlemi parçalar halinde de ele alabilir ve kodunuzu en iyi Python 2/3 uyumlu hale getirme pratiklerini izleyerek basitçe güncellemelerle yapabilirsiniz.</p>
 <div class="section" id="universal-bits-of-advice">
-<h3>Universal Bits of Advice<a class="headerlink" href="#universal-bits-of-advice" title="Permalink to this headline">¶</a></h3>
-<p>Regardless of what strategy you pick, there are a few things you should
-consider.</p>
-<p>One is make sure you have a robust test suite. You need to make sure everything
-continues to work, just like when you support a new minor/feature release of
-Python. This means making sure your test suite is thorough and is ported
-properly between Python 2 &amp; 3. You will also most likely want to use something
-like <a class="reference external" href="http://codespeak.net/tox/">tox</a> to automate testing between both a Python 2 and Python 3 interpreter.</p>
-<p>Two, once your project has Python 3 support, make sure to add the proper
-classifier on the <a class="reference external" href="http://pypi.python.org/">Cheeseshop</a> (<a class="reference external" href="http://pypi.python.org/">PyPI</a>). To have your project listed as Python 3
-compatible it must have the
-<a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533">Python 3 classifier</a>
-(from
+<h3>Genel Bilgiler<a class="headerlink" href="#universal-bits-of-advice" title="Permalink to this headline">¶</a></h3>
+<p>Seçtiğiniz yol haritasına bağlı olmaksızın , bir kaç şeyi göz önüne almanız gerekmektedir.</p>
+<p>Bir sağlam bir test paketiniz olduğundan emin olun.Her şeyin çalıştığından emin olmalısınız, tıpkı Pythonun yeni minik/özellik sürümlerini desteklediğiniz gibi.Bu test paketinizin tam ve Python 2 ve 3 'e uygun olduğundan emin olmanız gerektiği anlamına gelir.Ayrıca bu testi otomatik olarak yapmak için <a class="reference external" href="http://codespeak.net/tox/">tox</a>'u kullanmak isteyebilirsiniz .  </p>
+<p>İki , projeniz Python 3 'ü desteklediği anda <a class="reference external" href="http://pypi.python.org/">Cheeseshop</a> (<a class="reference external" href="http://pypi.python.org/">PyPI</a>)'ye uygun bir sınıflandırıcı eklediğinizden emin olun. Projenizin Python 3'e uygun bir proje olarak listelenmesi için
+<a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533">Python 3 sınıflandırıcısı </a> bulundurması gerekmektedir.
+(Buradan bakabilirsiniz
 <a class="reference external" href="http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/">http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/</a>):</p>
 <div class="highlight-python3"><div class="highlight"><pre><span class="n">setup</span><span class="p">(</span>
   <span class="n">name</span><span class="o">=</span><span class="s">&#39;Your Library&#39;</span><span class="p">,</span>
