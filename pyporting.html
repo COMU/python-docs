@@ -139,14 +139,8 @@ Python 3'te deyimsel hale gelen kullanışlı sözdizimi ve kütüphanelerle sun
 </div>
 <div class="section" id="python-2-and-2to3">
 <span id="use-2to3"></span><h2>Python 2 ve 2den3'e (2to3)<a class="headerlink" href="#python-2-and-2to3" title="Permalink to this headline">¶</a></h2>
-<p>Included with Python since 2.6, the <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> tool (and <a class="reference internal" href="../library/2to3.html#module-lib2to3" title="lib2to3: the 2to3 library"><tt class="xref py py-mod docutils literal"><span class="pre">lib2to3</span></tt></a> module)
-helps with porting Python 2 to Python 3 by performing various source
-translations. This is a perfect solution for projects which wish to branch
-their Python 3 code from their Python 2 codebase and maintain them as
-independent codebases. You can even begin preparing to use this approach
-today by writing future-compatible Python code which works cleanly in
-Python 2 in conjunction with 2to3; all steps outlined below will work
-with Python 2 code up to the point when the actual use of 2to3 occurs.</p>
+<p>Python 2.6 'dan beri<a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> aracı (ve <a class="reference internal" href="../library/2to3.html#module-lib2to3" title="lib2to3: the 2to3 library"><tt class="xref py py-mod docutils literal"><span class="pre">lib2to3</span></tt></a> modülü)
+çeşitli kaynakları Python 2'den Python 3'e uygun hale getirmeye yardım etmektedir.Bu Python 3 kodlarının branşını Python 2 den almak ve iki kod tabanını da sürdürmek isteyen projeler için harika bir çözümdür.Hatta bugün  bu yaklaşımı kullanarak gelecek-uyumlu Python kodu hazırlamaya başlayabilirsiniz ve bu kod 2to3 bağlantılı şekilde Python 2'de temiz bir şekilde çalışır.Aşağıda ana hatlarıyla belirtilen adımlar Python 2 koduyla ta ki 2to3 fiilen kullanılana kadar çalışır.</p>
 <p>Use of 2to3 as an on-demand translation step at install time is also possible,
 preventing the need to maintain a separate Python 3 codebase, but this approach
 does come with some drawbacks. While users will only have to pay the
