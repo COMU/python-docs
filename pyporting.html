@@ -123,7 +123,7 @@ lütfen <a class="reference internal" href="cporting.html#cporting-howto"><em>Ek
 </div>
 <p>Bunu yapmak projenizin 
 <a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533&amp;show=all">Python 3 paket listesi</a>nde görünmesini sağlayacaktır. Sınıflandırıcıyı doğru kullandığınızı anlamak için Cheeseshop'ta projenizin sayfasına girip sol üst köşede Python 3 simgesini görmeniz gerekmektedir.</p>
-<p>Üç,  <a class="reference external" href="http://packages.python.org/six">altı(six)</a> projesi Python 2 ve 3 arasındaki farklılıkları gideren bir kütüphane bulundurmaktadır.Eğer kodunuzu dönüştürürken ya da düzenlerken takıldığınız bir nokta olursa,altı projesine dayanan  kaynak-uyumlu bir çözüm oluşturmayı dikkate alın. .Eğer kendi Python 2/3 kaynak-uyumlu çözümünüzü oluşturmak zorunda kalırsanız <tt class="docutils literal"><span class="pre">sys.version_info[0]</span> <span class="pre">&gt;=</span> <span class="pre">3</span></tt> akomutunu koruma olarak kullanın.</p>
+<p>Üç,  <a class="reference external" href="http://packages.python.org/six">altı(six)</a> projesi Python 2 ve 3 arasındaki farklılıkları gideren bir kütüphane bulundurmaktadır.Eğer kodunuzu dönüştürürken ya da düzenlerken takıldığınız bir nokta olursa,altı projesine dayanan  kaynak-uyumlu bir çözüm oluşturmayı dikkate alın. .Eğer kendi Python 2/3 kaynak-uyumlu çözümünüzü oluşturmak zorunda kalırsanız <tt class="docutils literal"><span class="pre">sys.version_info[0]</span> <span class="pre">&gt;=</span> <span class="pre">3</span></tt> komutunu koruma olarak kullanın.</p>
 <p>Dört, tüm yaklaşımları okuyun. JBazı önerilerin bir yaklaşıma diğerlerinden daha fazla uygulanması sadece o stratejiye özgü olduğu diğerlerinde uygulanamadığı anlamına gelmez.</p>
 <p>Beş, daha eski Python versiyonları için de mümkünse destek sağlayın. <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a>
 Python 3'te deyimsel hale gelen kullanışlı sözdizimi ve kütüphanelerle sunulmuştu. <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a>  anda Python 2/3 uygun hale getirme işlemini kolaylaştıran “future” ifadelerini sunmuştur.
@@ -134,20 +134,11 @@ Python 3'te deyimsel hale gelen kullanışlı sözdizimi ve kütüphanelerle sun
 </div>
 <div class="section" id="python-3-and-3to2">
 <span id="use-3to2"></span><h2>Python 3 ve 3'ten 2'ye (3to2)<a class="headerlink" href="#python-3-and-3to2" title="Permalink to this headline">¶</a></h2>
-<p>Eğer yeni bir projeye başlıyorsanız veya kod alt yapınız küçük ise , you may
-want to consider writing your code for Python 3 and backporting to Python 2
-using <a class="reference external" href="https://bitbucket.org/amentajo/lib3to2/overview">3to2</a>. Thanks to Python 3 being more strict about things than Python 2
-(e.g., bytes vs. strings), the source translation can be easier and more
-straightforward than from Python 2 to 3. Plus it gives you more direct
-experience developing in Python 3 which, since it is the future of Python, is a
-good thing long-term.</p>
-<p>A drawback of this approach is that 3to2 is a third-party project. This means
-that the Python core developers (and thus this guide) can make no promises
-about how well 3to2 works at any time. There is nothing to suggest, though,
-that 3to2 is not a high-quality project.</p>
+<p>Eğer yeni bir projeye başlıyorsanız veya kod alt yapınız küçük ise , ise projenizi Python 3'te yazıp Python 2'ye <a class="reference external" href="https://bitbucket.org/amentajo/lib3to2/overview">3'den 2'ye (3to2)</a> kullanarak geri dönüştürmeyi düşünebilirsiniz. Python 3'e olgulara(bitler,stringler vb.) Python 2'den daha kesin sınırlar içinde yaklaştığı için teşekkür ediyoruz çünkü Python 2 den 3'e geçişe nazaran kaynak çevirileri çok daha kolay ve daha açık. Artı olarak bu size daha çok direkt Python 3'te geliştirme deneyimi kazandırıyor. Python 3 Pythonun geleceği olduğu şu durumda bu uzun vadede sizin için iyi bir durum.</p>
+<p>Ancak 3to2 'nin bir güçlüğü bu projenin üçüncül bir proje olması.Bu Python çekirdek geliştiricilerin(tabi bu kaynağın da) size 3'den 2'ye(3to2)'nin ne kadar iyi olacağı konusunda söz verememesi demektir.Yine de 3'den 2'ye (3to2) 'nin yüksek kalitede bir proje olmadığını öne sürecek bir durum yok .</p>
 </div>
 <div class="section" id="python-2-and-2to3">
-<span id="use-2to3"></span><h2>Python 2 and 2to3<a class="headerlink" href="#python-2-and-2to3" title="Permalink to this headline">¶</a></h2>
+<span id="use-2to3"></span><h2>Python 2 ve 2den3'e (2to3)<a class="headerlink" href="#python-2-and-2to3" title="Permalink to this headline">¶</a></h2>
 <p>Included with Python since 2.6, the <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> tool (and <a class="reference internal" href="../library/2to3.html#module-lib2to3" title="lib2to3: the 2to3 library"><tt class="xref py py-mod docutils literal"><span class="pre">lib2to3</span></tt></a> module)
 helps with porting Python 2 to Python 3 by performing various source
 translations. This is a perfect solution for projects which wish to branch
