@@ -121,38 +121,20 @@ lütfen <a class="reference internal" href="cporting.html#cporting-howto"><em>Ek
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>Doing so will cause your project to show up in the
-<a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533&amp;show=all">Python 3 packages list</a>. You will know
-you set the classifier properly as visiting your project page on the Cheeseshop
-will show a Python 3 logo in the upper-left corner of the page.</p>
-<p>Three, the <a class="reference external" href="http://packages.python.org/six">six</a> project provides a library which helps iron out differences
-between Python 2 &amp; 3. If you find there is a sticky point that is a continual
-point of contention in your translation or maintenance of code, consider using
-a source-compatible solution relying on six. If you have to create your own
-Python 2/3 compatible solution, you can use <tt class="docutils literal"><span class="pre">sys.version_info[0]</span> <span class="pre">&gt;=</span> <span class="pre">3</span></tt> as a
-guard.</p>
-<p>Four, read all the approaches. Just because some bit of advice applies to one
-approach more than another doesn&#8217;t mean that some advice doesn&#8217;t apply to other
-strategies. This is especially true of whether you decide to use 2to3 or be
-source-compatible; tips for one approach almost always apply to the other.</p>
-<p>Five, drop support for older Python versions if possible. <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a>
-introduced a lot of useful syntax and libraries which have become idiomatic
-in Python 3. <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> introduced future statements which makes
-compatibility much easier if you are going from Python 2 to 3.
-<a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a> continues the trend in the stdlib. So choose the newest version
-of Python which you believe can be your minimum support version
-and work from there.</p>
-<p>Six, target the newest version of Python 3 that you can. Beyond just the usual
-bugfixes, compatibility has continued to improve between Python 2 and 3 as time
-has passed. This is especially true for Python 3.3 where the <tt class="docutils literal"><span class="pre">u</span></tt> prefix for
-strings is allowed, making source-compatible Python code easier.</p>
-<p>Seven, make sure to look at the <a class="reference internal" href="#other-resources">Other Resources</a> for tips from other people
-which may help you out.</p>
+<p>Bunu yapmak projenizin 
+<a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533&amp;show=all">Python 3 paket listesi</a>nde görünmesini sağlayacaktır. Sınıflandırıcıyı doğru kullandığınızı anlamak için Cheeseshop'ta projenizin sayfasına girip sol üst köşede Python 3 simgesini görmeniz gerekmektedir.</p>
+<p>Üç,  <a class="reference external" href="http://packages.python.org/six">altı(six)</a> projesi Python 2 ve 3 arasındaki farklılıkları gideren bir kütüphane bulundurmaktadır.Eğer kodunuzu dönüştürürken ya da düzenlerken takıldığınız bir nokta olursa,altı projesine dayanan  kaynak-uyumlu bir çözüm oluşturmayı dikkate alın. .Eğer kendi Python 2/3 kaynak-uyumlu çözümünüzü oluşturmak zorunda kalırsanız <tt class="docutils literal"><span class="pre">sys.version_info[0]</span> <span class="pre">&gt;=</span> <span class="pre">3</span></tt> akomutunu koruma olarak kullanın.</p>
+<p>Dört, tüm yaklaşımları okuyun. JBazı önerilerin bir yaklaşıma diğerlerinden daha fazla uygulanması sadece o stratejiye özgü olduğu diğerlerinde uygulanamadığı anlamına gelmez.</p>
+<p>Beş, daha eski Python versiyonları için de mümkünse destek sağlayın. <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a>
+Python 3'te deyimsel hale gelen kullanışlı sözdizimi ve kütüphanelerle sunulmuştu. <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a>  anda Python 2/3 uygun hale getirme işlemini kolaylaştıran “future” ifadelerini sunmuştur.
+<a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a> standart kütüphane(stdlib)'de gidişatı devam ettirmektedir. Yani sizin asgari destek versiyonunuz olan en yeni Python sürümünü seçin ve oradan çalışmaya devam edin.</p>
+<p>Altı, yapabildiğiniz en yeni Pyhton 3 sürümünü hedef alın. Hata düzeltmelerin yanı sıra , zaman geçtikte Python 2 ve 3 arasındaki uyumluluk ta gelişmeye devam etmektedir.Bu özellikle <tt class="docutils literal"><span class="pre">u</span></tt> kaynak-uyumlu Python kodu yazmayı kolaylaştıran önekli stringleri bulunduran Python 3.3 için geçerli</p>
+<p>Yedi,yararlı olabilecek ufak öneriler için <a class="reference internal" href="#other-resources">Diğer Kaynaklar</a>a baktığınıza emin olun.</p>
 </div>
 </div>
 <div class="section" id="python-3-and-3to2">
-<span id="use-3to2"></span><h2>Python 3 and 3to2<a class="headerlink" href="#python-3-and-3to2" title="Permalink to this headline">¶</a></h2>
-<p>If you are starting a new project or your codebase is small enough, you may
+<span id="use-3to2"></span><h2>Python 3 ve 3'ten 2'ye (3to2)<a class="headerlink" href="#python-3-and-3to2" title="Permalink to this headline">¶</a></h2>
+<p>Eğer yeni bir projeye başlıyorsanız veya kod alt yapınız küçük ise , you may
 want to consider writing your code for Python 3 and backporting to Python 2
 using <a class="reference external" href="https://bitbucket.org/amentajo/lib3to2/overview">3to2</a>. Thanks to Python 3 being more strict about things than Python 2
 (e.g., bytes vs. strings), the source translation can be easier and more
