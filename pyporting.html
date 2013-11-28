@@ -92,22 +92,11 @@ lütfen <a class="reference internal" href="cporting.html#cporting-howto"><em>Ek
 <div class="section" id="choosing-a-strategy">
 <h2>Yol Haritası Belirleme<a class="headerlink" href="#choosing-a-strategy" title="Permalink to this headline">¶</a></h2>
 <p>Bir proje Python 2 ve 3 'ü aynı anda desteklemeye karar verdiğinde, bu hedefe nasıl ulaşılacağına karar  verilmesi gerekmektedir.Seçilen yol haritası  projenin var olan kod tabanının genişliği ve Python 2 kod tabanından ne kadar uzaklaşmak istediğine bağlı olacaktır.(örneğin kodunuzu Python 2 & 3 te aynı anda çalışabilir şekilde değiştirme.)</p>
-<p>If you would prefer to maintain a codebase which is semantically <strong>and</strong>
-syntactically compatible with Python 2 &amp; 3 simultaneously, you can write
-<a class="reference internal" href="#use-same-source"><em>Python 2/3 Compatible Source</em></a>. While this tends to lead to somewhat non-idiomatic
-code, it does mean you keep a rapid development process for you, the developer.</p>
-<p>If your project is brand-new or does not have a large codebase, then you may
-want to consider writing/porting <a class="reference internal" href="#use-3to2"><em>all of your code for Python 3
-and use 3to2</em></a> to port your code for Python 2.</p>
-<p>Finally, you do have the option of <a class="reference internal" href="#use-2to3"><em>using 2to3</em></a> to translate
-Python 2 code into Python 3 code (with some manual help). This can take the
-form of branching your code and using 2to3 to start a Python 3 branch. You can
-also have users perform the translation at installation time automatically so
-that you only have to maintain a Python 2 codebase.</p>
-<p>Regardless of which approach you choose, porting is not as hard or
-time-consuming as you might initially think. You can also tackle the problem
-piece-meal as a good portion of porting is simply updating your code to follow
-current best practices in a Python 2/3 compatible way.</p>
+<p>Eğer Python 2 <strong>ve</strong> 3'te aynı anda anlamsal ve sözdizimsel olarak uyumlu çalışan bi kod tabanını sürdürmeyi tercih ederseniz,
+<a class="reference internal" href="#use-same-source"><em>Python 2/3 uyumlu kaynak</em></a> yazabilirsiniz . Bu biraz deyimsel olmayan kodlamaya yol açar,yani sizin(geliştirici) için hızlı bir geliştirme süreci olacaktır.</p>
+<p>Eğer projeniz yeni veya kod tabanı çok geniş değilse, <a class="reference internal" href="#use-3to2"><em>Bütün kodunuzu Python 3'te yazıp Python 3'ten 2 ye dönüştürme</em></a> seçeneğini düşünebilirsiniz </p>
+<p>Son olarak, <a class="reference internal" href="#use-2to3"><em>Python 2'den 3'e(2to3)</em></a> kullanarak Python 2 Kodlarınız python 3 e çevirme seçeneğiniz de mevcut(birazcık kılavuz yardımıyla).Bu kodunuzun ait olduğu branşı şekillendirir ve Pyton 2'den 3'e(2to3) kullanarak Python 3 branşına dönüştürebilirsiniz.Ayrıca kullanıcıların bu dönüşümü yükleme anında yapmasını sağlayabilir ve sadece Python 2 kod tabanı sürdürebilirsiniz..</p>
+<p>Hangi yaklaşımı seçtiğinize bağlı olmaksızın,uygun hale getirme işlemi aslında düşündüğünüz kadar zor ve zaman alıcı bir iş değildir.Ayrıca bu işlemi parçalar halinde de ele alabilir ve kodunuzu en iyi Python 2/3 uyumlu hale getirme pratiklerini izleyerek basitçe güncellemelerle yapabilirsiniz.</p>
 <div class="section" id="universal-bits-of-advice">
 <h3>Universal Bits of Advice<a class="headerlink" href="#universal-bits-of-advice" title="Permalink to this headline">¶</a></h3>
 <p>Regardless of what strategy you pick, there are a few things you should
