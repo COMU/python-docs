@@ -141,21 +141,20 @@ Python 3'te deyimsel hale gelen kullanışlı sözdizimi ve kütüphanelerle sun
 <span id="use-2to3"></span><h2>Python 2 ve 2den3'e (2to3)<a class="headerlink" href="#python-2-and-2to3" title="Permalink to this headline">¶</a></h2>
 <p>Python 2.6 'dan beri<a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> aracı (ve <a class="reference internal" href="../library/2to3.html#module-lib2to3" title="lib2to3: the 2to3 library"><tt class="xref py py-mod docutils literal"><span class="pre">lib2to3</span></tt></a> modülü)
 çeşitli kaynakları Python 2'den Python 3'e uygun hale getirmeye yardım etmektedir.Bu Python 3 kodlarının branşını Python 2 den almak ve iki kod tabanını da sürdürmek isteyen projeler için harika bir çözümdür.Hatta bugün  bu yaklaşımı kullanarak gelecek-uyumlu Python kodu hazırlamaya başlayabilirsiniz ve bu kod 2to3 bağlantılı şekilde Python 2'de temiz bir şekilde çalışır.Aşağıda ana hatlarıyla belirtilen adımlar Python 2 koduyla ta ki 2to3 fiilen kullanılana kadar çalışır.</p>
-<p>Use of 2to3 as an on-demand translation step at install time is also possible,
-preventing the need to maintain a separate Python 3 codebase, but this approach
-does come with some drawbacks. While users will only have to pay the
-translation cost once at installation, you as a developer will need to pay the
-cost regularly during development. If your codebase is sufficiently large
-enough then the translation step ends up acting like a compilation step,
-robbing you of the rapid development process you are used to with Python.
-Obviously the time required to translate a project will vary, so do an
-experimental translation just to see how long it takes to evaluate whether you
-prefer this approach compared to using <a class="reference internal" href="#use-same-source"><em>Python 2/3 Compatible Source</em></a> or simply keeping
-a separate Python 3 codebase.</p>
-<p>Below are the typical steps taken by a project which tries to support
-Python 2 &amp; 3 while keeping the code directly executable by Python 2.</p>
+<p>Farklı bir  Python 3 kod tabanını sürdürme ihtiyacını önlemek
+için ,
+2to3'ü yükleme esnasında da isteğe bağlı olarak çalıştırma imkanımız  vardır,
+fakat bu yöntemin zorlukları olduğunu unutmamak gerekir.
+Kullanıcılar çeviri işlemini bir kere yaparken,
+sizin yani geliştiricinin bunu gelişim sürecince düzenli olarak yapma zorunluluğunuz vardır.
+Eğer kod tabanınız yeteri kadar geniş ve çeviri süreci bir tamamlama adımı gibi davranıyorsa,
+Python kullanarak elde ettiğiniz hızlı geliştirme sürecinden sizi alıkoyar.
+Bir projeyi çevirme işlemi elbette çeşitli zamanlar alabilir,
+Bu yüzden <a class="reference internal" href="#use-same-source"><em>Python 2/3 uyumlu kaynak oluşturma</em></a> yöntemi,
+farklı bir Python 3 kod tabanı tutma yöntemi ve bu yöntem arasında çevirme işleminin ne kadar süreceğini ölçmek için deneysel çeviri işlemleri yapınız.</p>
+<p>Aşağıda Python 2'de direkt olarak çalışan kodlar tutarken Python 2 ve 3'ü aynı anda desteklemeye çalışan projelerin izlemesi gereken adımlar gösterilmiştir.</p>
 <div class="section" id="support-python-2-7">
-<h3>Support Python 2.7<a class="headerlink" href="#support-python-2-7" title="Permalink to this headline">¶</a></h3>
+<h3>Python 2.7'yi Destekleyin<a class="headerlink" href="#support-python-2-7" title="Permalink to this headline">¶</a></h3>
 <p>As a first step, make sure that your project is compatible with <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a>.
 This is just good to do as Python 2.7 is the last release of Python 2 and thus
 will be used for a rather long time. It also allows for use of the <tt class="docutils literal"><span class="pre">-3</span></tt> flag
