@@ -155,19 +155,14 @@ farklı bir Python 3 kod tabanı tutma yöntemi ve bu yöntem arasında çevirme
 <p>Aşağıda Python 2'de direkt olarak çalışan kodlar tutarken Python 2 ve 3'ü aynı anda desteklemeye çalışan projelerin izlemesi gereken adımlar gösterilmiştir.</p>
 <div class="section" id="support-python-2-7">
 <h3>Python 2.7'yi Destekleyin<a class="headerlink" href="#support-python-2-7" title="Permalink to this headline">¶</a></h3>
-<p>As a first step, make sure that your project is compatible with <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a>.
-This is just good to do as Python 2.7 is the last release of Python 2 and thus
-will be used for a rather long time. It also allows for use of the <tt class="docutils literal"><span class="pre">-3</span></tt> flag
-to Python to help discover places in your code which 2to3 cannot handle but are
-known to cause issues.</p>
+<p>İlk adımda projenizin <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a>.
+Bunu yapmak Python 2.7'nin Python 2'nin son çıkan sürümü olması ve uzun süredir kullanılmasından dolayı iyidir.
+Bu aynı zamanda kodunuzda 2to3'ün halledemeyeceği  yerleri bulmak için  Python'a<tt class="docutils literal"><span class="pre">-3</span></tt>bayrağını kullanma imkanı sunuyor.</p>
 </div>
 <div class="section" id="try-to-support-python-2-6-and-newer-only">
-<h3>Try to Support <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> and Newer Only<a class="headerlink" href="#try-to-support-python-2-6-and-newer-only" title="Permalink to this headline">¶</a></h3>
-<p>While not possible for all projects, if you can support <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> and newer
-<strong>only</strong>, your life will be much easier. Various future statements, stdlib
-additions, etc. exist only in Python 2.6 and later which greatly assist in
-porting to Python 3. But if you project must keep support for <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> (or
-even <a class="reference external" href="http://www.python.org/2.4.x">Python 2.4</a>) then it is still possible to port to Python 3.</p>
+<h3><a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve Sadece Daha Yeni Sürümleri Desteklemeye Çalışın<a class="headerlink" href="#try-to-support-python-2-6-and-newer-only" title="Permalink to this headline">¶</a></h3>
+<p>Her projede mümkün olmasa da, eğer <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve
+<strong>sadece</strong> daha yeni sürümleri destekleyebilirseniz , işiniz çok kolaylaşacaktır . Sadece Python 2.6 ve daha yeni sürümler  çeşitli future (from __future__ import vb. gibi) ifadeleri,standart kütüphane(stdlib) eklentileri ve benzerlerine sahiptir dolayısıyla size Python 3'e uygun hale getirme işlemi için mükemmel destek sağlamaktadır. Ama eğer projeniz <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> (hatta <a class="reference external" href="http://www.python.org/2.4.x">Python 2.4</a>)'i desteklemek zorundaysa bile Python 3'e dönüştürme işlemi yapılabilir.</p>
 <p>Below are the benefits you gain if you only have to support Python 2.6 and
 newer. Some of these options are personal choice while others are
 <strong>strongly</strong> recommended (the ones that are more for personal choice are
