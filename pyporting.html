@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -163,14 +162,14 @@ Bu aynı zamanda kodunuzda 2to3'ün halledemeyeceği  yerleri bulmak için  Pyth
 <h3><a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve Sadece Daha Yeni Sürümleri Desteklemeye Çalışın<a class="headerlink" href="#try-to-support-python-2-6-and-newer-only" title="Permalink to this headline">¶</a></h3>
 <p>Her projede mümkün olmasa da, eğer <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve
 <strong>sadece</strong> daha yeni sürümleri destekleyebilirseniz , işiniz çok kolaylaşacaktır . Sadece Python 2.6 ve daha yeni sürümler  çeşitli future (from __future__ import vb. gibi) ifadeleri,standart kütüphane(stdlib) eklentileri ve benzerlerine sahiptir dolayısıyla size Python 3'e uygun hale getirme işlemi için mükemmel destek sağlamaktadır. Ama eğer projeniz <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> (hatta <a class="reference external" href="http://www.python.org/2.4.x">Python 2.4</a>)'i desteklemek zorundaysa bile Python 3'e dönüştürme işlemi yapılabilir.</p>
-<p>Below are the benefits you gain if you only have to support Python 2.6 and
-newer. Some of these options are personal choice while others are
-<strong>strongly</strong> recommended (the ones that are more for personal choice are
-labeled as such).  If you continue to support older versions of Python then you
-at least need to watch out for situations that these solutions fix.</p>
+<p>Aşağıda Python 2.6 ve yeni versiyonlarını destekleme durumunda kazanacağınız
+bir kaç özellik gösterilmiştir.Bunların bazıları size kalmışken bazıları
+<strong>önemle</strong> tavsiye edilir (aşağıda gösterilmiş olanlar daha çok kişiye özel olanlardır).  
+Eğer Python'un eski sürümlerini desteklemeye devam edecekseniz en azından aşağıdaki çözümlerin durumu hakkında
+dikkatli olmalısınız.</p>
 <div class="section" id="from-future-import-print-function">
 <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt><a class="headerlink" href="#from-future-import-print-function" title="Permalink to this headline">¶</a></h4>
-<p>This is a personal choice. 2to3 handles the translation from the print
+<p>Bu bir kişisel tercihtir . 2to3 handles the translation from the print
 statement to the print function rather well so this is an optional step. This
 future statement does help, though, with getting used to typing
 <tt class="docutils literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> instead of <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt>.</p>
