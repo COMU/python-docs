@@ -169,15 +169,12 @@ Eğer Python'un eski sürümlerini desteklemeye devam edecekseniz en azından a�
 dikkatli olmalısınız.</p>
 <div class="section" id="from-future-import-print-function">
 <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt><a class="headerlink" href="#from-future-import-print-function" title="Permalink to this headline">¶</a></h4>
-<p>Bu bir kişisel tercihtir . 2to3 handles the translation from the print
-statement to the print function rather well so this is an optional step. This
-future statement does help, though, with getting used to typing
-<tt class="docutils literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> instead of <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt>.</p>
+<p>Bu bir kişisel tercihtir. 2to3 print ifadesini print fonksiyonuna gayet iyi çevirdiği için bu kişiye bağlı bir adımdır. Bu future ifadesi yine de
+<tt class="docutils literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> yazmak yerine <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt> yazmaya alışmak için yardımcı olmaktadır.</p>
 </div>
 <div class="section" id="from-future-import-unicode-literals">
 <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt><a class="headerlink" href="#from-future-import-unicode-literals" title="Permalink to this headline">¶</a></h4>
-<p>Another personal choice. You can always mark what you want to be a (unicode)
-string with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix to get the same effect. But regardless of whether
+<p> Bir başka kişisel seçimdir. Her zaman string (unicode) olmasını istediğiniz ifadeyi <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretleyerek aynı etkiyi sağlayabilirsiniz . But regardless of whether
 you use this future statement or not, you <strong>must</strong> make sure you know exactly
 which Python 2 strings you want to be bytes, and which are to be strings. This
 means you should, <strong>at minimum</strong> mark all strings that are meant to be text
