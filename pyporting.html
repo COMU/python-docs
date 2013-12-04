@@ -174,13 +174,12 @@ dikkatli olmalısınız.</p>
 </div>
 <div class="section" id="from-future-import-unicode-literals">
 <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt><a class="headerlink" href="#from-future-import-unicode-literals" title="Permalink to this headline">¶</a></h4>
-<p> Bir başka kişisel seçimdir. Her zaman string (unicode) olmasını istediğiniz ifadeyi <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretleyerek aynı etkiyi sağlayabilirsiniz . But regardless of whether
-you use this future statement or not, you <strong>must</strong> make sure you know exactly
-which Python 2 strings you want to be bytes, and which are to be strings. This
-means you should, <strong>at minimum</strong> mark all strings that are meant to be text
-strings with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix if you do not use this future statement. Python 3.3
-allows strings to continue to have the <tt class="docutils literal"><span class="pre">u</span></tt> prefix (it&#8217;s a no-op in that case)
-to make it easier for code to be source-compatible between Python 2 &amp; 3.</p>
+<p> Bir başka kişisel seçimdir. Her zaman string (unicode) olmasını istediğiniz ifadeyi <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretleyerek aynı etkiyi sağlayabilirsiniz . 
+Ama future ifadesini kullanın ya da kullanmayın, hangi Python 2 stringlerinin byte, hangilerinin string olacağını
+kesin olarak bilmek <strong>zorundasınız</strong> . Yani yapmanız gereken, future ifadesi kullanmayacaksanız 
+<strong>en azından</strong> metin olacak stringleri <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretlemektir. 
+Python 3.3 Python 2 &amp; 3 kaynak uyumlu kod oluşturmayı kolaylaştırmak için, stringlerin <tt class="docutils literal">
+<span class="pre">u</span></tt> önekini almasına izin vermeyi sürdürmektir (it&#8217;s bu durumda işleme gerek yoktur).</p>
 </div>
 <div class="section" id="bytes-literals">
 <h4>Bytes literals<a class="headerlink" href="#bytes-literals" title="Permalink to this headline">¶</a></h4>
