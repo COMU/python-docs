@@ -183,20 +183,19 @@ Python 3.3 Python 2 &amp; 3 kaynak uyumlu kod oluşturmayı kolaylaştırmak iç
 </div>
 <div class="section" id="bytes-literals">
 <h4>Bayt Kalıpları<a class="headerlink" href="#bytes-literals" title="Permalink to this headline">¶</a></h4>
-<p>Bu <strong>çok</strong> önemli bir konudur . The ability to prefix Python 2 strings that
-are meant to contain bytes with a <tt class="docutils literal"><span class="pre">b</span></tt> prefix help to very clearly delineate
-what is and is not a Python 3 string. When you run 2to3 on code, all Python 2
-strings become Python 3 strings <strong>unless</strong> they are prefixed with <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
-<p>This point cannot be stressed enough: make sure you know what all of your string
-literals in Python 2 are meant to become in Python 3. Any string literal that
-should be treated as bytes should have the <tt class="docutils literal"><span class="pre">b</span></tt> prefix. Any string literal
-that should be Unicode/text in Python 2 should either have the <tt class="docutils literal"><span class="pre">u</span></tt> literal
-(supported, but ignored, in Python 3.3 and later) or you should have
-<tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt> at the top of the file. But the key
-point is you should know how Python 3 will treat everyone one of your string
-literals and you should mark them as appropriate.</p>
-<p>There are some differences between byte literals in Python 2 and those in
-Python 3 thanks to the bytes type just being an alias to <tt class="docutils literal"><span class="pre">str</span></tt> in Python 2.
+<p>Bu <strong>çok</strong> önemli bir konudur . Python 2 stringlerine ön ek getirebilme becerisi neyin Python 3 stringi 
+olup neyin olmayacağını açıkca tasvir etmeye yardımcı olacak <tt class="docutils literal"><span class="pre">b</span></tt> 
+ön ekli baytları içermek zorundadır. 2to3'ü kodunuzda çalıştırdığınızda,Bütün Python 2 stringleri
+strong>eğer</strong> siz onları <tt class="docutils literal"><span class="pre">b</span></tt> ön ekiyle işaretlemediyseniz Python 3 stringine dönüşür .</p>
+<p>Bu nokta çok önemlidir ve atlanmaması gerekmektedir : bütün Python 2 string kalıplarınızın Python 3 e dönüşmek zorunda
+olduğunu bildiğinizden emin olun. Bayt şeklinde davranılacak bütün string kalıpları  
+<tt class="docutils literal"><span class="pre">b</span></tt> ön eki almak zorundadır . Unicode/metin olacak her
+string kalıbı da<tt class="docutils literal"><span class="pre">u</span></tt> ön eki almak zorundadır 
+(Python 3.3 ve sonrasında desteklenmekte fakat gözardı edilmekte) ya da sayfanın başına
+<tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt> eklemek zorundasınız . 
+Ama esas bilmeniz gereken yani anahtar nokta Python 3 bütün string kalıplarınızı işleyecektir ve siz onları uygun şekilde işaretlemelisiniz.</p>
+<p>Python 2 Bayt kalıpları ve Python 3'te olanlar arasında bazı farklılıklar mevcuttur
+ve iyi ki Python 2'de baytların tipi <tt class="docutils literal"><span class="pre">str</span></tt> diğer adıyla bulunmaktadır.
 Probably the biggest &#8220;gotcha&#8221; is that indexing results in different values. In
 Python 2, the value of <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt> is <tt class="docutils literal"><span class="pre">'y'</span></tt>, while in Python 3 it&#8217;s <tt class="docutils literal"><span class="pre">121</span></tt>.
 You can avoid this disparity by always slicing at the size of a single element:
