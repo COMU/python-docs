@@ -196,7 +196,7 @@ string kalıbı da<tt class="docutils literal"><span class="pre">u</span></tt> �
 Ama esas bilmeniz gereken yani anahtar nokta Python 3 bütün string kalıplarınızı işleyecektir ve siz onları uygun şekilde işaretlemelisiniz.</p>
 <p>Python 2 Bayt kalıpları ve Python 3'te olanlar arasında bazı farklılıklar mevcuttur
 ve iyi ki Python 2'de baytların tipi <tt class="docutils literal"><span class="pre">str</span></tt> diğer adıyla bulunmaktadır.
-Probably the biggest &#8220;gotcha&#8221; is that indexing results in different values. In
+Muhtemelen en büyük &#8220;farklılık&#8221; sonuçları farklı değerlerle indislemedir . In
 Python 2, the value of <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt> is <tt class="docutils literal"><span class="pre">'y'</span></tt>, while in Python 3 it&#8217;s <tt class="docutils literal"><span class="pre">121</span></tt>.
 You can avoid this disparity by always slicing at the size of a single element:
 <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt> is <tt class="docutils literal"><span class="pre">'y'</span></tt> in Python 2 and <tt class="docutils literal"><span class="pre">b'y'</span></tt> in Python 3 (i.e., close
