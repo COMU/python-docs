@@ -195,16 +195,15 @@ string kalıbı da<tt class="docutils literal"><span class="pre">u</span></tt> �
 <tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt> eklemek zorundasınız . 
 Ama esas bilmeniz gereken yani anahtar nokta Python 3 bütün string kalıplarınızı işleyecektir ve siz onları uygun şekilde işaretlemelisiniz.</p>
 <p>Python 2 Bayt kalıpları ve Python 3'te olanlar arasında bazı farklılıklar mevcuttur
-ve iyi ki Python 2'de baytların tipi <tt class="docutils literal"><span class="pre">str</span></tt> diğer adıyla bulunmaktadır.
+ve iyi ki Python 2'de baytların tipi <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla bulunmaktadır.
 Muhtemelen en büyük &#8220;beklenmedik  hareket&#8221; sonuçları farklı değerlerle indislemedir .
 Python 2'de, <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt>'nin değeri <tt class="docutils literal"><span class="pre">'y'</span></tt>dir, Python 3 te ise <tt class="docutils literal"><span class="pre">121</span></tt>dir.
 Bu uyumsuzluğu her zaman tek bir eleman boyutuna parçalayarak aşabilirsiniz:
 Python 2'de <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt><tt class="docutils literal"><span class="pre">'y'</span></tt>dir ve Python 3'te<tt class="docutils literal"><span class="pre">b'y'</span></tt>(bir diğer deyişle yeteri kadar yakın anlam taşırlar).</p>
-<p>Python 3'te bayt ve strinleri bitiştiremezsiniz . Ama Python
-2 de baytlar <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla kullanıldığından beri , 
-Bu başarıldı : <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">u'b'</span></tt> Python 2'de çalışır , 
+<p>Python 3'te bayt ve stringleri bitiştiremezsiniz . Ama Python
+2 de baytlar <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla kullanıldığından beri  bu başarıldı : <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">u'b'</span></tt> Python 2'de çalışır , 
 ama <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">'b'</span></tt> Python 3'te <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt></a> verir. 
-Benzer bir durum da bayt ve stringleri karşılaştırma husunda da vardır.</p>
+Benzer bir durum bayt ve stringleri karşılaştırma hususunda da vardır.</p>
 </div>
 </div>
 <div class="section" id="supporting-python-2-5-and-newer-only">
