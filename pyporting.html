@@ -196,19 +196,19 @@ string kalıbı da<tt class="docutils literal"><span class="pre">u</span></tt> �
 Ama esas bilmeniz gereken yani anahtar nokta Python 3 bütün string kalıplarınızı işleyecektir ve siz onları uygun şekilde işaretlemelisiniz.</p>
 <p>Python 2 Bayt kalıpları ve Python 3'te olanlar arasında bazı farklılıklar mevcuttur
 ve iyi ki Python 2'de baytların tipi <tt class="docutils literal"><span class="pre">str</span></tt> diğer adıyla bulunmaktadır.
-Muhtemelen en büyük &#8220;farklılık&#8221; sonuçları farklı değerlerle indislemedir . In
-Python 2, the value of <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt> is <tt class="docutils literal"><span class="pre">'y'</span></tt>, while in Python 3 it&#8217;s <tt class="docutils literal"><span class="pre">121</span></tt>.
-You can avoid this disparity by always slicing at the size of a single element:
-<tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt> is <tt class="docutils literal"><span class="pre">'y'</span></tt> in Python 2 and <tt class="docutils literal"><span class="pre">b'y'</span></tt> in Python 3 (i.e., close
-enough).</p>
-<p>You cannot concatenate bytes and strings in Python 3. But since Python
-2 has bytes aliased to <tt class="docutils literal"><span class="pre">str</span></tt>, it will succeed: <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">u'b'</span></tt> works in
-Python 2, but <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">'b'</span></tt> in Python 3 is a <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt></a>. A similar issue
-also comes about when doing comparisons between bytes and strings.</p>
+Muhtemelen en büyük &#8220;beklenmedik  hareket&#8221; sonuçları farklı değerlerle indislemedir .
+Python 2'de, <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt>'nin değeri <tt class="docutils literal"><span class="pre">'y'</span></tt>dir, Python 3 te ise <tt class="docutils literal"><span class="pre">121</span></tt>dir.
+Bu uyumsuzluğu her zaman tek bir eleman boyutuna parçalayarak aşabilirsiniz:
+Python 2'de <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt><tt class="docutils literal"><span class="pre">'y'</span></tt>dir ve Python 3'te<tt class="docutils literal"><span class="pre">b'y'</span></tt>(bir diğer deyişle yeteri kadar yakın anlam taşırlar).</p>
+<p>Python 3'te bayt ve strinleri bitiştiremezsiniz . Ama Python
+2 de baytlar <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla kullanıldığından beri , 
+Bu başarıldı : <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">u'b'</span></tt> Python 2'de çalışır , 
+ama <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">'b'</span></tt> Python 3'te <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt></a> verir. 
+Benzer bir durum da bayt ve stringleri karşılaştırma husunda da vardır.</p>
 </div>
 </div>
 <div class="section" id="supporting-python-2-5-and-newer-only">
-<h3>Supporting <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and Newer Only<a class="headerlink" href="#supporting-python-2-5-and-newer-only" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> Ve Sadece Daha Yeni Versiyonları Desteklemek<a class="headerlink" href="#supporting-python-2-5-and-newer-only" title="Permalink to this headline">¶</a></h3>
 <p>If you are supporting <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and newer there are still some features of
 Python that you can utilize.</p>
 <div class="section" id="from-future-import-absolute-import">
