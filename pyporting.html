@@ -170,7 +170,23 @@ dikkatli olmalısınız.</p>
 <div class="section" id="from-future-import-print-function">
 <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt><a class="headerlink" href="#from-future-import-print-function" title="Permalink to this headline">¶</a></h4>
 <p>Bu bir kişisel tercihtir. 2to3 print ifadesini print fonksiyonuna gayet iyi çevirdiği için bu kişiye bağlı bir adımdır. Bu future ifadesi yine de
-<tt class="docutils literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> yazmak yerine <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt> yazmaya alışmak için yardımcı olmaktadır.</p>
+<tt class="docuti<p>But in Python 3, indexing directly on an exception is an error. You need to
+make sure to only index on the <a class="reference internal" href="../library/exceptions.html#BaseException.args" title="BaseException.args"><tt class="xref py py-attr docutils literal"><span class="pre">BaseException.args</span></tt></a> attribute which is a
+sequence containing all arguments passed to the <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a> method.</p>
+<p>Even better is to use the documented attributes the exception provides.</p>
+</div>
+<div class="section" id="don-t-use-getslice-friends">
+<h4>Don&#8217;t use <tt class="docutils literal"><span class="pre">__getslice__</span></tt> &amp; Friends<a class="headerlink" href="#don-t-use-getslice-friends" title="Permalink to this headline">¶</a></h4>
+<p>Been deprecated for a while, but Python 3 finally drops support for
+<tt class="docutils literal"><span class="pre">__getslice__()</span></tt>, etc. Move completely over to <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><tt class="xref py py-meth docutils literal"><span class="pre">__getitem__()</span></tt></a> and
+friends.</p>
+</div>
+<div class="section" id="updating-doctests">
+<h4>Updating doctests<a class="headerlink" href="#updating-doctests" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> will attempt to generate fixes for doctests that it comes across. It&#8217;s
+not perfect, though. If you wrote a monolithic set of doctests (e.g., a single
+docstring containing all of your doctests), you should at least consider
+breaking the doctests up into smaller pieces to make it more manageable to fix.ls literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> yazmak yerine <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt> yazmaya alışmak için yardımcı olmaktadır.</p>
 </div>
 <div class="section" id="from-future-import-unicode-literals">
 <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt><a class="headerlink" href="#from-future-import-unicode-literals" title="Permalink to this headline">¶</a></h4>
@@ -208,12 +224,12 @@ Benzer bir durum bayt ve stringleri karşılaştırma hususunda da vardır.</p>
 </div>
 <div class="section" id="supporting-python-2-5-and-newer-only">
 <h3><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> Ve Sadece Daha Yeni Versiyonları Desteklemek<a class="headerlink" href="#supporting-python-2-5-and-newer-only" title="Permalink to this headline">¶</a></h3>
-<p>If you are supporting <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and newer there are still some features of
-Python that you can utilize.</p>
+<p><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> ve yeni versiyonları destekliyorsanız hala kullanabileceğiniz
+bir kaç Python özelliği vardır .</p>
 <div class="section" id="from-future-import-absolute-import">
 <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">absolute_import</span></tt><a class="headerlink" href="#from-future-import-absolute-import" title="Permalink to this headline">¶</a></h4>
-<p>Implicit relative imports (e.g., importing <tt class="docutils literal"><span class="pre">spam.bacon</span></tt> from within
-<tt class="docutils literal"><span class="pre">spam.eggs</span></tt> with the statement <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt>) does not work in Python 3.
+<p>Dahili bağlantılı içe aktarmalar (örneğin, <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt> ifadesiyle
+<tt class="docutils literal"><span class="pre">spam.eggs</span></tt> içinden <tt class="docutils literal"><span class="pre">spam.bacon</span></tt> 'ı içe aktarma işlemi) Python 3'te çalışmaz.
 This future statement moves away from that and allows the use of explicit
 relative imports (e.g., <tt class="docutils literal"><span class="pre">from</span> <span class="pre">.</span> <span class="pre">import</span> <span class="pre">bacon</span></tt>).</p>
 <p>In <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> you must use
@@ -420,23 +436,7 @@ method.</p>
 <span class="go">2</span>
 </pre></div>
 </div>
-<p>But in Python 3, indexing directly on an exception is an error. You need to
-make sure to only index on the <a class="reference internal" href="../library/exceptions.html#BaseException.args" title="BaseException.args"><tt class="xref py py-attr docutils literal"><span class="pre">BaseException.args</span></tt></a> attribute which is a
-sequence containing all arguments passed to the <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a> method.</p>
-<p>Even better is to use the documented attributes the exception provides.</p>
-</div>
-<div class="section" id="don-t-use-getslice-friends">
-<h4>Don&#8217;t use <tt class="docutils literal"><span class="pre">__getslice__</span></tt> &amp; Friends<a class="headerlink" href="#don-t-use-getslice-friends" title="Permalink to this headline">¶</a></h4>
-<p>Been deprecated for a while, but Python 3 finally drops support for
-<tt class="docutils literal"><span class="pre">__getslice__()</span></tt>, etc. Move completely over to <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><tt class="xref py py-meth docutils literal"><span class="pre">__getitem__()</span></tt></a> and
-friends.</p>
-</div>
-<div class="section" id="updating-doctests">
-<h4>Updating doctests<a class="headerlink" href="#updating-doctests" title="Permalink to this headline">¶</a></h4>
-<p><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> will attempt to generate fixes for doctests that it comes across. It&#8217;s
-not perfect, though. If you wrote a monolithic set of doctests (e.g., a single
-docstring containing all of your doctests), you should at least consider
-breaking the doctests up into smaller pieces to make it more manageable to fix.
+
 Otherwise it might very well be worth your time and effort to port your tests
 to <a class="reference internal" href="../library/unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a>.</p>
 </div>
