@@ -1,759 +1,757 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Python 2 Kodunu Python 3 koduna uyumlu hale getirmek &mdash; Python v3.4.0a4 documentation</title>
-    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '3.4.0a4',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Python v3.4.0a4 documentation"
-          href="../_static/opensearch.xml"/>
-    <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="copyright" title="Copyright" href="../copyright.html" />
-    <link rel="top" title="Python v3.4.0a4 documentation" href="../index.html" />
-    <link rel="up" title="Python HOWTOs" href="index.html" />
-    <link rel="next" title="Porting Extension Modules to Python 3" href="cporting.html" />
-    <link rel="prev" title="Python HOWTOs" href="index.html" />
-    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script type="text/javascript" src="../_static/version_switch.js"></script>
-    
- 
-
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cporting.html" title="Porting Extension Modules to Python 3"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Python HOWTOs"
-             accesskey="P">previous</a> |</li>
-        <li><img src="../_static/py.png" alt=""
-                 style="vertical-align: middle; margin-top: -1px"/></li>
-        <li><a href="http://www.python.org/">Python</a> &raquo;</li>
-        <li>
-          <span class="version_switcher_placeholder">3.4.0a4</span>
-          <a href="../index.html">Documentation</a> &raquo;
-        </li>
-
-          <li><a href="index.html" accesskey="U">Python HOWTOs</a> &raquo;</li> 
-      </ul>
-    </div>  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
-            
-  <div class="section" id="porting-python-2-code-to-python-3">
-<span id="pyporting-howto"></span><h1>Python 2 Kodunu Python 3 Koduna Uyumlu Hale Getirmek<a class="headerlink" href="#porting-python-2-code-to-python-3" title="Permalink to this headline">¶</a></h1>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">author:</th><td class="field-body">Brett Cannon</td>
-</tr>
-</tbody>
-</table>
-<div class="topic">
-<p class="topic-title first">Özet</p>
-<p>Python 3 sürümü Python'un geleceği olurken Pyhton 2 hala aktif olarak kullanımda ve oluşturacağınız projeyi Python'un bu iki ana sürümüne de uygun hale getirmek doğru bir davranış olacaktır.
-
- Bu kılavuz size hem Python 2'de hem Python 3'te çalışacak projeler hazırlamakta destek olma amacıyla hazırlanmıştır.</p>
-<p>Eğer saf Python kodu kullanmak yerine ek modüllerle ilgileniyorsanız ,
-lütfen <a class="reference internal" href="cporting.html#cporting-howto"><em>Ek modülleri Python 3'e uygun hale getirme </em></a>'ye bakınız.</p>
-</div>
-<div class="section" id="choosing-a-strategy">
-<h2>Yol Haritası Belirleme<a class="headerlink" href="#choosing-a-strategy" title="Permalink to this headline">¶</a></h2>
-<p>Bir proje Python 2 ve 3 'ü aynı anda desteklemeye karar verdiğinde, bu hedefe nasıl ulaşılacağına karar  verilmesi gerekmektedir.Seçilen yol haritası  projenin var olan kod tabanının genişliği ve Python 2 kod tabanından ne kadar uzaklaşmak istediğine bağlı olacaktır.(örneğin kodunuzu Python 2 & 3 te aynı anda çalışabilir şekilde değiştirme.)</p>
-<p>Eğer Python 2 <strong>ve</strong> 3'te aynı anda anlamsal ve sözdizimsel olarak uyumlu çalışan bi kod tabanını sürdürmeyi tercih ederseniz,
-<a class="reference internal" href="#use-same-source"><em>Python 2/3 uyumlu kaynak</em></a> yazabilirsiniz . Bu biraz deyimsel olmayan kodlamaya yol açar,yani sizin(geliştirici) için hızlı bir geliştirme süreci olacaktır.</p>
-<p>Eğer projeniz yeni veya kod tabanı çok geniş değilse, <a class="reference internal" href="#use-3to2"><em>Bütün kodunuzu Python 3'te yazıp Python 3'ten 2 ye dönüştürme</em></a> seçeneğini düşünebilirsiniz </p>
-<p>Son olarak, <a class="reference internal" href="#use-2to3"><em>Python 2'den 3'e(2to3)</em></a> kullanarak Python 2 Kodlarınız python 3 e çevirme seçeneğiniz de mevcut(birazcık kılavuz yardımıyla).Bu kodunuzun ait olduğu branşı şekillendirir ve Pyton 2'den 3'e(2to3) kullanarak Python 3 branşına dönüştürebilirsiniz.Ayrıca kullanıcıların bu dönüşümü yükleme anında yapmasını sağlayabilir ve sadece Python 2 kod tabanı sürdürebilirsiniz..</p>
-<p>Hangi yaklaşımı seçtiğinize bağlı olmaksızın,uygun hale getirme işlemi aslında düşündüğünüz kadar zor ve zaman alıcı bir iş değildir.Ayrıca bu işlemi parçalar halinde de ele alabilir ve kodunuzu en iyi Python 2/3 uyumlu hale getirme pratiklerini izleyerek basitçe güncellemelerle yapabilirsiniz.</p>
-<div class="section" id="universal-bits-of-advice">
-<h3>Genel Bilgiler<a class="headerlink" href="#universal-bits-of-advice" title="Permalink to this headline">¶</a></h3>
-<p>Seçtiğiniz yol haritasına bağlı olmaksızın , bir kaç şeyi göz önüne almanız gerekmektedir.</p>
-<p>Bir sağlam bir test paketiniz olduğundan emin olun.Her şeyin çalıştığından emin olmalısınız, tıpkı Pythonun yeni minik/özellik sürümlerini desteklediğiniz gibi.Bu test paketinizin tam ve Python 2/3 'e uygun olduğundan emin olmanız gerektiği anlamına gelir.Ayrıca bu testi otomatik olarak yapmak için <a class="reference external" href="http://codespeak.net/tox/">tox</a>'u kullanmak isteyebilirsiniz .  </p>
-<p>İki , projeniz Python 3 'ü desteklediği anda <a class="reference external" href="http://pypi.python.org/">Cheeseshop</a> (<a class="reference external" href="http://pypi.python.org/">PyPI</a>)'ye uygun bir sınıflandırıcı eklediğinizden emin olun. Projenizin Python 3'e uygun bir proje olarak listelenmesi için
-<a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533">Python 3 sınıflandırıcısı </a> bulundurması gerekmektedir.
-(Buradan bakabilirsiniz
-<a class="reference external" href="http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/">http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/</a>):</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="n">setup</span><span class="p">(</span>
-  <span class="n">name</span><span class="o">=</span><span class="s">&#39;Your Library&#39;</span><span class="p">,</span>
-  <span class="n">version</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span>
-  <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
-      <span class="c"># make sure to use :: Python *and* :: Python :: 3 so</span>
-      <span class="c"># that pypi can list the package on the python 3 page</span>
-      <span class="s">&#39;Programming Language :: Python&#39;</span><span class="p">,</span>
-      <span class="s">&#39;Programming Language :: Python :: 3&#39;</span>
-  <span class="p">],</span>
-  <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;yourlibrary&#39;</span><span class="p">],</span>
-  <span class="c"># make sure to add custom_fixers to the MANIFEST.in</span>
-  <span class="n">include_package_data</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-  <span class="c"># ...</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>Bunu yapmak projenizin 
-<a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533&amp;show=all">Python 3 paket listesi</a>nde görünmesini sağlayacaktır. Sınıflandırıcıyı doğru kullandığınızı anlamak için Cheeseshop'ta projenizin sayfasına girip sol üst köşede Python 3 simgesini görmeniz gerekmektedir.</p>
-<p>Üç,  <a class="reference external" href="http://packages.python.org/six">altı(six)</a> projesi Python 2 ve 3 arasındaki farklılıkları gideren bir kütüphane bulundurmaktadır.Eğer kodunuzu dönüştürürken ya da düzenlerken takıldığınız bir nokta olursa,altı projesine dayanan  kaynak-uyumlu bir çözüm oluşturmayı dikkate alın. .Eğer kendi Python 2/3 kaynak-uyumlu çözümünüzü oluşturmak zorunda kalırsanız <tt class="docutils literal"><span class="pre">sys.version_info[0]</span> <span class="pre">&gt;=</span> <span class="pre">3</span></tt> komutunu koruma olarak kullanın.</p>
-<p>Dört, tüm yaklaşımları okuyun. Bazı önerilerin bir yaklaşıma diğerlerinden daha fazla uygulanması sadece o stratejiye özgü olduğu diğerlerinde uygulanamadığı anlamına gelmez.</p>
-<p>Beş, daha eski Python versiyonları için de mümkünse destek sağlayın. <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a>
-Python 3'te deyimsel hale gelen kullanışlı sözdizimi ve kütüphanelerle sunulmuştu. <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a>  anda Python 2/3 uygun hale getirme işlemini kolaylaştıran “future” ifadelerini sunmuştur.
-<a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a> standart kütüphane(stdlib)'de gidişatı devam ettirmektedir. Yani sizin asgari destek versiyonunuz olan en yeni Python sürümünü seçin ve oradan çalışmaya devam edin.</p>
-<p>Altı, yapabildiğiniz en yeni Pyhton 3 sürümünü hedef alın. Hata düzeltmelerin yanı sıra , zaman geçtikte Python 2 ve 3 arasındaki uyumluluk ta gelişmeye devam etmektedir.Bu özellikle <tt class="docutils literal"><span class="pre">u</span></tt> kaynak-uyumlu Python kodu yazmayı kolaylaştıran önekli stringleri bulunduran Python 3.3 için geçerli</p>
-<p>Yedi,yararlı olabilecek ufak öneriler için <a class="reference internal" href="#other-resources">Diğer Kaynaklar</a>a baktığınıza emin olun.</p>
-</div>
-</div>
-<div class="section" id="python-3-and-3to2">
-<span id="use-3to2"></span><h2>Python 3 ve 3'ten 2'ye (3to2)<a class="headerlink" href="#python-3-and-3to2" title="Permalink to this headline">¶</a></h2>
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      
+      <title>Python 2 Kodunu Python 3 koduna uyumlu hale getirmek &mdash; Python v3.4.0a4 documentation</title>
+      <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '../',
+          VERSION:     '3.4.0a4',
+          COLLAPSE_INDEX: false,
+          FILE_SUFFIX: '.html',
+          HAS_SOURCE:  true
+        };
+      </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/sidebar.js"></script>
+      <link rel="search" type="application/opensearchdescription+xml"
+            title="Search within Python v3.4.0a4 documentation"
+            href="../_static/opensearch.xml"/>
+      <link rel="author" title="About these documents" href="../about.html" />
+      <link rel="copyright" title="Copyright" href="../copyright.html" />
+      <link rel="top" title="Python v3.4.0a4 documentation" href="../index.html" />
+      <link rel="up" title="Python HOWTOs" href="index.html" />
+      <link rel="next" title="Porting Extension Modules to Python 3" href="cporting.html" />
+      <link rel="prev" title="Python HOWTOs" href="index.html" />
+      <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+      <script type="text/javascript" src="../_static/copybutton.js"></script>
+      <script type="text/javascript" src="../_static/version_switch.js"></script>
+      
+   
+  
+    </head>
+    <body>
+      <div class="related">
+        <h3>Navigation</h3>
+        <ul>
+          <li class="right" style="margin-right: 10px">
+            <a href="../genindex.html" title="General Index"
+               accesskey="I">index</a></li>
+          <li class="right" >
+            <a href="../py-modindex.html" title="Python Module Index"
+               >modules</a> |</li>
+          <li class="right" >
+            <a href="cporting.html" title="Porting Extension Modules to Python 3"
+               accesskey="N">next</a> |</li>
+          <li class="right" >
+            <a href="index.html" title="Python HOWTOs"
+               accesskey="P">previous</a> |</li>
+          <li><img src="../_static/py.png" alt=""
+                   style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="http://www.python.org/">Python</a> &raquo;</li>
+          <li>
+            <span class="version_switcher_placeholder">3.4.0a4</span>
+            <a href="../index.html">Documentation</a> &raquo;
+          </li>
+  
+            <li><a href="index.html" accesskey="U">Python HOWTOs</a> &raquo;</li> 
+        </ul>
+      </div>  
+  
+      <div class="document">
+        <div class="documentwrapper">
+          <div class="bodywrapper">
+            <div class="body">
+              
+    <div class="section" id="porting-python-2-code-to-python-3">
+  <span id="pyporting-howto"></span><h1>Python 2 Kodunu Python 3 Koduna Uyumlu Hale Getirmek<a class="headerlink" href="#porting-python-2-code-to-python-3" title="Permalink to this headline">¶</a></h1>
+  <table class="docutils field-list" frame="void" rules="none">
+  <col class="field-name" />
+  <col class="field-body" />
+  <tbody valign="top">
+  <tr class="field"><th class="field-name">author:</th><td class="field-body">Brett Cannon</td>
+  </tr>
+  </tbody>
+  </table>
+  <div class="topic">
+  <p class="topic-title first">Özet</p>
+  <p>Python 3 sürümü Python'un geleceği olurken Pyhton 2 hala aktif olarak kullanımda ve oluşturacağınız projeyi Python'un bu iki ana sürümüne de uygun hale getirmek doğru bir davranış olacaktır.
+  
+   Bu kılavuz size hem Python 2'de hem Python 3'te çalışacak projeler hazırlamakta destek olma amacıyla hazırlanmıştır.</p>
+  <p>Eğer saf Python kodu kullanmak yerine ek modüllerle ilgileniyorsanız ,
+  lütfen <a class="reference internal" href="cporting.html#cporting-howto"><em>Ek modülleri Python 3'e uygun hale getirme </em></a>'ye bakınız.</p>
+  </div>
+  <div class="section" id="choosing-a-strategy">
+  <h2>Yol Haritası Belirleme<a class="headerlink" href="#choosing-a-strategy" title="Permalink to this headline">¶</a></h2>
+  <p>Bir proje Python 2 ve 3 'ü aynı anda desteklemeye karar verdiğinde, bu hedefe nasıl ulaşılacağına karar  verilmesi gerekmektedir.Seçilen yol haritası  projenin var olan kod tabanının genişliği ve Python 2 kod tabanından ne kadar uzaklaşmak istediğine bağlı olacaktır.(örneğin kodunuzu Python 2 & 3 te aynı anda çalışabilir şekilde değiştirme.)</p>
+  <p>Eğer Python 2 <strong>ve</strong> 3'te aynı anda anlamsal ve sözdizimsel olarak uyumlu çalışan bi kod tabanını sürdürmeyi tercih ederseniz,
+  <a class="reference internal" href="#use-same-source"><em>Python 2/3 uyumlu kaynak</em></a> yazabilirsiniz . Bu biraz deyimsel olmayan kodlamaya yol açar,yani sizin(geliştirici) için hızlı bir geliştirme süreci olacaktır.</p>
+  <p>Eğer projeniz yeni veya kod tabanı çok geniş değilse, <a class="reference internal" href="#use-3to2"><em>Bütün kodunuzu Python 3'te yazıp Python 3'ten 2 ye dönüştürme</em></a> seçeneğini düşünebilirsiniz </p>
+  <p>Son olarak, <a class="reference internal" href="#use-2to3"><em>Python 2'den 3'e(2to3)</em></a> kullanarak Python 2 Kodlarınız python 3 e çevirme seçeneğiniz de mevcut(birazcık kılavuz yardımıyla).Bu kodunuzun ait olduğu branşı şekillendirir ve Pyton 2'den 3'e(2to3) kullanarak Python 3 branşına dönüştürebilirsiniz.Ayrıca kullanıcıların bu dönüşümü yükleme anında yapmasını sağlayabilir ve sadece Python 2 kod tabanı sürdürebilirsiniz..</p>
+  <p>Hangi yaklaşımı seçtiğinize bağlı olmaksızın,uygun hale getirme işlemi aslında düşündüğünüz kadar zor ve zaman alıcı bir iş değildir.Ayrıca bu işlemi parçalar halinde de ele alabilir ve kodunuzu en iyi Python 2/3 uyumlu hale getirme pratiklerini izleyerek basitçe güncellemelerle yapabilirsiniz.</p>
+  <div class="section" id="universal-bits-of-advice">
+  <h3>Genel Bilgiler<a class="headerlink" href="#universal-bits-of-advice" title="Permalink to this headline">¶</a></h3>
+  <p>Seçtiğiniz yol haritasına bağlı olmaksızın , bir kaç şeyi göz önüne almanız gerekmektedir.</p>
+  <p>Bir sağlam bir test paketiniz olduğundan emin olun.Her şeyin çalıştığından emin olmalısınız, tıpkı Pythonun yeni minik/özellik sürümlerini desteklediğiniz gibi.Bu test paketinizin tam ve Python 2/3 'e uygun olduğundan emin olmanız gerektiği anlamına gelir.Ayrıca bu testi otomatik olarak yapmak için <a class="reference external" href="http://codespeak.net/tox/">tox</a>'u kullanmak isteyebilirsiniz .  </p>
+  <p>İki , projeniz Python 3 'ü desteklediği anda <a class="reference external" href="http://pypi.python.org/">Cheeseshop</a> (<a class="reference external" href="http://pypi.python.org/">PyPI</a>)'ye uygun bir sınıflandırıcı eklediğinizden emin olun. Projenizin Python 3'e uygun bir proje olarak listelenmesi için
+  <a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533">Python 3 sınıflandırıcısı </a> bulundurması gerekmektedir.
+  (Buradan bakabilirsiniz
+  <a class="reference external" href="http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/">http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/</a>):</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">&#39;Your Library&#39;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span>
+    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
+        <span class="c"># make sure to use :: Python *and* :: Python :: 3 so</span>
+        <span class="c"># that pypi can list the package on the python 3 page</span>
+        <span class="s">&#39;Programming Language :: Python&#39;</span><span class="p">,</span>
+        <span class="s">&#39;Programming Language :: Python :: 3&#39;</span>
+    <span class="p">],</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;yourlibrary&#39;</span><span class="p">],</span>
+    <span class="c"># make sure to add custom_fixers to the MANIFEST.in</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+    <span class="c"># ...</span>
+  <span class="p">)</span>
+  </pre></div>
+  </div>
+  <p>Bunu yapmak projenizin 
+  <a class="reference external" href="http://pypi.python.org/pypi?:action=browse&amp;c=533&amp;show=all">Python 3 paket listesi</a>nde görünmesini sağlayacaktır. Sınıflandırıcıyı doğru kullandığınızı anlamak için Cheeseshop'ta projenizin sayfasına girip sol üst köşede Python 3 simgesini görmeniz gerekmektedir.</p>
+  <p>Üç,  <a class="reference external" href="http://packages.python.org/six">altı(six)</a> projesi Python 2 ve 3 arasındaki farklılıkları gideren bir kütüphane bulundurmaktadır.Eğer kodunuzu dönüştürürken ya da düzenlerken takıldığınız bir nokta olursa,altı projesine dayanan  kaynak-uyumlu bir çözüm oluşturmayı dikkate alın. .Eğer kendi Python 2/3 kaynak-uyumlu çözümünüzü oluşturmak zorunda kalırsanız <tt class="docutils literal"><span class="pre">sys.version_info[0]</span> <span class="pre">&gt;=</span> <span class="pre">3</span></tt> komutunu koruma olarak kullanın.</p>
+  <p>Dört, tüm yaklaşımları okuyun. Bazı önerilerin bir yaklaşıma diğerlerinden daha fazla uygulanması sadece o stratejiye özgü olduğu diğerlerinde uygulanamadığı anlamına gelmez.</p>
+  <p>Beş, daha eski Python versiyonları için de mümkünse destek sağlayın. <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a>
+  Python 3'te deyimsel hale gelen kullanışlı sözdizimi ve kütüphanelerle sunulmuştu. <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a>  anda Python 2/3 uygun hale getirme işlemini kolaylaştıran “future” ifadelerini sunmuştur.
+  <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a> standart kütüphane(stdlib)'de gidişatı devam ettirmektedir. Yani sizin asgari destek versiyonunuz olan en yeni Python sürümünü seçin ve oradan çalışmaya devam edin.</p>
+  <p>Altı, yapabildiğiniz en yeni Pyhton 3 sürümünü hedef alın. Hata düzeltmelerin yanı sıra , zaman geçtikte Python 2 ve 3 arasındaki uyumluluk ta gelişmeye devam etmektedir.Bu özellikle <tt class="docutils literal"><span class="pre">u</span></tt> kaynak-uyumlu Python kodu yazmayı kolaylaştıran önekli stringleri bulunduran Python 3.3 için geçerli</p>
+  <p>Yedi,yararlı olabilecek ufak öneriler için <a class="reference internal" href="#other-resources">Diğer Kaynaklar</a>a baktığınıza emin olun.</p>
+  </div>
+  </div>
+  <div class="section" id="python-3-and-3to2">
+  <span id="use-3to2"></span><h2>Python 3 ve 3'ten 2'ye (3to2)<a class="headerlink" href="#python-3-and-3to2" title="Permalink to this headline">¶</a></h2>
 <p>Eğer yeni bir projeye başlıyorsanız veya kod alt yapınız küçük ise , ise projenizi Python 3'te yazıp Python 2'ye <a class="reference external" href="https://bitbucket.org/amentajo/lib3to2/overview">3'den 2'ye (3to2)</a> kullanarak geri dönüştürmeyi düşünebilirsiniz. Python 3 olgulara(bitler,stringler vb.) Python 2'den daha kesin sınırlar içinde yaklaştığı için teşekkür ediyoruz çünkü Python 2 den 3'e geçişe nazaran kaynak çevirileri çok daha kolay ve daha açık. Artı olarak bu size daha çok direkt Python 3'te geliştirme deneyimi kazandırıyor. Python 3 Pythonun geleceği olduğu şu durumda bu uzun vadede sizin için iyi bir durum.</p>
-<p>Ancak 3to2 'nin bir güçlüğü bu projenin üçüncül bir proje olması.Bu Python çekirdek geliştiricilerin(tabi bu kaynağın da) size 3'den 2'ye(3to2)'nin ne kadar iyi olacağı konusunda söz verememesi demektir.Yine de 3'den 2'ye (3to2) 'nin yüksek kalitede bir proje olmadığını öne sürecek bir durum yok .</p>
-</div>
-<div class="section" id="python-2-and-2to3">
-<span id="use-2to3"></span><h2>Python 2 ve 2den3'e (2to3)<a class="headerlink" href="#python-2-and-2to3" title="Permalink to this headline">¶</a></h2>
-<p>Python 2.6 'dan beri<a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> aracı (ve <a class="reference internal" href="../library/2to3.html#module-lib2to3" title="lib2to3: the 2to3 library"><tt class="xref py py-mod docutils literal"><span class="pre">lib2to3</span></tt></a> modülü)
-çeşitli kaynakları Python 2'den Python 3'e uygun hale getirmeye yardım etmektedir.Bu Python 3 kodlarının branşını Python 2 den almak ve iki kod tabanını da sürdürmek isteyen projeler için harika bir çözümdür.Hatta bugün  bu yaklaşımı kullanarak gelecek-uyumlu Python kodu hazırlamaya başlayabilirsiniz ve bu kod 2to3 bağlantılı şekilde Python 2'de temiz bir şekilde çalışır.Aşağıda ana hatlarıyla belirtilen adımlar Python 2 koduyla ta ki 2to3 fiilen kullanılana kadar çalışır.</p>
-<p>Farklı bir  Python 3 kod tabanını sürdürme ihtiyacını önlemek
-için ,
-2to3'ü yükleme esnasında da isteğe bağlı olarak çalıştırma imkanımız  vardır,
-fakat bu yöntemin zorlukları olduğunu unutmamak gerekir.
-Kullanıcılar çeviri işlemini bir kere yaparken,
-sizin yani geliştiricinin bunu gelişim sürecince düzenli olarak yapma zorunluluğunuz vardır.
-Eğer kod tabanınız yeteri kadar geniş ve çeviri süreci bir tamamlama adımı gibi davranıyorsa,
-Python kullanarak elde ettiğiniz hızlı geliştirme sürecinden sizi alıkoyar.
-Bir projeyi çevirme işlemi elbette çeşitli zamanlar alabilir,
-Bu yüzden <a class="reference internal" href="#use-same-source"><em>Python 2/3 uyumlu kaynak oluşturma</em></a> yöntemi,
-farklı bir Python 3 kod tabanı tutma yöntemi ve bu yöntem arasında çevirme işleminin ne kadar süreceğini ölçmek için deneysel çeviri işlemleri yapınız.</p>
-<p>Aşağıda Python 2'de direkt olarak çalışan kodlar tutarken Python 2 ve 3'ü aynı anda desteklemeye çalışan projelerin izlemesi gereken adımlar gösterilmiştir.</p>
-<div class="section" id="support-python-2-7">
-<h3>Python 2.7'yi Destekleyin<a class="headerlink" href="#support-python-2-7" title="Permalink to this headline">¶</a></h3>
-<p>İlk adımda projenizin <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a>.
-Bunu yapmak Python 2.7'nin Python 2'nin son çıkan sürümü olması ve uzun süredir kullanılmasından dolayı iyidir.
-Bu aynı zamanda kodunuzda 2to3'ün halledemeyeceği  yerleri bulmak için  Python'a<tt class="docutils literal"><span class="pre">-3</span></tt>bayrağını kullanma imkanı sunuyor.</p>
-</div>
-<div class="section" id="try-to-support-python-2-6-and-newer-only">
-<h3><a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve Sadece Daha Yeni Sürümleri Desteklemeye Çalışın<a class="headerlink" href="#try-to-support-python-2-6-and-newer-only" title="Permalink to this headline">¶</a></h3>
-<p>Her projede mümkün olmasa da, eğer <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve
-<strong>sadece</strong> daha yeni sürümleri destekleyebilirseniz , işiniz çok kolaylaşacaktır . Sadece Python 2.6 ve daha yeni sürümler  çeşitli future (from __future__ import vb. gibi) ifadeleri,standart kütüphane(stdlib) eklentileri ve benzerlerine sahiptir dolayısıyla size Python 3'e uygun hale getirme işlemi için mükemmel destek sağlamaktadır. Ama eğer projeniz <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> (hatta <a class="reference external" href="http://www.python.org/2.4.x">Python 2.4</a>)'i desteklemek zorundaysa bile Python 3'e dönüştürme işlemi yapılabilir.</p>
-<p>Aşağıda Python 2.6 ve yeni versiyonlarını destekleme durumunda kazanacağınız
-bir kaç özellik gösterilmiştir.Bunların bazıları size kalmışken bazıları
-<strong>önemle</strong> tavsiye edilir (aşağıda gösterilmiş olanlar daha çok kişiye özel olanlardır).  
-Eğer Python'un eski sürümlerini desteklemeye devam edecekseniz en azından aşağıdaki çözümlerin durumu hakkında
-dikkatli olmalısınız.</p>
-<div class="section" id="from-future-import-print-function">
-<h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt><a class="headerlink" href="#from-future-import-print-function" title="Permalink to this headline">¶</a></h4>
-<p>Bu bir kişisel tercihtir. 2to3 print ifadesini print fonksiyonuna gayet iyi çevirdiği için bu kişiye bağlı bir adımdır. 
-Bu future ifadesi yine de
-<tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt> yazmak yerine <span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> yazmaya alışmak için yardımcı olmaktadır.</p>
-<h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt><a class="headerlink" href="#from-future-import-unicode-literals" title="Permalink to this headline">¶</a></h4>
-<p> Bir başka kişisel seçimdir. Her zaman string (unicode) olmasını istediğiniz ifadeyi <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretleyerek aynı etkiyi sağlayabilirsiniz . 
-Ama future ifadesini kullanın ya da kullanmayın, hangi Python 2 stringlerinin byte, hangilerinin string olacağını
-kesin olarak bilmek <strong>zorundasınız</strong> . Yani yapmanız gereken, future ifadesi kullanmayacaksanız 
-<strong>en azından</strong> metin olacak stringleri <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretlemektir. 
-Python 3.3 Python 2 &amp; 3 kaynak uyumlu kod oluşturmayı kolaylaştırmak için, stringlerin <tt class="docutils literal">
-<span class="pre">u</span></tt> önekini almasına izin vermeyi sürdürmektir ( bu durumda işleme gerek yoktur).</p>
-</div>
-<div class="section" id="bytes-literals">
-<h4>Bayt Kalıpları<a class="headerlink" href="#bytes-literals" title="Permalink to this headline">¶</a></h4>
-<p>Bu <strong>çok</strong> önemli bir konudur . Python 2 stringlerine ön ek getirebilme becerisi neyin Python 3 stringi 
-olup neyin olmayacağını açıkca tasvir etmeye yardımcı olacak <tt class="docutils literal"><span class="pre">b</span></tt> 
-ön ekli baytları içermek zorundadır. 2to3'ü kodunuzda çalıştırdığınızda,Bütün Python 2 stringleri
-<strong>eğer</strong> siz onları <tt class="docutils literal"><span class="pre">b</span></tt> ön ekiyle işaretlemediyseniz Python 3 stringine dönüşür .</p>
-<p>Bu nokta çok önemlidir ve atlanmaması gerekmektedir : bütün Python 2 string kalıplarınızın Python 3 e dönüşmek zorunda
-olduğunu bildiğinizden emin olun. Bayt şeklinde davranılacak bütün string kalıpları  
-<tt class="docutils literal"><span class="pre">b</span></tt> ön eki almak zorundadır . Unicode/metin olacak her
-string kalıbı da<tt class="docutils literal"><span class="pre">u</span></tt> ön eki almak zorundadır 
-(Python 3.3 ve sonrasında desteklenmekte fakat gözardı edilmekte) ya da sayfanın başına
-<tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt> eklemek zorundasınız . 
-Ama esas bilmeniz gereken yani anahtar nokta Python 3 bütün string kalıplarınızı işleyecektir ve siz onları uygun şekilde işaretlemelisiniz.</p>
-<p>Python 2 Bayt kalıpları ve Python 3'te olanlar arasında bazı farklılıklar mevcuttur
-ve iyi ki Python 2'de baytların tipi <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla bulunmaktadır.
-Muhtemelen en büyük &#8220;beklenmedik  hareket&#8221; sonuçları farklı değerlerle indislemedir .
-Python 2'de, <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt>'nin değeri <tt class="docutils literal"><span class="pre">'y'</span></tt>dir, Python 3 te ise <tt class="docutils literal"><span class="pre">121</span></tt>dir.
-Bu uyumsuzluğu her zaman tek bir eleman boyutuna parçalayarak aşabilirsiniz:
+ <p>Ancak 3to2 'nin bir güçlüğü bu projenin üçüncül bir proje olması.Bu Python çekirdek geliştiricilerin(tabi bu kaynağın da) size 3'den 2'ye(3to2)'nin ne kadar iyi olacağı konusunda söz verememesi demektir.Yine de 3'den 2'ye (3to2) 'nin yüksek kalitede bir proje olmadığını öne sürecek bir durum yok .</p>
+  </div>
+  <div class="section" id="python-2-and-2to3">
+  <span id="use-2to3"></span><h2>Python 2 ve 2den3'e (2to3)<a class="headerlink" href="#python-2-and-2to3" title="Permalink to this headline">¶</a></h2>
+  <p>Python 2.6 'dan beri<a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> aracı (ve <a class="reference internal" href="../library/2to3.html#module-lib2to3" title="lib2to3: the 2to3 library"><tt class="xref py py-mod docutils literal"><span class="pre">lib2to3</span></tt></a> modülü)
+  çeşitli kaynakları Python 2'den Python 3'e uygun hale getirmeye yardım etmektedir.Bu Python 3 kodlarının branşını Python 2 den almak ve iki kod tabanını da sürdürmek isteyen projeler için harika bir çözümdür.Hatta bugün  bu yaklaşımı kullanarak gelecek-uyumlu Python kodu hazırlamaya başlayabilirsiniz ve bu kod 2to3 bağlantılı şekilde Python 2'de temiz bir şekilde çalışır.Aşağıda ana hatlarıyla belirtilen adımlar Python 2 koduyla ta ki 2to3 fiilen kullanılana kadar çalışır.</p>
+  <p>Farklı bir  Python 3 kod tabanını sürdürme ihtiyacını önlemek
+  için ,
+  2to3'ü yükleme esnasında da isteğe bağlı olarak çalıştırma imkanımız  vardır,
+  fakat bu yöntemin zorlukları olduğunu unutmamak gerekir.
+  Kullanıcılar çeviri işlemini bir kere yaparken,
+  sizin yani geliştiricinin bunu gelişim sürecince düzenli olarak yapma zorunluluğunuz vardır.
+  Eğer kod tabanınız yeteri kadar geniş ve çeviri süreci bir tamamlama adımı gibi davranıyorsa,
+  Python kullanarak elde ettiğiniz hızlı geliştirme sürecinden sizi alıkoyar.
+  Bir projeyi çevirme işlemi elbette çeşitli zamanlar alabilir,
+  Bu yüzden <a class="reference internal" href="#use-same-source"><em>Python 2/3 uyumlu kaynak oluşturma</em></a> yöntemi,
+  farklı bir Python 3 kod tabanı tutma yöntemi ve bu yöntem arasında çevirme işleminin ne kadar süreceğini ölçmek için deneysel çeviri işlemleri yapınız.</p>
+  <p>Aşağıda Python 2'de direkt olarak çalışan kodlar tutarken Python 2 ve 3'ü aynı anda desteklemeye çalışan projelerin izlemesi gereken adımlar gösterilmiştir.</p>
+  <div class="section" id="support-python-2-7">
+  <h3>Python 2.7'yi Destekleyin<a class="headerlink" href="#support-python-2-7" title="Permalink to this headline">¶</a></h3>
+  <p>İlk adımda projenizin <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a>.
+  Bunu yapmak Python 2.7'nin Python 2'nin son çıkan sürümü olması ve uzun süredir kullanılmasından dolayı iyidir.
+  Bu aynı zamanda kodunuzda 2to3'ün halledemeyeceği  yerleri bulmak için  Python'a<tt class="docutils literal"><span class="pre">-3</span></tt>bayrağını kullanma imkanı sunuyor.</p>
+  </div>
+  <div class="section" id="try-to-support-python-2-6-and-newer-only">
+  <h3><a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve Sadece Daha Yeni Sürümleri Desteklemeye Çalışın<a class="headerlink" href="#try-to-support-python-2-6-and-newer-only" title="Permalink to this headline">¶</a></h3>
+  <p>Her projede mümkün olmasa da, eğer <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve
+  <strong>sadece</strong> daha yeni sürümleri destekleyebilirseniz , işiniz çok kolaylaşacaktır . Sadece Python 2.6 ve daha yeni sürümler  çeşitli future (from __future__ import vb. gibi) ifadeleri,standart kütüphane(stdlib) eklentileri ve benzerlerine sahiptir dolayısıyla size Python 3'e uygun hale getirme işlemi için mükemmel destek sağlamaktadır. Ama eğer projeniz <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> (hatta <a class="reference external" href="http://www.python.org/2.4.x">Python 2.4</a>)'i desteklemek zorundaysa bile Python 3'e dönüştürme işlemi yapılabilir.</p>
+  <p>Aşağıda Python 2.6 ve yeni versiyonlarını destekleme durumunda kazanacağınız
+  bir kaç özellik gösterilmiştir.Bunların bazıları size kalmışken bazıları
+  <strong>önemle</strong> tavsiye edilir (aşağıda gösterilmiş olanlar daha çok kişiye özel olanlardır).  
+  Eğer Python'un eski sürümlerini desteklemeye devam edecekseniz en azından aşağıdaki çözümlerin durumu hakkında
+  dikkatli olmalısınız.</p>
+  <div class="section" id="from-future-import-print-function">
+  <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt><a class="headerlink" href="#from-future-import-print-function" title="Permalink to this headline">¶</a></h4>
+  <p>Bu bir kişisel tercihtir. 2to3 print ifadesini print fonksiyonuna gayet iyi çevirdiği için bu kişiye bağlı bir adımdır. Bu future ifadesi yine de
+  <tt class="docutils literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> yazmak yerine <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt> yazmaya alışmak için yardımcı olmaktadır.</p>
+  </div>
+  <div class="section" id="from-future-import-unicode-literals">
+  <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt><a class="headerlink" href="#from-future-import-unicode-literals" title="Permalink to this headline">¶</a></h4>
+  <p> Bir başka kişisel seçimdir. Her zaman string (unicode) olmasını istediğiniz ifadeyi <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretleyerek aynı etkiyi sağlayabilirsiniz . 
+  Ama future ifadesini kullanın ya da kullanmayın, hangi Python 2 stringlerinin byte, hangilerinin string olacağını
+  kesin olarak bilmek <strong>zorundasınız</strong> . Yani yapmanız gereken, future ifadesi kullanmayacaksanız 
+  <strong>en azından</strong> metin olacak stringleri <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle işaretlemektir. 
+  Python 3.3 Python 2 &amp; 3 kaynak uyumlu kod oluşturmayı kolaylaştırmak için, stringlerin <tt class="docutils literal">
+  <span class="pre">u</span></tt> önekini almasına izin vermeyi sürdürmektir ( bu durumda işleme gerek yoktur).</p>
+  </div>
+  <div class="section" id="bytes-literals">
+  <h4>Bayt Kalıpları<a class="headerlink" href="#bytes-literals" title="Permalink to this headline">¶</a></h4>
+  <p>Bu <strong>çok</strong> önemli bir konudur . Python 2 stringlerine ön ek getirebilme becerisi neyin Python 3 stringi 
+  olup neyin olmayacağını açıkca tasvir etmeye yardımcı olacak <tt class="docutils literal"><span class="pre">b</span></tt> 
+  ön ekli baytları içermek zorundadır. 2to3'ü kodunuzda çalıştırdığınızda,Bütün Python 2 stringleri
+  <strong>eğer</strong> siz onları <tt class="docutils literal"><span class="pre">b</span></tt> ön ekiyle işaretlemediyseniz Python 3 stringine dönüşür .</p>
+  <p>Bu nokta çok önemlidir ve atlanmaması gerekmektedir : bütün Python 2 string kalıplarınızın Python 3 e dönüşmek zorunda
+  olduğunu bildiğinizden emin olun. Bayt şeklinde davranılacak bütün string kalıpları  
+  <tt class="docutils literal"><span class="pre">b</span></tt> ön eki almak zorundadır . Unicode/metin olacak her
+  string kalıbı da<tt class="docutils literal"><span class="pre">u</span></tt> ön eki almak zorundadır 
+  (Python 3.3 ve sonrasında desteklenmekte fakat gözardı edilmekte) ya da sayfanın başına
+  <tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt> eklemek zorundasınız . 
+  Ama esas bilmeniz gereken yani anahtar nokta Python 3 bütün string kalıplarınızı işleyecektir ve siz onları uygun şekilde işaretlemelisiniz.</p>
+  <p>Python 2 Bayt kalıpları ve Python 3'te olanlar arasında bazı farklılıklar mevcuttur
+  ve iyi ki Python 2'de baytların tipi <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla bulunmaktadır.
+  Muhtemelen en büyük &#8220;beklenmedik  hareket&#8221; sonuçları farklı değerlerle indislemedir .
+  Python 2'de, <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt>'nin değeri <tt class="docutils literal"><span class="pre">'y'</span></tt>dir, Python 3 te ise <tt class="docutils literal"><span class="pre">121</span></tt>dir.
+  Bu uyumsuzluğu her zaman tek bir eleman boyutuna parçalayarak aşabilirsiniz:
 Python 2'de <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt><tt class="docutils literal"> nin değeri <span class="pre">'y'</span></tt>dir ve Python 3'te <tt class="docutils literal"><span class="pre">b'y'</span></tt>(bir diğer deyişle, yeteri kadar yakın anlam taşırlar).</p>
-<p>Python 3'te bayt ve stringleri bitiştiremezsiniz . Ama Python
-2 de baytlar <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla kullanıldığından beri  bu başarıldı : <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">u'b'</span></tt> Python 2'de çalışır , 
-ama <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">'b'</span></tt> Python 3'te <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt></a> verir. 
-Benzer bir durum bayt ve stringleri karşılaştırma hususunda da vardır.</p>
-</div>
-</div>
-<div class="section" id="supporting-python-2-5-and-newer-only">
-<h3><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> Ve Sadece Daha Yeni Versiyonları Desteklemek<a class="headerlink" href="#supporting-python-2-5-and-newer-only" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> ve yeni versiyonları destekliyorsanız hala kullanabileceğiniz
-bir kaç Python özelliği vardır .</p>
-<div class="section" id="from-future-import-absolute-import">
-<h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">absolute_import</span></tt><a class="headerlink" href="#from-future-import-absolute-import" title="Permalink to this headline">¶</a></h4>
-<p>Dahili bağlantılı içe aktarmalar (örneğin, <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt> ifadesiyle
-<tt class="docutils literal"><span class="pre">spam.eggs</span></tt> içinden <tt class="docutils literal"><span class="pre">spam.bacon</span></tt> 'ı içe aktarma işlemi) Python 3'te çalışmaz.
-This future statement moves away from that and allows the use of explicit
-relative imports (e.g., <tt class="docutils literal"><span class="pre">from</span> <span class="pre">.</span> <span class="pre">import</span> <span class="pre">bacon</span></tt>).</p>
-<p>In <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> you must use
-the __future__ statement to get to use explicit relative imports and prevent
-implicit ones. In <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> explicit relative imports are available without
-the statement, but you still want the __future__ statement to prevent implicit
-relative imports. In <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a> the __future__ statement is not needed. In
-other words, unless you are only supporting Python 2.7 or a version earlier
-than Python 2.5, use the __future__ statement.</p>
-</div>
-<div class="section" id="mark-all-unicode-strings-with-a-u-prefix">
-<h4>Mark all Unicode strings with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix<a class="headerlink" href="#mark-all-unicode-strings-with-a-u-prefix" title="Permalink to this headline">¶</a></h4>
-<p>While Python 2.6 has a <tt class="docutils literal"><span class="pre">__future__</span></tt> statement to automatically cause Python 2
-to treat all string literals as Unicode, Python 2.5 does not have that shortcut.
-This means you should go through and mark all string literals with a <tt class="docutils literal"><span class="pre">u</span></tt>
-prefix to turn them explicitly into Unicode strings where appropriate. That
-leaves all unmarked string literals to be considered byte literals in Python 3.</p>
-</div>
-</div>
-<div class="section" id="handle-common-gotchas">
-<h3>Handle Common &#8220;Gotchas&#8221;<a class="headerlink" href="#handle-common-gotchas" title="Permalink to this headline">¶</a></h3>
-<p>There are a few things that just consistently come up as sticking points for
-people which 2to3 cannot handle automatically or can easily be done in Python 2
-to help modernize your code.</p>
-<div class="section" id="from-future-import-division">
-<h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">division</span></tt><a class="headerlink" href="#from-future-import-division" title="Permalink to this headline">¶</a></h4>
-<p>While the exact same outcome can be had by using the <tt class="docutils literal"><span class="pre">-Qnew</span></tt> argument to
-Python, using this future statement lifts the requirement that your users use
-the flag to get the expected behavior of division in Python 3
-(e.g., <tt class="docutils literal"><span class="pre">1/2</span> <span class="pre">==</span> <span class="pre">0.5;</span> <span class="pre">1//2</span> <span class="pre">==</span> <span class="pre">0</span></tt>).</p>
-</div>
-<div class="section" id="specify-when-opening-a-file-as-binary">
-<h4>Specify when opening a file as binary<a class="headerlink" href="#specify-when-opening-a-file-as-binary" title="Permalink to this headline">¶</a></h4>
-<p>Unless you have been working on Windows, there is a chance you have not always
-bothered to add the <tt class="docutils literal"><span class="pre">b</span></tt> mode when opening a binary file (e.g., <tt class="docutils literal"><span class="pre">rb</span></tt> for
-binary reading).  Under Python 3, binary files and text files are clearly
-distinct and mutually incompatible; see the <a class="reference internal" href="../library/io.html#module-io" title="io: Core tools for working with streams."><tt class="xref py py-mod docutils literal"><span class="pre">io</span></tt></a> module for details.
-Therefore, you <strong>must</strong> make a decision of whether a file will be used for
-binary access (allowing to read and/or write bytes data) or text access
-(allowing to read and/or write unicode data).</p>
-</div>
-<div class="section" id="text-files">
-<h4>Text files<a class="headerlink" href="#text-files" title="Permalink to this headline">¶</a></h4>
-<p>Text files created using <tt class="docutils literal"><span class="pre">open()</span></tt> under Python 2 return byte strings,
-while under Python 3 they return unicode strings.  Depending on your porting
-strategy, this can be an issue.</p>
-<p>If you want text files to return unicode strings in Python 2, you have two
-possibilities:</p>
-<ul class="simple">
-<li>Under Python 2.6 and higher, use <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a>.  Since <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a>
-is essentially the same function in both Python 2 and Python 3, it will
-help iron out any issues that might arise.</li>
-<li>If pre-2.6 compatibility is needed, then you should use <a class="reference internal" href="../library/codecs.html#codecs.open" title="codecs.open"><tt class="xref py py-func docutils literal"><span class="pre">codecs.open()</span></tt></a>
-instead.  This will make sure that you get back unicode strings in Python 2.</li>
-</ul>
-</div>
-<div class="section" id="subclass-object">
-<h4>Subclass <tt class="docutils literal"><span class="pre">object</span></tt><a class="headerlink" href="#subclass-object" title="Permalink to this headline">¶</a></h4>
-<p>New-style classes have been around since <a class="reference external" href="http://www.python.org/2.2.x">Python 2.2</a>. You need to make sure
-you are subclassing from <tt class="docutils literal"><span class="pre">object</span></tt> to avoid odd edge cases involving method
-resolution order, etc. This continues to be totally valid in Python 3 (although
-unneeded as all classes implicitly inherit from <tt class="docutils literal"><span class="pre">object</span></tt>).</p>
-</div>
-<div class="section" id="deal-with-the-bytes-string-dichotomy">
-<h4>Deal With the Bytes/String Dichotomy<a class="headerlink" href="#deal-with-the-bytes-string-dichotomy" title="Permalink to this headline">¶</a></h4>
-<p>One of the biggest issues people have when porting code to Python 3 is handling
-the bytes/string dichotomy. Because Python 2 allowed the <tt class="docutils literal"><span class="pre">str</span></tt> type to hold
-textual data, people have over the years been rather loose in their delineation
-of what <tt class="docutils literal"><span class="pre">str</span></tt> instances held text compared to bytes. In Python 3 you cannot
-be so care-free anymore and need to properly handle the difference. The key
-handling this issue is to make sure that <strong>every</strong> string literal in your
-Python 2 code is either syntactically of functionally marked as either bytes or
-text data. After this is done you then need to make sure your APIs are designed
-to either handle a specific type or made to be properly polymorphic.</p>
-<div class="section" id="mark-up-python-2-string-literals">
-<h5>Mark Up Python 2 String Literals<a class="headerlink" href="#mark-up-python-2-string-literals" title="Permalink to this headline">¶</a></h5>
-<p>First thing you must do is designate every single string literal in Python 2
-as either textual or bytes data. If you are only supporting Python 2.6 or
-newer, this can be accomplished by marking bytes literals with a <tt class="docutils literal"><span class="pre">b</span></tt> prefix
-and then designating textual data with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix or using the
-<tt class="docutils literal"><span class="pre">unicode_literals</span></tt> future statement.</p>
-<p>If your project supports versions of Python predating 2.6, then you should use
-the <a class="reference external" href="http://packages.python.org/six">six</a> project and its <tt class="docutils literal"><span class="pre">b()</span></tt> function to denote bytes literals. For text
-literals you can either use six&#8217;s <tt class="docutils literal"><span class="pre">u()</span></tt> function or use a <tt class="docutils literal"><span class="pre">u</span></tt> prefix.</p>
-</div>
-<div class="section" id="decide-what-apis-will-accept">
-<h5>Decide what APIs Will Accept<a class="headerlink" href="#decide-what-apis-will-accept" title="Permalink to this headline">¶</a></h5>
-<p>In Python 2 it was very easy to accidentally create an API that accepted both
-bytes and textual data. But in Python 3, thanks to the more strict handling of
-disparate types, this loose usage of bytes and text together tends to fail.</p>
-<p>Take the dict <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">u'a':</span> <span class="pre">'text'}</span></tt> in Python 2.6. It creates the
-dict <tt class="docutils literal"><span class="pre">{u'a':</span> <span class="pre">'text'}</span></tt> since <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">==</span> <span class="pre">u'a'</span></tt>. But in Python 3 the equivalent
-dict creates <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">'a':</span> <span class="pre">'text'}</span></tt>, i.e., no lost data. Similar
-issues can crop up when transitioning Python 2 code to Python 3.</p>
-<p>This means you need to choose what an API is going to accept and create and
-consistently stick to that API in both Python 2 and 3.</p>
-</div>
-<div class="section" id="bytes-unicode-comparison">
-<h5>Bytes / Unicode Comparison<a class="headerlink" href="#bytes-unicode-comparison" title="Permalink to this headline">¶</a></h5>
-<p>In Python 3, mixing bytes and unicode is forbidden in most situations; it
-will raise a <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-class docutils literal"><span class="pre">TypeError</span></tt></a> where Python 2 would have attempted an implicit
-coercion between types.  However, there is one case where it doesn&#8217;t and
-it can be very misleading:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;&quot;</span> <span class="o">==</span> <span class="s">&quot;&quot;</span>
-<span class="go">False</span>
-</pre></div>
-</div>
-<p>This is because an equality comparison is required by the language to always
-succeed (and return <tt class="xref docutils literal"><span class="pre">False</span></tt> for incompatible types).  However, this also
-means that code incorrectly ported to Python 3 can display buggy behaviour
-if such comparisons are silently executed.  To detect such situations,
-Python 3 has a <tt class="docutils literal"><span class="pre">-b</span></tt> flag that will display a warning:</p>
-<div class="highlight-python3"><pre>$ python3 -b
-&gt;&gt;&gt; b"" == ""
-__main__:1: BytesWarning: Comparison between bytes and string
-False</pre>
-</div>
-<p>To turn the warning into an exception, use the <tt class="docutils literal"><span class="pre">-bb</span></tt> flag instead:</p>
-<div class="highlight-python3"><pre>$ python3 -bb
-&gt;&gt;&gt; b"" == ""
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-BytesWarning: Comparison between bytes and string</pre>
-</div>
-</div>
-</div>
-<div class="section" id="indexing-bytes-objects">
-<h4>Indexing bytes objects<a class="headerlink" href="#indexing-bytes-objects" title="Permalink to this headline">¶</a></h4>
-<p>Another potentially surprising change is the indexing behaviour of bytes
-objects in Python 3:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">120</span>
-</pre></div>
-</div>
-<p>Indeed, Python 3 bytes objects (as well as <a class="reference internal" href="../library/functions.html#bytearray" title="bytearray"><tt class="xref py py-class docutils literal"><span class="pre">bytearray</span></tt></a> objects)
-are sequences of integers.  But code converted from Python 2 will often
-assume that indexing a bytestring produces another bytestring, not an
-integer.  To reconcile both behaviours, use slicing:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">b&#39;x&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="n">n</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">b&#39;y&#39;</span>
-</pre></div>
-</div>
-<p>The only remaining gotcha is that an out-of-bounds slice returns an empty
-bytes object instead of raising <tt class="docutils literal"><span class="pre">IndexError</span></tt>:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-<span class="gt">Traceback (most recent call last):</span>
-  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-<span class="gr">IndexError</span>: <span class="n">index out of range</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
-<span class="go">b&#39;&#39;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="str-unicode">
-<h4><tt class="docutils literal"><span class="pre">__str__()</span></tt>/<tt class="docutils literal"><span class="pre">__unicode__()</span></tt><a class="headerlink" href="#str-unicode" title="Permalink to this headline">¶</a></h4>
-<p>In Python 2, objects can specify both a string and unicode representation of
-themselves. In Python 3, though, there is only a string representation. This
-becomes an issue as people can inadvertently do things in their <tt class="docutils literal"><span class="pre">__str__()</span></tt>
-methods which have unpredictable results (e.g., infinite recursion if you
-happen to use the <tt class="docutils literal"><span class="pre">unicode(self).encode('utf8')</span></tt> idiom as the body of your
-<tt class="docutils literal"><span class="pre">__str__()</span></tt> method).</p>
-<p>There are two ways to solve this issue. One is to use a custom 2to3 fixer. The
-blog post at <a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/</a>
-specifies how to do this. That will allow 2to3 to change all instances of <tt class="docutils literal"><span class="pre">def</span>
-<span class="pre">__unicode(self):</span> <span class="pre">...</span></tt> to <tt class="docutils literal"><span class="pre">def</span> <span class="pre">__str__(self):</span> <span class="pre">...</span></tt>. This does require that you
-define your <tt class="docutils literal"><span class="pre">__str__()</span></tt> method in Python 2 before your <tt class="docutils literal"><span class="pre">__unicode__()</span></tt>
-method.</p>
-<p>The other option is to use a mixin class. This allows you to only define a
-<tt class="docutils literal"><span class="pre">__unicode__()</span></tt> method for your class and let the mixin derive
-<tt class="docutils literal"><span class="pre">__str__()</span></tt> for you (code from
-<a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/</a>):</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="k">class</span> <span class="nc">UnicodeMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-  <span class="sd">&quot;&quot;&quot;Mixin class to handle defining the proper __str__/__unicode__</span>
-<span class="sd">  methods in Python 2 or 3.&quot;&quot;&quot;</span>
-
-  <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span> <span class="c"># Python 3</span>
-      <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-          <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span>
-  <span class="k">else</span><span class="p">:</span>  <span class="c"># Python 2</span>
-      <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-          <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">Spam</span><span class="p">(</span><span class="n">UnicodeMixin</span><span class="p">):</span>
-
-  <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-      <span class="k">return</span> <span class="s">u&#39;spam-spam-bacon-spam&#39;</span>  <span class="c"># 2to3 will remove the &#39;u&#39; prefix</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="don-t-index-on-exceptions">
-<h4>Don&#8217;t Index on Exceptions<a class="headerlink" href="#don-t-index-on-exceptions" title="Permalink to this headline">¶</a></h4>
-<p>In Python 2, the following worked:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">exc</span> <span class="o">=</span> <span class="ne">Exception</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">exc</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="go">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">exc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c"># Python 2 only!</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-
-Otherwise it might very well be worth your time and effort to port your tests
-to <a class="reference internal" href="../library/unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a>.</p>
-</div>
-<tt class="docuti<p>But in Python 3, indexing directly on an exception is an error. You need to
-make sure to only index on the <a class="reference internal" href="../library/exceptions.html#BaseException.args" title="BaseException.args"><tt class="xref py py-attr docutils literal"><span class="pre">BaseException.args</span></tt></a> attribute which is a
-sequence containing all arguments passed to the <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a> method.</p>
-<p>Even better is to use the documented attributes the exception provides.</p>
-</div>
-<div class="section" id="don-t-use-getslice-friends">
-<h4>Don&#8217;t use <tt class="docutils literal"><span class="pre">__getslice__</span></tt> &amp; Friends<a class="headerlink" href="#don-t-use-getslice-friends" title="Permalink to this headline">¶</a></h4>
-<p>Been deprecated for a while, but Python 3 finally drops support for
-<tt class="docutils literal"><span class="pre">__getslice__()</span></tt>, etc. Move completely over to <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><tt class="xref py py-meth docutils literal"><span class="pre">__getitem__()</span></tt></a> and
-friends.</p>
-</div>
-<div class="section" id="updating-doctests">
-<h4>Updating doctests<a class="headerlink" href="#updating-doctests" title="Permalink to this headline">¶</a></h4>
-<p><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> will attempt to generate fixes for doctests that it comes across. It&#8217;s
-not perfect, though. If you wrote a monolithic set of doctests (e.g., a single
-docstring containing all of your doctests), you should at least consider
-breaking the doctests up into smaller pieces to make it more manageable to fix.ls literal">
-</div>
-<div class="section" id="from-future-import-unicode-literals">
-<div class="section" id="update-map-for-imbalanced-input-sequences">
-<h4>Update <cite>map</cite> for imbalanced input sequences<a class="headerlink" href="#update-map-for-imbalanced-input-sequences" title="Permalink to this headline">¶</a></h4>
-<p>With Python 2, <cite>map</cite> would pad input sequences of unequal length with
-<cite>None</cite> values, returning a sequence as long as the longest input sequence.</p>
-<p>With Python 3, if the input sequences to <cite>map</cite> are of unequal length, <cite>map</cite>
-will stop at the termination of the shortest of the sequences. For full
-compatibility with <cite>map</cite> from Python 2.x, also wrap the sequences in
-<a class="reference internal" href="../library/itertools.html#itertools.zip_longest" title="itertools.zip_longest"><tt class="xref py py-func docutils literal"><span class="pre">itertools.zip_longest()</span></tt></a>, e.g. <tt class="docutils literal"><span class="pre">map(func,</span> <span class="pre">*sequences)</span></tt> becomes
-<tt class="docutils literal"><span class="pre">list(map(func,</span> <span class="pre">itertools.zip_longest(*sequences)))</span></tt>.</p>
-</div>
-</div>
-<div class="section" id="eliminate-3-warnings">
-<h3>Eliminate <tt class="docutils literal"><span class="pre">-3</span></tt> Warnings<a class="headerlink" href="#eliminate-3-warnings" title="Permalink to this headline">¶</a></h3>
-<p>When you run your application&#8217;s test suite, run it using the <tt class="docutils literal"><span class="pre">-3</span></tt> flag passed
-to Python. This will cause various warnings to be raised during execution about
-things that 2to3 cannot handle automatically (e.g., modules that have been
-removed). Try to eliminate those warnings to make your code even more portable
-to Python 3.</p>
-</div>
-<div class="section" id="run-2to3">
-<h3>Run 2to3<a class="headerlink" href="#run-2to3" title="Permalink to this headline">¶</a></h3>
-<p>Once you have made your Python 2 code future-compatible with Python 3, it&#8217;s
-time to use <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> to actually port your code.</p>
-<div class="section" id="manually">
-<h4>Manually<a class="headerlink" href="#manually" title="Permalink to this headline">¶</a></h4>
-<p>To manually convert source code using <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a>, you use the <tt class="docutils literal"><span class="pre">2to3</span></tt> script that
-is installed with Python 2.6 and later.:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="mi">2</span><span class="n">to3</span> <span class="o">&lt;</span><span class="n">directory</span> <span class="ow">or</span> <span class="n">file</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<p>This will cause 2to3 to write out a diff with all of the fixers applied for the
-converted source code. If you would like 2to3 to go ahead and apply the changes
-you can pass it the <tt class="docutils literal"><span class="pre">-w</span></tt> flag:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="mi">2</span><span class="n">to3</span> <span class="o">-</span><span class="n">w</span> <span class="o">&lt;</span><span class="n">stuff</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<p>There are other flags available to control exactly which fixers are applied,
-etc.</p>
-</div>
-<div class="section" id="during-installation">
-<h4>During Installation<a class="headerlink" href="#during-installation" title="Permalink to this headline">¶</a></h4>
-<p>When a user installs your project for Python 3, you can have either
-<a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><tt class="xref py py-mod docutils literal"><span class="pre">distutils</span></tt></a> or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> run <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> on your behalf.
-For distutils, use the following idiom:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>  <span class="c"># Python 3</span>
-  <span class="kn">from</span> <span class="nn">distutils.command.build_py</span> <span class="k">import</span> <span class="n">build_py_2to3</span> <span class="k">as</span> <span class="n">build_py</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c"># Python 2</span>
-  <span class="kn">from</span> <span class="nn">distutils.command.build_py</span> <span class="k">import</span> <span class="n">build_py</span>
-
-<span class="n">setup</span><span class="p">(</span><span class="n">cmdclass</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;build_py&#39;</span><span class="p">:</span> <span class="n">build_py</span><span class="p">},</span>
-  <span class="c"># ...</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>For Distribute:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="n">setup</span><span class="p">(</span><span class="n">use_2to3</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-  <span class="c"># ...</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>This will allow you to not have to distribute a separate Python 3 version of
-your project. It does require, though, that when you perform development that
-you at least build your project and use the built Python 3 source for testing.</p>
-</div>
-</div>
-<div class="section" id="verify-test">
-<h3>Verify &amp; Test<a class="headerlink" href="#verify-test" title="Permalink to this headline">¶</a></h3>
-<p>At this point you should (hopefully) have your project converted in such a way
-that it works in Python 3. Verify it by running your unit tests and making sure
-nothing has gone awry. If you miss something then figure out how to fix it in
-Python 3, backport to your Python 2 code, and run your code through 2to3 again
-to verify the fix transforms properly.</p>
-</div>
-</div>
-<div class="section" id="python-2-3-compatible-source">
-<span id="use-same-source"></span><h2>Python 2/3 Compatible Source<a class="headerlink" href="#python-2-3-compatible-source" title="Permalink to this headline">¶</a></h2>
-<p>While it may seem counter-intuitive, you can write Python code which is
-source-compatible between Python 2 &amp; 3. It does lead to code that is not
-entirely idiomatic Python (e.g., having to extract the currently raised
-exception from <tt class="docutils literal"><span class="pre">sys.exc_info()[1]</span></tt>), but it can be run under Python 2
-<strong>and</strong> Python 3 without using <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> as a translation step (although the tool
-should be used to help find potential portability problems). This allows you to
-continue to have a rapid development process regardless of whether you are
-developing under Python 2 or Python 3. Whether this approach or using
-<a class="reference internal" href="#use-2to3"><em>Python 2 and 2to3</em></a> works best for you will be a per-project decision.</p>
-<p>To get a complete idea of what issues you will need to deal with, see the
-<a class="reference external" href="http://docs.python.org/release/3.0/whatsnew/3.0.html">What&#8217;s New in Python 3.0</a>. Others have reorganized the data in other formats
-such as <a class="reference external" href="http://docs.pythonsprints.com/python3_porting/py-porting.html">http://docs.pythonsprints.com/python3_porting/py-porting.html</a> .</p>
-<p>The following are some steps to take to try to support both Python 2 &amp; 3 from
-the same source code.</p>
-<div class="section" id="follow-the-steps-for-using-2to3">
-<h3>Follow The Steps for Using <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a><a class="headerlink" href="#follow-the-steps-for-using-2to3" title="Permalink to this headline">¶</a></h3>
-<p>All of the steps outlined in how to
-<a class="reference internal" href="#use-2to3"><em>port Python 2 code with 2to3</em></a> apply
-to creating a Python 2/3 codebase. This includes trying only support Python 2.6
-or newer (the <a class="reference internal" href="../library/__future__.html#module-__future__" title="__future__: Future statement definitions"><tt class="xref py py-mod docutils literal"><span class="pre">__future__</span></tt></a> statements work in Python 3 without issue),
-eliminating warnings that are triggered by <tt class="docutils literal"><span class="pre">-3</span></tt>, etc.</p>
-<p>You should even consider running <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> over your code (without committing the
-changes). This will let you know where potential pain points are within your
-code so that you can fix them properly before they become an issue.</p>
-</div>
-<div class="section" id="use-six">
-<h3>Use <a class="reference external" href="http://packages.python.org/six">six</a><a class="headerlink" href="#use-six" title="Permalink to this headline">¶</a></h3>
-<p>The <a class="reference external" href="http://packages.python.org/six">six</a> project contains many things to help you write portable Python code.
-You should make sure to read its documentation from beginning to end and use
-any and all features it provides. That way you will minimize any mistakes you
-might make in writing cross-version code.</p>
-</div>
-<div class="section" id="capturing-the-currently-raised-exception">
-<h3>Capturing the Currently Raised Exception<a class="headerlink" href="#capturing-the-currently-raised-exception" title="Permalink to this headline">¶</a></h3>
-<p>One change between Python 2 and 3 that will require changing how you code (if
-you support <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and earlier) is
-accessing the currently raised exception.  In Python 2.5 and earlier the syntax
-to access the current exception is:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
-  <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
-<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span>
-  <span class="c"># Current exception is &#39;exc&#39;</span>
-  <span class="k">pass</span>
-</pre></div>
-</div>
-<p>This syntax changed in Python 3 (and backported to <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> and later)
-to:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
-  <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-  <span class="c"># Current exception is &#39;exc&#39;</span>
-  <span class="c"># In Python 3, &#39;exc&#39; is restricted to the block; Python 2.6 will &quot;leak&quot;</span>
-  <span class="k">pass</span>
-</pre></div>
-</div>
-<p>Because of this syntax change you must change to capturing the current
-exception to:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
-  <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
-<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-  <span class="kn">import</span> <span class="nn">sys</span>
-  <span class="n">exc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-  <span class="c"># Current exception is &#39;exc&#39;</span>
-  <span class="k">pass</span>
-</pre></div>
-</div>
-<p>You can get more information about the raised exception from
-<a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a> than simply the current exception instance, but you most
-likely don&#8217;t need it.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>In Python 3, the traceback is attached to the exception instance
-through the <tt class="docutils literal"><span class="pre">__traceback__</span></tt> attribute. If the instance is saved in
-a local variable that persists outside of the <tt class="docutils literal"><span class="pre">except</span></tt> block, the
-traceback will create a reference cycle with the current frame and its
-dictionary of local variables.  This will delay reclaiming dead
-resources until the next cyclic <a class="reference internal" href="../glossary.html#term-garbage-collection"><em class="xref std std-term">garbage collection</em></a> pass.</p>
-<p class="last">In Python 2, this problem only occurs if you save the traceback itself
-(e.g. the third element of the tuple returned by <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a>)
-in a variable.</p>
-</div>
-</div>
-</div>
-<div class="section" id="other-resources">
-<h2>Other Resources<a class="headerlink" href="#other-resources" title="Permalink to this headline">¶</a></h2>
-<p>The authors of the following blog posts, wiki pages, and books deserve special
-thanks for making public their tips for porting Python 2 code to Python 3 (and
-thus helping provide information for this document):</p>
-<ul class="simple">
-<li><a class="reference external" href="http://python3porting.com/">http://python3porting.com/</a></li>
-<li><a class="reference external" href="http://docs.pythonsprints.com/python3_porting/py-porting.html">http://docs.pythonsprints.com/python3_porting/py-porting.html</a></li>
-<li><a class="reference external" href="http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/">http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/</a></li>
-<li><a class="reference external" href="http://dabeaz.blogspot.com/2011/01/porting-py65-and-my-superboard-to.html">http://dabeaz.blogspot.com/2011/01/porting-py65-and-my-superboard-to.html</a></li>
-<li><a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/</a></li>
-<li><a class="reference external" href="http://lucumr.pocoo.org/2010/2/11/porting-to-python-3-a-guide/">http://lucumr.pocoo.org/2010/2/11/porting-to-python-3-a-guide/</a></li>
-<li><a class="reference external" href="http://wiki.python.org/moin/PortingPythonToPy3k">http://wiki.python.org/moin/PortingPythonToPy3k</a></li>
-<li><a class="reference external" href="https://wiki.ubuntu.com/Python/3">https://wiki.ubuntu.com/Python/3</a></li>
-</ul>
-<p>If you feel there is something missing from this document that should be added,
-please email the <a class="reference external" href="http://mail.python.org/mailman/listinfo/python-porting">python-porting</a> mailing list.</p>
-</div>
-</div>
-
-
+ <p>Python 3'te bayt ve stringleri bitiştiremezsiniz . Ama Python
+  2 de baytlar <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla kullanıldığından beri  bu başarıldı : <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">u'b'</span></tt> Python 2'de çalışır , 
+  ama <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">'b'</span></tt> Python 3'te <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt></a> verir. 
+  Benzer bir durum bayt ve stringleri karşılaştırma hususunda da vardır.</p>
+  </div>
+  </div>
+  <div class="section" id="supporting-python-2-5-and-newer-only">
+  <h3><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> Ve Sadece Daha Yeni Versiyonları Desteklemek<a class="headerlink" href="#supporting-python-2-5-and-newer-only" title="Permalink to this headline">¶</a></h3>
+  <p>If you are supporting <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and newer there are still some features of
+  Python that you can utilize.</p>
+  <div class="section" id="from-future-import-absolute-import">
+  <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">absolute_import</span></tt><a class="headerlink" href="#from-future-import-absolute-import" title="Permalink to this headline">¶</a></h4>
+  <p>Implicit relative imports (e.g., importing <tt class="docutils literal"><span class="pre">spam.bacon</span></tt> from within
+  <tt class="docutils literal"><span class="pre">spam.eggs</span></tt> with the statement <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt>) does not work in Python 3.
+  This future statement moves away from that and allows the use of explicit
+  relative imports (e.g., <tt class="docutils literal"><span class="pre">from</span> <span class="pre">.</span> <span class="pre">import</span> <span class="pre">bacon</span></tt>).</p>
+  <p>In <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> you must use
+  the __future__ statement to get to use explicit relative imports and prevent
+  implicit ones. In <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> explicit relative imports are available without
+  the statement, but you still want the __future__ statement to prevent implicit
+  relative imports. In <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a> the __future__ statement is not needed. In
+  other words, unless you are only supporting Python 2.7 or a version earlier
+  than Python 2.5, use the __future__ statement.</p>
+  </div>
+  <div class="section" id="mark-all-unicode-strings-with-a-u-prefix">
+  <h4>Mark all Unicode strings with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix<a class="headerlink" href="#mark-all-unicode-strings-with-a-u-prefix" title="Permalink to this headline">¶</a></h4>
+  <p>While Python 2.6 has a <tt class="docutils literal"><span class="pre">__future__</span></tt> statement to automatically cause Python 2
+  to treat all string literals as Unicode, Python 2.5 does not have that shortcut.
+  This means you should go through and mark all string literals with a <tt class="docutils literal"><span class="pre">u</span></tt>
+  prefix to turn them explicitly into Unicode strings where appropriate. That
+  leaves all unmarked string literals to be considered byte literals in Python 3.</p>
+  </div>
+  </div>
+  <div class="section" id="handle-common-gotchas">
+  <h3>Handle Common &#8220;Gotchas&#8221;<a class="headerlink" href="#handle-common-gotchas" title="Permalink to this headline">¶</a></h3>
+  <p>There are a few things that just consistently come up as sticking points for
+  people which 2to3 cannot handle automatically or can easily be done in Python 2
+  to help modernize your code.</p>
+  <div class="section" id="from-future-import-division">
+  <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">division</span></tt><a class="headerlink" href="#from-future-import-division" title="Permalink to this headline">¶</a></h4>
+  <p>While the exact same outcome can be had by using the <tt class="docutils literal"><span class="pre">-Qnew</span></tt> argument to
+  Python, using this future statement lifts the requirement that your users use
+  the flag to get the expected behavior of division in Python 3
+  (e.g., <tt class="docutils literal"><span class="pre">1/2</span> <span class="pre">==</span> <span class="pre">0.5;</span> <span class="pre">1//2</span> <span class="pre">==</span> <span class="pre">0</span></tt>).</p>
+  </div>
+  <div class="section" id="specify-when-opening-a-file-as-binary">
+  <h4>Specify when opening a file as binary<a class="headerlink" href="#specify-when-opening-a-file-as-binary" title="Permalink to this headline">¶</a></h4>
+  <p>Unless you have been working on Windows, there is a chance you have not always
+  bothered to add the <tt class="docutils literal"><span class="pre">b</span></tt> mode when opening a binary file (e.g., <tt class="docutils literal"><span class="pre">rb</span></tt> for
+  binary reading).  Under Python 3, binary files and text files are clearly
+  distinct and mutually incompatible; see the <a class="reference internal" href="../library/io.html#module-io" title="io: Core tools for working with streams."><tt class="xref py py-mod docutils literal"><span class="pre">io</span></tt></a> module for details.
+  Therefore, you <strong>must</strong> make a decision of whether a file will be used for
+  binary access (allowing to read and/or write bytes data) or text access
+  (allowing to read and/or write unicode data).</p>
+  </div>
+  <div class="section" id="text-files">
+  <h4>Text files<a class="headerlink" href="#text-files" title="Permalink to this headline">¶</a></h4>
+  <p>Text files created using <tt class="docutils literal"><span class="pre">open()</span></tt> under Python 2 return byte strings,
+  while under Python 3 they return unicode strings.  Depending on your porting
+  strategy, this can be an issue.</p>
+  <p>If you want text files to return unicode strings in Python 2, you have two
+  possibilities:</p>
+  <ul class="simple">
+  <li>Under Python 2.6 and higher, use <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a>.  Since <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a>
+  is essentially the same function in both Python 2 and Python 3, it will
+  help iron out any issues that might arise.</li>
+  <li>If pre-2.6 compatibility is needed, then you should use <a class="reference internal" href="../library/codecs.html#codecs.open" title="codecs.open"><tt class="xref py py-func docutils literal"><span class="pre">codecs.open()</span></tt></a>
+  instead.  This will make sure that you get back unicode strings in Python 2.</li>
+  </ul>
+  </div>
+  <div class="section" id="subclass-object">
+  <h4>Subclass <tt class="docutils literal"><span class="pre">object</span></tt><a class="headerlink" href="#subclass-object" title="Permalink to this headline">¶</a></h4>
+  <p>New-style classes have been around since <a class="reference external" href="http://www.python.org/2.2.x">Python 2.2</a>. You need to make sure
+  you are subclassing from <tt class="docutils literal"><span class="pre">object</span></tt> to avoid odd edge cases involving method
+  resolution order, etc. This continues to be totally valid in Python 3 (although
+  unneeded as all classes implicitly inherit from <tt class="docutils literal"><span class="pre">object</span></tt>).</p>
+  </div>
+  <div class="section" id="deal-with-the-bytes-string-dichotomy">
+  <h4>Deal With the Bytes/String Dichotomy<a class="headerlink" href="#deal-with-the-bytes-string-dichotomy" title="Permalink to this headline">¶</a></h4>
+  <p>One of the biggest issues people have when porting code to Python 3 is handling
+  the bytes/string dichotomy. Because Python 2 allowed the <tt class="docutils literal"><span class="pre">str</span></tt> type to hold
+  textual data, people have over the years been rather loose in their delineation
+  of what <tt class="docutils literal"><span class="pre">str</span></tt> instances held text compared to bytes. In Python 3 you cannot
+  be so care-free anymore and need to properly handle the difference. The key
+  handling this issue is to make sure that <strong>every</strong> string literal in your
+  Python 2 code is either syntactically of functionally marked as either bytes or
+  text data. After this is done you then need to make sure your APIs are designed
+  to either handle a specific type or made to be properly polymorphic.</p>
+  <div class="section" id="mark-up-python-2-string-literals">
+  <h5>Mark Up Python 2 String Literals<a class="headerlink" href="#mark-up-python-2-string-literals" title="Permalink to this headline">¶</a></h5>
+  <p>First thing you must do is designate every single string literal in Python 2
+  as either textual or bytes data. If you are only supporting Python 2.6 or
+  newer, this can be accomplished by marking bytes literals with a <tt class="docutils literal"><span class="pre">b</span></tt> prefix
+  and then designating textual data with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix or using the
+  <tt class="docutils literal"><span class="pre">unicode_literals</span></tt> future statement.</p>
+  <p>If your project supports versions of Python predating 2.6, then you should use
+  the <a class="reference external" href="http://packages.python.org/six">six</a> project and its <tt class="docutils literal"><span class="pre">b()</span></tt> function to denote bytes literals. For text
+  literals you can either use six&#8217;s <tt class="docutils literal"><span class="pre">u()</span></tt> function or use a <tt class="docutils literal"><span class="pre">u</span></tt> prefix.</p>
+  </div>
+  <div class="section" id="decide-what-apis-will-accept">
+  <h5>Decide what APIs Will Accept<a class="headerlink" href="#decide-what-apis-will-accept" title="Permalink to this headline">¶</a></h5>
+  <p>In Python 2 it was very easy to accidentally create an API that accepted both
+  bytes and textual data. But in Python 3, thanks to the more strict handling of
+  disparate types, this loose usage of bytes and text together tends to fail.</p>
+  <p>Take the dict <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">u'a':</span> <span class="pre">'text'}</span></tt> in Python 2.6. It creates the
+  dict <tt class="docutils literal"><span class="pre">{u'a':</span> <span class="pre">'text'}</span></tt> since <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">==</span> <span class="pre">u'a'</span></tt>. But in Python 3 the equivalent
+  dict creates <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">'a':</span> <span class="pre">'text'}</span></tt>, i.e., no lost data. Similar
+  issues can crop up when transitioning Python 2 code to Python 3.</p>
+  <p>This means you need to choose what an API is going to accept and create and
+  consistently stick to that API in both Python 2 and 3.</p>
+  </div>
+  <div class="section" id="bytes-unicode-comparison">
+  <h5>Bytes / Unicode Comparison<a class="headerlink" href="#bytes-unicode-comparison" title="Permalink to this headline">¶</a></h5>
+  <p>In Python 3, mixing bytes and unicode is forbidden in most situations; it
+  will raise a <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-class docutils literal"><span class="pre">TypeError</span></tt></a> where Python 2 would have attempted an implicit
+  coercion between types.  However, there is one case where it doesn&#8217;t and
+  it can be very misleading:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;&quot;</span> <span class="o">==</span> <span class="s">&quot;&quot;</span>
+  <span class="go">False</span>
+  </pre></div>
+  </div>
+  <p>This is because an equality comparison is required by the language to always
+  succeed (and return <tt class="xref docutils literal"><span class="pre">False</span></tt> for incompatible types).  However, this also
+  means that code incorrectly ported to Python 3 can display buggy behaviour
+  if such comparisons are silently executed.  To detect such situations,
+  Python 3 has a <tt class="docutils literal"><span class="pre">-b</span></tt> flag that will display a warning:</p>
+  <div class="highlight-python3"><pre>$ python3 -b
+  &gt;&gt;&gt; b"" == ""
+  __main__:1: BytesWarning: Comparison between bytes and string
+  False</pre>
+  </div>
+  <p>To turn the warning into an exception, use the <tt class="docutils literal"><span class="pre">-bb</span></tt> flag instead:</p>
+  <div class="highlight-python3"><pre>$ python3 -bb
+  &gt;&gt;&gt; b"" == ""
+  Traceback (most recent call last):
+    File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  BytesWarning: Comparison between bytes and string</pre>
+  </div>
+  </div>
+  </div>
+  <div class="section" id="indexing-bytes-objects">
+  <h4>Indexing bytes objects<a class="headerlink" href="#indexing-bytes-objects" title="Permalink to this headline">¶</a></h4>
+  <p>Another potentially surprising change is the indexing behaviour of bytes
+  objects in Python 3:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="go">120</span>
+  </pre></div>
+  </div>
+  <p>Indeed, Python 3 bytes objects (as well as <a class="reference internal" href="../library/functions.html#bytearray" title="bytearray"><tt class="xref py py-class docutils literal"><span class="pre">bytearray</span></tt></a> objects)
+  are sequences of integers.  But code converted from Python 2 will often
+  assume that indexing a bytestring produces another bytestring, not an
+  integer.  To reconcile both behaviours, use slicing:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+  <span class="go">b&#39;x&#39;</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="n">n</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+  <span class="go">b&#39;y&#39;</span>
+  </pre></div>
+  </div>
+  <p>The only remaining gotcha is that an out-of-bounds slice returns an empty
+  bytes object instead of raising <tt class="docutils literal"><span class="pre">IndexError</span></tt>:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+  <span class="gt">Traceback (most recent call last):</span>
+    File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+  <span class="gr">IndexError</span>: <span class="n">index out of range</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+  <span class="go">b&#39;&#39;</span>
+  </pre></div>
+  </div>
+  </div>
+  <div class="section" id="str-unicode">
+  <h4><tt class="docutils literal"><span class="pre">__str__()</span></tt>/<tt class="docutils literal"><span class="pre">__unicode__()</span></tt><a class="headerlink" href="#str-unicode" title="Permalink to this headline">¶</a></h4>
+  <p>In Python 2, objects can specify both a string and unicode representation of
+  themselves. In Python 3, though, there is only a string representation. This
+  becomes an issue as people can inadvertently do things in their <tt class="docutils literal"><span class="pre">__str__()</span></tt>
+  methods which have unpredictable results (e.g., infinite recursion if you
+  happen to use the <tt class="docutils literal"><span class="pre">unicode(self).encode('utf8')</span></tt> idiom as the body of your
+  <tt class="docutils literal"><span class="pre">__str__()</span></tt> method).</p>
+  <p>There are two ways to solve this issue. One is to use a custom 2to3 fixer. The
+  blog post at <a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/</a>
+  specifies how to do this. That will allow 2to3 to change all instances of <tt class="docutils literal"><span class="pre">def</span>
+  <span class="pre">__unicode(self):</span> <span class="pre">...</span></tt> to <tt class="docutils literal"><span class="pre">def</span> <span class="pre">__str__(self):</span> <span class="pre">...</span></tt>. This does require that you
+  define your <tt class="docutils literal"><span class="pre">__str__()</span></tt> method in Python 2 before your <tt class="docutils literal"><span class="pre">__unicode__()</span></tt>
+  method.</p>
+  <p>The other option is to use a mixin class. This allows you to only define a
+  <tt class="docutils literal"><span class="pre">__unicode__()</span></tt> method for your class and let the mixin derive
+  <tt class="docutils literal"><span class="pre">__str__()</span></tt> for you (code from
+  <a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/</a>):</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+  
+  <span class="k">class</span> <span class="nc">UnicodeMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  
+    <span class="sd">&quot;&quot;&quot;Mixin class to handle defining the proper __str__/__unicode__</span>
+  <span class="sd">  methods in Python 2 or 3.&quot;&quot;&quot;</span>
+  
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span> <span class="c"># Python 3</span>
+        <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c"># Python 2</span>
+        <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
+  
+  
+  <span class="k">class</span> <span class="nc">Spam</span><span class="p">(</span><span class="n">UnicodeMixin</span><span class="p">):</span>
+  
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&#39;spam-spam-bacon-spam&#39;</span>  <span class="c"># 2to3 will remove the &#39;u&#39; prefix</span>
+  </pre></div>
+  </div>
+  </div>
+  <div class="section" id="don-t-index-on-exceptions">
+  <h4>Don&#8217;t Index on Exceptions<a class="headerlink" href="#don-t-index-on-exceptions" title="Permalink to this headline">¶</a></h4>
+  <p>In Python 2, the following worked:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">exc</span> <span class="o">=</span> <span class="ne">Exception</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="n">exc</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="go">2</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="n">exc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c"># Python 2 only!</span>
+  <span class="go">2</span>
+  </pre></div>
+  </div>
+  <p>But in Python 3, indexing directly on an exception is an error. You need to
+  make sure to only index on the <a class="reference internal" href="../library/exceptions.html#BaseException.args" title="BaseException.args"><tt class="xref py py-attr docutils literal"><span class="pre">BaseException.args</span></tt></a> attribute which is a
+  sequence containing all arguments passed to the <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a> method.</p>
+  <p>Even better is to use the documented attributes the exception provides.</p>
+  </div>
+  <div class="section" id="don-t-use-getslice-friends">
+  <h4>Don&#8217;t use <tt class="docutils literal"><span class="pre">__getslice__</span></tt> &amp; Friends<a class="headerlink" href="#don-t-use-getslice-friends" title="Permalink to this headline">¶</a></h4>
+  <p>Been deprecated for a while, but Python 3 finally drops support for
+  <tt class="docutils literal"><span class="pre">__getslice__()</span></tt>, etc. Move completely over to <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><tt class="xref py py-meth docutils literal"><span class="pre">__getitem__()</span></tt></a> and
+  friends.</p>
+  </div>
+  <div class="section" id="updating-doctests">
+  <h4>Updating doctests<a class="headerlink" href="#updating-doctests" title="Permalink to this headline">¶</a></h4>
+  <p><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> will attempt to generate fixes for doctests that it comes across. It&#8217;s
+  not perfect, though. If you wrote a monolithic set of doctests (e.g., a single
+  docstring containing all of your doctests), you should at least consider
+  breaking the doctests up into smaller pieces to make it more manageable to fix.
+  Otherwise it might very well be worth your time and effort to port your tests
+  to <a class="reference internal" href="../library/unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a>.</p>
+  </div>
+  <div class="section" id="update-map-for-imbalanced-input-sequences">
+  <h4>Update <cite>map</cite> for imbalanced input sequences<a class="headerlink" href="#update-map-for-imbalanced-input-sequences" title="Permalink to this headline">¶</a></h4>
+  <p>With Python 2, <cite>map</cite> would pad input sequences of unequal length with
+  <cite>None</cite> values, returning a sequence as long as the longest input sequence.</p>
+  <p>With Python 3, if the input sequences to <cite>map</cite> are of unequal length, <cite>map</cite>
+  will stop at the termination of the shortest of the sequences. For full
+  compatibility with <cite>map</cite> from Python 2.x, also wrap the sequences in
+  <a class="reference internal" href="../library/itertools.html#itertools.zip_longest" title="itertools.zip_longest"><tt class="xref py py-func docutils literal"><span class="pre">itertools.zip_longest()</span></tt></a>, e.g. <tt class="docutils literal"><span class="pre">map(func,</span> <span class="pre">*sequences)</span></tt> becomes
+  <tt class="docutils literal"><span class="pre">list(map(func,</span> <span class="pre">itertools.zip_longest(*sequences)))</span></tt>.</p>
+  </div>
+  </div>
+  <div class="section" id="eliminate-3-warnings">
+  <h3>Eliminate <tt class="docutils literal"><span class="pre">-3</span></tt> Warnings<a class="headerlink" href="#eliminate-3-warnings" title="Permalink to this headline">¶</a></h3>
+  <p>When you run your application&#8217;s test suite, run it using the <tt class="docutils literal"><span class="pre">-3</span></tt> flag passed
+  to Python. This will cause various warnings to be raised during execution about
+  things that 2to3 cannot handle automatically (e.g., modules that have been
+  removed). Try to eliminate those warnings to make your code even more portable
+  to Python 3.</p>
+  </div>
+  <div class="section" id="run-2to3">
+  <h3>Run 2to3<a class="headerlink" href="#run-2to3" title="Permalink to this headline">¶</a></h3>
+  <p>Once you have made your Python 2 code future-compatible with Python 3, it&#8217;s
+  time to use <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> to actually port your code.</p>
+  <div class="section" id="manually">
+  <h4>Manually<a class="headerlink" href="#manually" title="Permalink to this headline">¶</a></h4>
+  <p>To manually convert source code using <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a>, you use the <tt class="docutils literal"><span class="pre">2to3</span></tt> script that
+  is installed with Python 2.6 and later.:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="mi">2</span><span class="n">to3</span> <span class="o">&lt;</span><span class="n">directory</span> <span class="ow">or</span> <span class="n">file</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span>
+  </pre></div>
+  </div>
+  <p>This will cause 2to3 to write out a diff with all of the fixers applied for the
+  converted source code. If you would like 2to3 to go ahead and apply the changes
+  you can pass it the <tt class="docutils literal"><span class="pre">-w</span></tt> flag:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="mi">2</span><span class="n">to3</span> <span class="o">-</span><span class="n">w</span> <span class="o">&lt;</span><span class="n">stuff</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span>
+  </pre></div>
+  </div>
+  <p>There are other flags available to control exactly which fixers are applied,
+  etc.</p>
+  </div>
+  <div class="section" id="during-installation">
+  <h4>During Installation<a class="headerlink" href="#during-installation" title="Permalink to this headline">¶</a></h4>
+  <p>When a user installs your project for Python 3, you can have either
+  <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><tt class="xref py py-mod docutils literal"><span class="pre">distutils</span></tt></a> or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> run <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> on your behalf.
+  For distutils, use the following idiom:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>  <span class="c"># Python 3</span>
+    <span class="kn">from</span> <span class="nn">distutils.command.build_py</span> <span class="k">import</span> <span class="n">build_py_2to3</span> <span class="k">as</span> <span class="n">build_py</span>
+  <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c"># Python 2</span>
+    <span class="kn">from</span> <span class="nn">distutils.command.build_py</span> <span class="k">import</span> <span class="n">build_py</span>
+  
+  <span class="n">setup</span><span class="p">(</span><span class="n">cmdclass</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;build_py&#39;</span><span class="p">:</span> <span class="n">build_py</span><span class="p">},</span>
+    <span class="c"># ...</span>
+  <span class="p">)</span>
+  </pre></div>
+  </div>
+  <p>For Distribute:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="n">setup</span><span class="p">(</span><span class="n">use_2to3</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+    <span class="c"># ...</span>
+  <span class="p">)</span>
+  </pre></div>
+  </div>
+  <p>This will allow you to not have to distribute a separate Python 3 version of
+  your project. It does require, though, that when you perform development that
+  you at least build your project and use the built Python 3 source for testing.</p>
+  </div>
+  </div>
+  <div class="section" id="verify-test">
+  <h3>Verify &amp; Test<a class="headerlink" href="#verify-test" title="Permalink to this headline">¶</a></h3>
+  <p>At this point you should (hopefully) have your project converted in such a way
+  that it works in Python 3. Verify it by running your unit tests and making sure
+  nothing has gone awry. If you miss something then figure out how to fix it in
+  Python 3, backport to your Python 2 code, and run your code through 2to3 again
+  to verify the fix transforms properly.</p>
+  </div>
+  </div>
+  <div class="section" id="python-2-3-compatible-source">
+  <span id="use-same-source"></span><h2>Python 2/3 Compatible Source<a class="headerlink" href="#python-2-3-compatible-source" title="Permalink to this headline">¶</a></h2>
+  <p>While it may seem counter-intuitive, you can write Python code which is
+  source-compatible between Python 2 &amp; 3. It does lead to code that is not
+  entirely idiomatic Python (e.g., having to extract the currently raised
+  exception from <tt class="docutils literal"><span class="pre">sys.exc_info()[1]</span></tt>), but it can be run under Python 2
+  <strong>and</strong> Python 3 without using <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> as a translation step (although the tool
+  should be used to help find potential portability problems). This allows you to
+  continue to have a rapid development process regardless of whether you are
+  developing under Python 2 or Python 3. Whether this approach or using
+  <a class="reference internal" href="#use-2to3"><em>Python 2 and 2to3</em></a> works best for you will be a per-project decision.</p>
+  <p>To get a complete idea of what issues you will need to deal with, see the
+  <a class="reference external" href="http://docs.python.org/release/3.0/whatsnew/3.0.html">What&#8217;s New in Python 3.0</a>. Others have reorganized the data in other formats
+  such as <a class="reference external" href="http://docs.pythonsprints.com/python3_porting/py-porting.html">http://docs.pythonsprints.com/python3_porting/py-porting.html</a> .</p>
+  <p>The following are some steps to take to try to support both Python 2 &amp; 3 from
+  the same source code.</p>
+  <div class="section" id="follow-the-steps-for-using-2to3">
+  <h3>Follow The Steps for Using <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a><a class="headerlink" href="#follow-the-steps-for-using-2to3" title="Permalink to this headline">¶</a></h3>
+  <p>All of the steps outlined in how to
+  <a class="reference internal" href="#use-2to3"><em>port Python 2 code with 2to3</em></a> apply
+  to creating a Python 2/3 codebase. This includes trying only support Python 2.6
+  or newer (the <a class="reference internal" href="../library/__future__.html#module-__future__" title="__future__: Future statement definitions"><tt class="xref py py-mod docutils literal"><span class="pre">__future__</span></tt></a> statements work in Python 3 without issue),
+  eliminating warnings that are triggered by <tt class="docutils literal"><span class="pre">-3</span></tt>, etc.</p>
+  <p>You should even consider running <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> over your code (without committing the
+  changes). This will let you know where potential pain points are within your
+  code so that you can fix them properly before they become an issue.</p>
+  </div>
+  <div class="section" id="use-six">
+  <h3>Use <a class="reference external" href="http://packages.python.org/six">six</a><a class="headerlink" href="#use-six" title="Permalink to this headline">¶</a></h3>
+  <p>The <a class="reference external" href="http://packages.python.org/six">six</a> project contains many things to help you write portable Python code.
+  You should make sure to read its documentation from beginning to end and use
+  any and all features it provides. That way you will minimize any mistakes you
+  might make in writing cross-version code.</p>
+  </div>
+  <div class="section" id="capturing-the-currently-raised-exception">
+  <h3>Capturing the Currently Raised Exception<a class="headerlink" href="#capturing-the-currently-raised-exception" title="Permalink to this headline">¶</a></h3>
+  <p>One change between Python 2 and 3 that will require changing how you code (if
+  you support <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and earlier) is
+  accessing the currently raised exception.  In Python 2.5 and earlier the syntax
+  to access the current exception is:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="c"># Current exception is &#39;exc&#39;</span>
+    <span class="k">pass</span>
+  </pre></div>
+  </div>
+  <p>This syntax changed in Python 3 (and backported to <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> and later)
+  to:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
+  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="c"># Current exception is &#39;exc&#39;</span>
+    <span class="c"># In Python 3, &#39;exc&#39; is restricted to the block; Python 2.6 will &quot;leak&quot;</span>
+    <span class="k">pass</span>
+  </pre></div>
+  </div>
+  <p>Because of this syntax change you must change to capturing the current
+  exception to:</p>
+  <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
+  <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="n">exc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c"># Current exception is &#39;exc&#39;</span>
+    <span class="k">pass</span>
+  </pre></div>
+  </div>
+  <p>You can get more information about the raised exception from
+  <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a> than simply the current exception instance, but you most
+  likely don&#8217;t need it.</p>
+  <div class="admonition note">
+  <p class="first admonition-title">Note</p>
+  <p>In Python 3, the traceback is attached to the exception instance
+  through the <tt class="docutils literal"><span class="pre">__traceback__</span></tt> attribute. If the instance is saved in
+  a local variable that persists outside of the <tt class="docutils literal"><span class="pre">except</span></tt> block, the
+  traceback will create a reference cycle with the current frame and its
+  dictionary of local variables.  This will delay reclaiming dead
+  resources until the next cyclic <a class="reference internal" href="../glossary.html#term-garbage-collection"><em class="xref std std-term">garbage collection</em></a> pass.</p>
+  <p class="last">In Python 2, this problem only occurs if you save the traceback itself
+  (e.g. the third element of the tuple returned by <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a>)
+  in a variable.</p>
+  </div>
+  </div>
+  </div>
+  <div class="section" id="other-resources">
+  <h2>Other Resources<a class="headerlink" href="#other-resources" title="Permalink to this headline">¶</a></h2>
+  <p>The authors of the following blog posts, wiki pages, and books deserve special
+  thanks for making public their tips for porting Python 2 code to Python 3 (and
+  thus helping provide information for this document):</p>
+  <ul class="simple">
+  <li><a class="reference external" href="http://python3porting.com/">http://python3porting.com/</a></li>
+  <li><a class="reference external" href="http://docs.pythonsprints.com/python3_porting/py-porting.html">http://docs.pythonsprints.com/python3_porting/py-porting.html</a></li>
+  <li><a class="reference external" href="http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/">http://techspot.zzzeek.org/2011/01/24/zzzeek-s-guide-to-python-3-porting/</a></li>
+  <li><a class="reference external" href="http://dabeaz.blogspot.com/2011/01/porting-py65-and-my-superboard-to.html">http://dabeaz.blogspot.com/2011/01/porting-py65-and-my-superboard-to.html</a></li>
+  <li><a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/</a></li>
+  <li><a class="reference external" href="http://lucumr.pocoo.org/2010/2/11/porting-to-python-3-a-guide/">http://lucumr.pocoo.org/2010/2/11/porting-to-python-3-a-guide/</a></li>
+  <li><a class="reference external" href="http://wiki.python.org/moin/PortingPythonToPy3k">http://wiki.python.org/moin/PortingPythonToPy3k</a></li>
+  <li><a class="reference external" href="https://wiki.ubuntu.com/Python/3">https://wiki.ubuntu.com/Python/3</a></li>
+  </ul>
+  <p>If you feel there is something missing from this document that should be added,
+  please email the <a class="reference external" href="http://mail.python.org/mailman/listinfo/python-porting">python-porting</a> mailing list.</p>
+  </div>
+  </div>
+  
+  
+            </div>
           </div>
         </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../contents.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Porting Python 2 Code to Python 3</a><ul>
-<li><a class="reference internal" href="#choosing-a-strategy">Choosing a Strategy</a><ul>
-<li><a class="reference internal" href="#universal-bits-of-advice">Universal Bits of Advice</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#python-3-and-3to2">Python 3 and 3to2</a></li>
-<li><a class="reference internal" href="#python-2-and-2to3">Python 2 and 2to3</a><ul>
-<li><a class="reference internal" href="#support-python-2-7">Support Python 2.7</a></li>
-<li><a class="reference internal" href="#try-to-support-python-2-6-and-newer-only">Try to Support Python 2.6 and Newer Only</a><ul>
-<li><a class="reference internal" href="#from-future-import-print-function"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt></a></li>
-<li><a class="reference internal" href="#from-future-import-unicode-literals"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt></a></li>
-<li><a class="reference internal" href="#bytes-literals">Bytes literals</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#supporting-python-2-5-and-newer-only">Supporting Python 2.5 and Newer Only</a><ul>
-<li><a class="reference internal" href="#from-future-import-absolute-import"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">absolute_import</span></tt></a></li>
-<li><a class="reference internal" href="#mark-all-unicode-strings-with-a-u-prefix">Mark all Unicode strings with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#handle-common-gotchas">Handle Common &#8220;Gotchas&#8221;</a><ul>
-<li><a class="reference internal" href="#from-future-import-division"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">division</span></tt></a></li>
-<li><a class="reference internal" href="#specify-when-opening-a-file-as-binary">Specify when opening a file as binary</a></li>
-<li><a class="reference internal" href="#text-files">Text files</a></li>
-<li><a class="reference internal" href="#subclass-object">Subclass <tt class="docutils literal"><span class="pre">object</span></tt></a></li>
-<li><a class="reference internal" href="#deal-with-the-bytes-string-dichotomy">Deal With the Bytes/String Dichotomy</a><ul>
-<li><a class="reference internal" href="#mark-up-python-2-string-literals">Mark Up Python 2 String Literals</a></li>
-<li><a class="reference internal" href="#decide-what-apis-will-accept">Decide what APIs Will Accept</a></li>
-<li><a class="reference internal" href="#bytes-unicode-comparison">Bytes / Unicode Comparison</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#indexing-bytes-objects">Indexing bytes objects</a></li>
-<li><a class="reference internal" href="#str-unicode"><tt class="docutils literal"><span class="pre">__str__()</span></tt>/<tt class="docutils literal"><span class="pre">__unicode__()</span></tt></a></li>
-<li><a class="reference internal" href="#don-t-index-on-exceptions">Don&#8217;t Index on Exceptions</a></li>
-<li><a class="reference internal" href="#don-t-use-getslice-friends">Don&#8217;t use <tt class="docutils literal"><span class="pre">__getslice__</span></tt> &amp; Friends</a></li>
-<li><a class="reference internal" href="#updating-doctests">Updating doctests</a></li>
-<li><a class="reference internal" href="#update-map-for-imbalanced-input-sequences">Update <cite>map</cite> for imbalanced input sequences</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#eliminate-3-warnings">Eliminate <tt class="docutils literal"><span class="pre">-3</span></tt> Warnings</a></li>
-<li><a class="reference internal" href="#run-2to3">Run 2to3</a><ul>
-<li><a class="reference internal" href="#manually">Manually</a></li>
-<li><a class="reference internal" href="#during-installation">During Installation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#verify-test">Verify &amp; Test</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#python-2-3-compatible-source">Python 2/3 Compatible Source</a><ul>
-<li><a class="reference internal" href="#follow-the-steps-for-using-2to3">Follow The Steps for Using 2to3</a></li>
-<li><a class="reference internal" href="#use-six">Use six</a></li>
-<li><a class="reference internal" href="#capturing-the-currently-raised-exception">Capturing the Currently Raised Exception</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#other-resources">Other Resources</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Python HOWTOs</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="cporting.html"
-                        title="next chapter">Porting Extension Modules to Python 3</a></p>
-<h3>This Page</h3>
-<ul class="this-page-menu">
-  <li><a href="../bugs.html">Report a Bug</a></li>
-  <li><a href="../_sources/howto/pyporting.txt"
-         rel="nofollow">Show Source</a></li>
-</ul>
-
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+        <div class="sphinxsidebar">
+          <div class="sphinxsidebarwrapper">
+    <h3><a href="../contents.html">Table Of Contents</a></h3>
+    <ul>
+  <li><a class="reference internal" href="#">Porting Python 2 Code to Python 3</a><ul>
+  <li><a class="reference internal" href="#choosing-a-strategy">Choosing a Strategy</a><ul>
+  <li><a class="reference internal" href="#universal-bits-of-advice">Universal Bits of Advice</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#python-3-and-3to2">Python 3 and 3to2</a></li>
+  <li><a class="reference internal" href="#python-2-and-2to3">Python 2 and 2to3</a><ul>
+  <li><a class="reference internal" href="#support-python-2-7">Support Python 2.7</a></li>
+  <li><a class="reference internal" href="#try-to-support-python-2-6-and-newer-only">Try to Support Python 2.6 and Newer Only</a><ul>
+  <li><a class="reference internal" href="#from-future-import-print-function"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt></a></li>
+  <li><a class="reference internal" href="#from-future-import-unicode-literals"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt></a></li>
+  <li><a class="reference internal" href="#bytes-literals">Bytes literals</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#supporting-python-2-5-and-newer-only">Supporting Python 2.5 and Newer Only</a><ul>
+  <li><a class="reference internal" href="#from-future-import-absolute-import"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">absolute_import</span></tt></a></li>
+  <li><a class="reference internal" href="#mark-all-unicode-strings-with-a-u-prefix">Mark all Unicode strings with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#handle-common-gotchas">Handle Common &#8220;Gotchas&#8221;</a><ul>
+  <li><a class="reference internal" href="#from-future-import-division"><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">division</span></tt></a></li>
+  <li><a class="reference internal" href="#specify-when-opening-a-file-as-binary">Specify when opening a file as binary</a></li>
+  <li><a class="reference internal" href="#text-files">Text files</a></li>
+  <li><a class="reference internal" href="#subclass-object">Subclass <tt class="docutils literal"><span class="pre">object</span></tt></a></li>
+  <li><a class="reference internal" href="#deal-with-the-bytes-string-dichotomy">Deal With the Bytes/String Dichotomy</a><ul>
+  <li><a class="reference internal" href="#mark-up-python-2-string-literals">Mark Up Python 2 String Literals</a></li>
+  <li><a class="reference internal" href="#decide-what-apis-will-accept">Decide what APIs Will Accept</a></li>
+  <li><a class="reference internal" href="#bytes-unicode-comparison">Bytes / Unicode Comparison</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#indexing-bytes-objects">Indexing bytes objects</a></li>
+  <li><a class="reference internal" href="#str-unicode"><tt class="docutils literal"><span class="pre">__str__()</span></tt>/<tt class="docutils literal"><span class="pre">__unicode__()</span></tt></a></li>
+  <li><a class="reference internal" href="#don-t-index-on-exceptions">Don&#8217;t Index on Exceptions</a></li>
+  <li><a class="reference internal" href="#don-t-use-getslice-friends">Don&#8217;t use <tt class="docutils literal"><span class="pre">__getslice__</span></tt> &amp; Friends</a></li>
+  <li><a class="reference internal" href="#updating-doctests">Updating doctests</a></li>
+  <li><a class="reference internal" href="#update-map-for-imbalanced-input-sequences">Update <cite>map</cite> for imbalanced input sequences</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#eliminate-3-warnings">Eliminate <tt class="docutils literal"><span class="pre">-3</span></tt> Warnings</a></li>
+  <li><a class="reference internal" href="#run-2to3">Run 2to3</a><ul>
+  <li><a class="reference internal" href="#manually">Manually</a></li>
+  <li><a class="reference internal" href="#during-installation">During Installation</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#verify-test">Verify &amp; Test</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#python-2-3-compatible-source">Python 2/3 Compatible Source</a><ul>
+  <li><a class="reference internal" href="#follow-the-steps-for-using-2to3">Follow The Steps for Using 2to3</a></li>
+  <li><a class="reference internal" href="#use-six">Use six</a></li>
+  <li><a class="reference internal" href="#capturing-the-currently-raised-exception">Capturing the Currently Raised Exception</a></li>
+  </ul>
+  </li>
+  <li><a class="reference internal" href="#other-resources">Other Resources</a></li>
+  </ul>
+  </li>
+  </ul>
+  
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Python HOWTOs</a></p>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cporting.html"
+                          title="next chapter">Porting Extension Modules to Python 3</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../bugs.html">Report a Bug</a></li>
+    <li><a href="../_sources/howto/pyporting.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+  
+  <div id="searchbox" style="display: none">
+    <h3>Quick search</h3>
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" size="18" />
+        <input type="submit" value="Go" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+      <p class="searchtip" style="font-size: 90%">
+      Enter search terms or a module, class or function name.
+      </p>
+  </div>
+  <script type="text/javascript">$('#searchbox').show(0);</script>
+          </div>
         </div>
+        <div class="clearer"></div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="cporting.html" title="Porting Extension Modules to Python 3"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Python HOWTOs"
-             >previous</a> |</li>
-        <li><img src="../_static/py.png" alt=""
-                 style="vertical-align: middle; margin-top: -1px"/></li>
-        <li><a href="http://www.python.org/">Python</a> &raquo;</li>
-        <li>
-          <span class="version_switcher_placeholder">3.4.0a4</span>
-          <a href="../index.html">Documentation</a> &raquo;
-        </li>
-
-          <li><a href="index.html" >Python HOWTOs</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-    &copy; <a href="../copyright.html">Copyright</a> 1990-2013, Python Software Foundation.
-    <br />
-    The Python Software Foundation is a non-profit corporation.
-    <a href="http://www.python.org/psf/donations/">Please donate.</a>
-    <br />
-    Last updated on Nov 08, 2013.
-    <a href="../bugs.html">Found a bug</a>?
-    <br />
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
-    </div>
-
-  </body>
-</html>
+      <div class="related">
+        <h3>Navigation</h3>
+        <ul>
+          <li class="right" style="margin-right: 10px">
+            <a href="../genindex.html" title="General Index"
+               >index</a></li>
+          <li class="right" >
+            <a href="../py-modindex.html" title="Python Module Index"
+               >modules</a> |</li>
+          <li class="right" >
+            <a href="cporting.html" title="Porting Extension Modules to Python 3"
+               >next</a> |</li>
+          <li class="right" >
+            <a href="index.html" title="Python HOWTOs"
+               >previous</a> |</li>
+          <li><img src="../_static/py.png" alt=""
+                   style="vertical-align: middle; margin-top: -1px"/></li>
+          <li><a href="http://www.python.org/">Python</a> &raquo;</li>
+          <li>
+            <span class="version_switcher_placeholder">3.4.0a4</span>
+            <a href="../index.html">Documentation</a> &raquo;
+          </li>
+  
+            <li><a href="index.html" >Python HOWTOs</a> &raquo;</li> 
+        </ul>
+      </div>
+      <div class="footer">
+      &copy; <a href="../copyright.html">Copyright</a> 1990-2013, Python Software Foundation.
+      <br />
+      The Python Software Foundation is a non-profit corporation.
+      <a href="http://www.python.org/psf/donations/">Please donate.</a>
+      <br />
+      Last updated on Nov 08, 2013.
+      <a href="../bugs.html">Found a bug</a>?
+      <br />
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      </div>
+  
+    </body>
+  </html>
