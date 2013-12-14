@@ -208,12 +208,12 @@ Python 2'de <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt
   </div>
   <div class="section" id="supporting-python-2-5-and-newer-only">
   <h3><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> Ve Sadece Daha Yeni Versiyonları Desteklemek<a class="headerlink" href="#supporting-python-2-5-and-newer-only" title="Permalink to this headline">¶</a></h3>
-  <p>If you are supporting <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and newer there are still some features of
-  Python that you can utilize.</p>
+  <p><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> ve yeni versiyonları destekliyorsanız hala kullanabileceğiniz
+  bir kaç Python özelliği vardır .</p
   <div class="section" id="from-future-import-absolute-import">
   <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">absolute_import</span></tt><a class="headerlink" href="#from-future-import-absolute-import" title="Permalink to this headline">¶</a></h4>
-  <p>Implicit relative imports (e.g., importing <tt class="docutils literal"><span class="pre">spam.bacon</span></tt> from within
-  <tt class="docutils literal"><span class="pre">spam.eggs</span></tt> with the statement <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt>) does not work in Python 3.
+  <p>Dahili bağlantılı içe aktarmalar (örneğin, <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt> ifadesiyle
+  <tt class="docutils literal"><span class="pre">spam.eggs</span></tt> içinden <tt class="docutils literal"><span class="pre">spam.bacon</span></tt> 'ı içe aktarma işlemi) Python 3'te çalışmaz.
   This future statement moves away from that and allows the use of explicit
   relative imports (e.g., <tt class="docutils literal"><span class="pre">from</span> <span class="pre">.</span> <span class="pre">import</span> <span class="pre">bacon</span></tt>).</p>
   <p>In <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> you must use
