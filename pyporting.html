@@ -133,8 +133,8 @@
   </div>
   <div class="section" id="python-3-and-3to2">
   <span id="use-3to2"></span><h2>Python 3 ve 3'ten 2'ye (3to2)<a class="headerlink" href="#python-3-and-3to2" title="Permalink to this headline">¶</a></h2>
-<p>Eğer yeni bir projeye başlıyorsanız veya kod alt yapınız küçük ise , ise projenizi Python 3'te yazıp Python 2'ye <a class="reference external" href="https://bitbucket.org/amentajo/lib3to2/overview">3'den 2'ye (3to2)</a> kullanarak geri dönüştürmeyi düşünebilirsiniz. Python 3 olgulara(bitler,stringler vb.) Python 2'den daha kesin sınırlar içinde yaklaştığı için teşekkür ediyoruz çünkü Python 2 den 3'e geçişe nazaran kaynak çevirileri çok daha kolay ve daha açık. Artı olarak bu size daha çok direkt Python 3'te geliştirme deneyimi kazandırıyor. Python 3 Pythonun geleceği olduğu şu durumda bu uzun vadede sizin için iyi bir durum.</p>
- <p>Ancak 3to2 'nin bir güçlüğü bu projenin üçüncül bir proje olması.Bu Python çekirdek geliştiricilerin(tabi bu kaynağın da) size 3'den 2'ye(3to2)'nin ne kadar iyi olacağı konusunda söz verememesi demektir.Yine de 3'den 2'ye (3to2) 'nin yüksek kalitede bir proje olmadığını öne sürecek bir durum yok .</p>
+  <p>Eğer yeni bir projeye başlıyorsanız veya kod alt yapınız küçük ise , ise projenizi Python 3'te yazıp Python 2'ye <a class="reference external" href="https://bitbucket.org/amentajo/lib3to2/overview">3'den 2'ye (3to2)</a> kullanarak geri dönüştürmeyi düşünebilirsiniz. Python 3 olgulara(bitler,stringler vb.) Python 2'den daha kesin sınırlar içinde yaklaştığı için teşekkür ediyoruz çünkü Python 2 den 3'e geçişe nazaran kaynak çevirileri çok daha kolay ve daha açık. Artı olarak bu size daha çok direkt Python 3'te geliştirme deneyimi kazandırıyor. Python 3 Pythonun geleceği olduğu şu durumda bu uzun vadede sizin için iyi bir durum.</p>
+  <p>Ancak 3to2 'nin bir güçlüğü bu projenin üçüncül bir proje olması.Bu Python çekirdek geliştiricilerin(tabi bu kaynağın da) size 3'den 2'ye(3to2)'nin ne kadar iyi olacağı konusunda söz verememesi demektir.Yine de 3'den 2'ye (3to2) 'nin yüksek kalitede bir proje olmadığını öne sürecek bir durum yok .</p>
   </div>
   <div class="section" id="python-2-and-2to3">
   <span id="use-2to3"></span><h2>Python 2 ve 2den3'e (2to3)<a class="headerlink" href="#python-2-and-2to3" title="Permalink to this headline">¶</a></h2>
@@ -170,7 +170,8 @@
   <div class="section" id="from-future-import-print-function">
   <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">print_function</span></tt><a class="headerlink" href="#from-future-import-print-function" title="Permalink to this headline">¶</a></h4>
   <p>Bu bir kişisel tercihtir. 2to3 print ifadesini print fonksiyonuna gayet iyi çevirdiği için bu kişiye bağlı bir adımdır. Bu future ifadesi yine de
-  <tt class="docutils literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt> yazmak yerine <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt> yazmaya alışmak için yardımcı olmaktadır.</p>
+  <tt class="docutils literal"><span class="pre">print</span> <span class="pre">'Hello,</span> <span class="pre">World'</span></tt> yazmak yerine
+  <tt class="docutils literal"><span class="pre">print('Hello,</span> <span class="pre">World')</span></tt>yazmaya alışmak için yardımcı olmaktadır.</p>
   </div>
   <div class="section" id="from-future-import-unicode-literals">
   <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt><a class="headerlink" href="#from-future-import-unicode-literals" title="Permalink to this headline">¶</a></h4>
@@ -199,8 +200,8 @@
   Muhtemelen en büyük &#8220;beklenmedik  hareket&#8221; sonuçları farklı değerlerle indislemedir .
   Python 2'de, <tt class="docutils literal"><span class="pre">b'py'[1]</span></tt>'nin değeri <tt class="docutils literal"><span class="pre">'y'</span></tt>dir, Python 3 te ise <tt class="docutils literal"><span class="pre">121</span></tt>dir.
   Bu uyumsuzluğu her zaman tek bir eleman boyutuna parçalayarak aşabilirsiniz:
-Python 2'de <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt><tt class="docutils literal"> nin değeri <span class="pre">'y'</span></tt>dir ve Python 3'te <tt class="docutils literal"><span class="pre">b'y'</span></tt>(bir diğer deyişle, yeteri kadar yakın anlam taşırlar).</p>
- <p>Python 3'te bayt ve stringleri bitiştiremezsiniz . Ama Python
+  Python 2'de <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt><tt class="docutils literal"> nin değeri <span class="pre">'y'</span></tt>dir ve Python 3'te <tt class="docutils literal"><span class="pre">b'y'</span></tt>(bir diğer deyişle, yeteri kadar yakın anlam taşırlar).</p>
+  <p>Python 3'te bayt ve stringleri bitiştiremezsiniz . Ama Python
   2 de baytlar <tt class="docutils literal"><span class="pre">str</span></tt> takma adıyla kullanıldığından beri  bu başarıldı : <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">u'b'</span></tt> Python 2'de çalışır , 
   ama <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">+</span> <span class="pre">'b'</span></tt> Python 3'te <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt></a> verir. 
   Benzer bir durum bayt ve stringleri karşılaştırma hususunda da vardır.</p>
@@ -212,30 +213,30 @@ Python 2'de <tt class="docutils literal"><span class="pre">b'py'[1:2]</span></tt
   bir kaç Python özelliği vardır .</p
   <div class="section" id="from-future-import-absolute-import">
   <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">absolute_import</span></tt><a class="headerlink" href="#from-future-import-absolute-import" title="Permalink to this headline">¶</a></h4>
-  <p>Dahili bağlantılı içe aktarmalar (örneğin, <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt> ifadesiyle
+  <p>Kapalı bağlantılı içe aktarmalar (örneğin, <tt class="docutils literal"><span class="pre">import</span> <span class="pre">bacon</span></tt> ifadesiyle
   <tt class="docutils literal"><span class="pre">spam.eggs</span></tt> içinden <tt class="docutils literal"><span class="pre">spam.bacon</span></tt> 'ı içe aktarma işlemi) Python 3'te çalışmaz.
-  This future statement moves away from that and allows the use of explicit
-  relative imports (e.g., <tt class="docutils literal"><span class="pre">from</span> <span class="pre">.</span> <span class="pre">import</span> <span class="pre">bacon</span></tt>).</p>
-  <p>In <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> you must use
-  the __future__ statement to get to use explicit relative imports and prevent
-  implicit ones. In <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> explicit relative imports are available without
-  the statement, but you still want the __future__ statement to prevent implicit
-  relative imports. In <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a> the __future__ statement is not needed. In
-  other words, unless you are only supporting Python 2.7 or a version earlier
-  than Python 2.5, use the __future__ statement.</p>
+  Bu future ifadesi bunu kaldırarak açık bağlantılı içe aktarmaya izin vermektedir
+  (örneğin, <tt class="docutils literal"><span class="pre">from</span> <span class="pre">.</span> <span class="pre">import</span> <span class="pre">bacon</span></tt>).</p>
+  <p><a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a>'te bu
+   __future__ ifadesini açık bağlantılı içe aktarma kullanmak ve kapalı olanları önlemek için kullanmalısınız 
+  .<a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a>'da açık içe aktarmalar future ifadesi kullanmaksızın kullanılabilir durumdadır, 
+  ama siz yine de __future__ ifadesini  kapalı olanları önlemek için kullanabilirsiniz. 
+  <a class="reference external" href="http://www.python.org/2.7.x">Python 2.7</a>'de the __future__ ifadesine ihtiyaç duyulmamaktadır. 
+  Kısacası , sadece Python 2.7 ve ya Python 2.5'den daha önceki bir versiyonu desteklemiyorsanız , 
+  __future__ ifadesiniz kullanınız.</p>
   </div>
   <div class="section" id="mark-all-unicode-strings-with-a-u-prefix">
-  <h4>Mark all Unicode strings with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix<a class="headerlink" href="#mark-all-unicode-strings-with-a-u-prefix" title="Permalink to this headline">¶</a></h4>
-  <p>While Python 2.6 has a <tt class="docutils literal"><span class="pre">__future__</span></tt> statement to automatically cause Python 2
-  to treat all string literals as Unicode, Python 2.5 does not have that shortcut.
-  This means you should go through and mark all string literals with a <tt class="docutils literal"><span class="pre">u</span></tt>
-  prefix to turn them explicitly into Unicode strings where appropriate. That
-  leaves all unmarked string literals to be considered byte literals in Python 3.</p>
+  <h4>Bütün Unicode stringlerini <tt class="docutils literal"><span class="pre">u</span></tt> ön ekiyle işaretleyin<a class="headerlink" href="#mark-all-unicode-strings-with-a-u-prefix" title="Permalink to this headline">¶</a></h4>
+  <p> Python 2.6 <tt class="docutils literal"><span class="pre">__future__</span></tt> ifadesiyle bulundurması otomatik olarak Python 2'nin
+  bütün string kalıplarına  Unicode olarak davranmasını sağlarken , Python 2.5 bu kısa yola sahip değildir.
+  Bu kodunuzu gözden geçirmeniz ve bütün string kalıplarınının uygun yerlerde <tt class="docutils literal"><span class="pre">u</span></tt>
+  ön ekiyle açıkça Unicode stringlerine dönüştürülmesi gerektiği manasına gelir . Ve bunun üzerine
+  Python 3 işaretlenmemiş bütün string kalıplarını bayt kalıbı olarak işleyecektir .</p>
   </div>
   </div>
   <div class="section" id="handle-common-gotchas">
-  <h3>Handle Common &#8220;Gotchas&#8221;<a class="headerlink" href="#handle-common-gotchas" title="Permalink to this headline">¶</a></h3>
-  <p>There are a few things that just consistently come up as sticking points for
+  <h3> Genel &#8220;Beklenmedik Olaylar(gotchas)&#8221;'ı ele alma<a class="headerlink" href="#handle-common-gotchas" title="Permalink to this headline">¶</a></h3>
+  <p> There are a few things that just consistently come up as sticking points for
   people which 2to3 cannot handle automatically or can easily be done in Python 2
   to help modernize your code.</p>
   <div class="section" id="from-future-import-division">
