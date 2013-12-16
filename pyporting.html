@@ -236,28 +236,27 @@
   </div>
   <div class="section" id="handle-common-gotchas">
   <h3> Genel &#8220;Beklenmedik Olaylar(gotchas)&#8221;'ı ele alma<a class="headerlink" href="#handle-common-gotchas" title="Permalink to this headline">¶</a></h3>
-  <p> There are a few things that just consistently come up as sticking points for
-  people which 2to3 cannot handle automatically or can easily be done in Python 2
-  to help modernize your code.</p>
+  <p> Geliştiricilerin karşısına düzenli olarak 2to3'ün düzeltemediği veya Python 2 nin kodunuzu modernize 
+  etmenize kolayca yardımcı olamadığı bir kaç sıkıntılı nokta çıkmaktadır.</p>
   <div class="section" id="from-future-import-division">
   <h4><tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">division</span></tt><a class="headerlink" href="#from-future-import-division" title="Permalink to this headline">¶</a></h4>
-  <p>While the exact same outcome can be had by using the <tt class="docutils literal"><span class="pre">-Qnew</span></tt> argument to
-  Python, using this future statement lifts the requirement that your users use
-  the flag to get the expected behavior of division in Python 3
-  (e.g., <tt class="docutils literal"><span class="pre">1/2</span> <span class="pre">==</span> <span class="pre">0.5;</span> <span class="pre">1//2</span> <span class="pre">==</span> <span class="pre">0</span></tt>).</p>
+  <p><tt class="docutils literal"><span class="pre">-Qnew</span></tt> argümanıyla tamamen aynı çıktı alınırken,
+  Bu future ifadesini kullanarakta kullanıcılarınızın beklenen etkiyi Python 3'te görmelerini
+  sağlayabiirsiniz.
+  (örneğin , <tt class="docutils literal"><span class="pre">1/2</span> <span class="pre">==</span> <span class="pre">0.5;</span> <span class="pre">1//2</span> <span class="pre">==</span> <span class="pre">0</span></tt>).</p>
   </div>
   <div class="section" id="specify-when-opening-a-file-as-binary">
-  <h4>Specify when opening a file as binary<a class="headerlink" href="#specify-when-opening-a-file-as-binary" title="Permalink to this headline">¶</a></h4>
-  <p>Unless you have been working on Windows, there is a chance you have not always
-  bothered to add the <tt class="docutils literal"><span class="pre">b</span></tt> mode when opening a binary file (e.g., <tt class="docutils literal"><span class="pre">rb</span></tt> for
-  binary reading).  Under Python 3, binary files and text files are clearly
-  distinct and mutually incompatible; see the <a class="reference internal" href="../library/io.html#module-io" title="io: Core tools for working with streams."><tt class="xref py py-mod docutils literal"><span class="pre">io</span></tt></a> module for details.
-  Therefore, you <strong>must</strong> make a decision of whether a file will be used for
-  binary access (allowing to read and/or write bytes data) or text access
-  (allowing to read and/or write unicode data).</p>
+  <h4>Bir belgeyi binary olarak açarken açıkça belirtme <a class="headerlink" href="#specify-when-opening-a-file-as-binary" title="Permalink to this headline">¶</a></h4>
+  <p>Windows'ta çalışmıyorsanız, bir binary belgesini açarken
+  <tt class="docutils literal"><span class="pre">b</span></tt>  modu ekleme derdiyle uğraşmama ihtimaliniz var  
+  (örneğin , belgeden okuyabilmek için <tt class="docutils literal"><span class="pre">rb</span></tt> modu ).  
+  Ptyhon 3'te, binary belgeleri ve metin belgeleri açıkça
+  farklı,karşılıklı olarak uyumsuzdur; detaylar için <a class="reference internal" href="../library/io.html#module-io" title="io: Core tools for working with streams."><tt class="xref py py-mod docutils literal"><span class="pre">io</span></tt></a> modülüne bakınız.
+  Bu nedenle , bir belgenin binary izniyle (bayt verileriyle okuma ve yazmaya izin vererek) mi metin izniyle
+  (unicode verileriyle okuma ve yazmaya izin vererek ) mi kullanılacağına karar vermek <strong>zorundasınız</strong> .</p>
   </div>
   <div class="section" id="text-files">
-  <h4>Text files<a class="headerlink" href="#text-files" title="Permalink to this headline">¶</a></h4>
+  <h4>Metin belgeleri<a class="headerlink" href="#text-files" title="Permalink to this headline">¶</a></h4>
   <p>Text files created using <tt class="docutils literal"><span class="pre">open()</span></tt> under Python 2 return byte strings,
   while under Python 3 they return unicode strings.  Depending on your porting
   strategy, this can be an issue.</p>
