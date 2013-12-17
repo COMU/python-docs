@@ -257,31 +257,37 @@
   </div>
   <div class="section" id="text-files">
   <h4>Metin belgeleri<a class="headerlink" href="#text-files" title="Permalink to this headline">¶</a></h4>
-  <p>Text files created using <tt class="docutils literal"><span class="pre">open()</span></tt> under Python 2 return byte strings,
-  while under Python 3 they return unicode strings.  Depending on your porting
-  strategy, this can be an issue.</p>
-  <p>If you want text files to return unicode strings in Python 2, you have two
-  possibilities:</p>
+  <p>Python 2 de metin belgeleri<tt class="docutils literal"><span class="pre">open()</span></tt> kullanarak 
+  bayt stringleri geri döndürerek oluşturulur,
+  Python 3'te unicode stringleri geri döndürürler . Uyumlu hale getirme 
+  stratejiniz bağlı olarak , bu sorun oluşturabilir .</p>
+  <p> Python 2'te eğer metin belgelerinin unicode strinleri döndürmesini istiyorsanız,
+  ihtimaliniz vardır :</p>
   <ul class="simple">
-  <li>Under Python 2.6 and higher, use <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a>.  Since <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a>
-  is essentially the same function in both Python 2 and Python 3, it will
-  help iron out any issues that might arise.</li>
-  <li>If pre-2.6 compatibility is needed, then you should use <a class="reference internal" href="../library/codecs.html#codecs.open" title="codecs.open"><tt class="xref py py-func docutils literal"><span class="pre">codecs.open()</span></tt></a>
-  instead.  This will make sure that you get back unicode strings in Python 2.</li>
+  <li>Python 2.6 ve daha üst versiyonlarında, <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a> kullanınız . 
+  Python 2 ve 3'te <a class="reference internal" href="../library/io.html#io.open" title="io.open"><tt class="xref py py-func docutils literal"><span class="pre">io.open()</span></tt></a>
+  fonksiyonu esas olarak aynı olduğundan , ortaya çıkabilecek sorunları çözmekte yardımcı olacaktır .</li>
+  <li>Eğer Python 2.6'dan önceki versiyonları kullanıyorsanız uyumluluğa ihtiyaç duyulmaktadır, 
+  bu yüzden io.open() yerine 
+  <a class="reference internal" href="../library/codecs.html#codecs.open" title="codecs.open"><tt class="xref py py-func docutils literal"><span class="pre">codecs.open()</span></tt></a>
+  kullanmanız gerekmektedir .  
+  Bu Python 2'de unicode stringleri geri döndürdüğünüzden emin olmanızı sağlayacaktır .</li>
   </ul>
   </div>
   <div class="section" id="subclass-object">
-  <h4>Subclass <tt class="docutils literal"><span class="pre">object</span></tt><a class="headerlink" href="#subclass-object" title="Permalink to this headline">¶</a></h4>
-  <p>New-style classes have been around since <a class="reference external" href="http://www.python.org/2.2.x">Python 2.2</a>. You need to make sure
-  you are subclassing from <tt class="docutils literal"><span class="pre">object</span></tt> to avoid odd edge cases involving method
-  resolution order, etc. This continues to be totally valid in Python 3 (although
-  unneeded as all classes implicitly inherit from <tt class="docutils literal"><span class="pre">object</span></tt>).</p>
+  <h4> Alt Sınıf<tt class="docutils literal"><span class="pre">Obje</span></tt><a class="headerlink" href="#subclass-object" title="Permalink to this headline">¶</a></h4>
+  <p><a class="reference external" href="http://www.python.org/2.2.x">Python 2.2</a>'den bu yana yeni stil sınıflar etrafta bulunmaktadır.
+  Method ayırım düzenin(MRO)e bağlı olarak garip ayrıt durumlarından kaçınmak için   
+  <tt class="docutils literal"><span class="pre">obje</span></tt>den alt sınıf oluşturduğunuza emin olunuz
+  , vb. Bu Python 3'te tamamen doğru olmaya devam edecektir ( buna rağmen bütün sınıfların kesin olarak
+  <tt class="docutils literal"><span class="pre">obje</span></tt>den kalıtılmış olmasına ihtiyaç yoktur).</p>
   </div>
   <div class="section" id="deal-with-the-bytes-string-dichotomy">
-  <h4>Deal With the Bytes/String Dichotomy<a class="headerlink" href="#deal-with-the-bytes-string-dichotomy" title="Permalink to this headline">¶</a></h4>
-  <p>One of the biggest issues people have when porting code to Python 3 is handling
-  the bytes/string dichotomy. Because Python 2 allowed the <tt class="docutils literal"><span class="pre">str</span></tt> type to hold
-  textual data, people have over the years been rather loose in their delineation
+  <h4> Bayt/String İkililiği(Dikotomi) ile başa çıkma<a class="headerlink" href="#deal-with-the-bytes-string-dichotomy" title="Permalink to this headline">¶</a></h4>
+  <p> Kodlarını Python 3'e uyumlu hale getirirken geliştiricilerin karşılaştıkları en büyük sorunlardan birisi de 
+  Bayt/String ikililiğiyle başa çıkmadır . 
+  Çünkü Python 2 <tt class="docutils literal"><span class="pre">str</span></tt> tipiyle metinsel verileri tutmaya izin
+  vermektedir , people have over the years been rather loose in their delineation
   of what <tt class="docutils literal"><span class="pre">str</span></tt> instances held text compared to bytes. In Python 3 you cannot
   be so care-free anymore and need to properly handle the difference. The key
   handling this issue is to make sure that <strong>every</strong> string literal in your
