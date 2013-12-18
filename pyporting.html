@@ -287,29 +287,28 @@
   <p> Kodlarını Python 3'e uyumlu hale getirirken geliştiricilerin karşılaştıkları en büyük sorunlardan birisi de 
   Bayt/String ikililiğiyle başa çıkmadır . 
   Çünkü Python 2 <tt class="docutils literal"><span class="pre">str</span></tt> tipiyle metinsel verileri tutmaya izin
-  vermektedir , people have over the years been rather loose in their delineation
-  of what <tt class="docutils literal"><span class="pre">str</span></tt> instances held text compared to bytes. In Python 3 you cannot
-  be so care-free anymore and need to properly handle the difference. The key
-  handling this issue is to make sure that <strong>every</strong> string literal in your
-  Python 2 code is either syntactically of functionally marked as either bytes or
-  text data. After this is done you then need to make sure your APIs are designed
-  to either handle a specific type or made to be properly polymorphic.</p>
+  vermektedir , geliştiricilerin yıllar içinde 
+  <tt class="docutils literal"><span class="pre">str</span></tt> örneklerinin bayta kıyasla metin tuttukları hakkındaki tasvir
+  yetenekleri azalmıştır. 
+  Python 3'te bu konuya bu kadar duyarsız kalamazsınız ve farklılığı düzgün şekilde ele almak durumundasınız . İşin püf noktası
+  Python 2 kodunuzdaki <strong>her</strong> string kalıbını  fonksiyonel açıdan sözdizimsel olarak bayt veya
+  metin verisi olarak işaretlenmektedir . Bu tamamlandıktan sonra Uygulama Programlama Arayüzünüzün(API) özel bir tiple ilgilenmek için
+  dizayn edilmesi veya çok biçimli olduğundan emin olmanız gerekmektedir.</p>
   <div class="section" id="mark-up-python-2-string-literals">
-  <h5>Mark Up Python 2 String Literals<a class="headerlink" href="#mark-up-python-2-string-literals" title="Permalink to this headline">¶</a></h5>
-  <p>First thing you must do is designate every single string literal in Python 2
-  as either textual or bytes data. If you are only supporting Python 2.6 or
-  newer, this can be accomplished by marking bytes literals with a <tt class="docutils literal"><span class="pre">b</span></tt> prefix
-  and then designating textual data with a <tt class="docutils literal"><span class="pre">u</span></tt> prefix or using the
-  <tt class="docutils literal"><span class="pre">unicode_literals</span></tt> future statement.</p>
-  <p>If your project supports versions of Python predating 2.6, then you should use
-  the <a class="reference external" href="http://packages.python.org/six">six</a> project and its <tt class="docutils literal"><span class="pre">b()</span></tt> function to denote bytes literals. For text
-  literals you can either use six&#8217;s <tt class="docutils literal"><span class="pre">u()</span></tt> function or use a <tt class="docutils literal"><span class="pre">u</span></tt> prefix.</p>
+  <h5>Python 2 String Kalıplarını İşaretleme<a class="headerlink" href="#mark-up-python-2-string-literals" title="Permalink to this headline">¶</a></h5>
+  <p>Yapmanız gereken ilk iş Python 2 kodunuzdaki bütün string kalıplarını metinsel ve ya bayt verisi olarak dizayn etme işlemidir. 
+  Eğer sadece Python 2.6 veya daha yenilerini destekliyorsanız, bu işlem bayt kalıplarını <tt class="docutils literal"><span class="pre">b</span></tt> önekiyle işaretleyip
+  ve sonra metinsel verileri <tt class="docutils literal"><span class="pre">u</span></tt> önekiyle ve ya 
+  <tt class="docutils literal"><span class="pre">unicode_literals</span></tt> future ifadesini kullanarak dizayn ederek başarılabilir.</p>
+  <p>Eğer projeniz Python 2.6 öncesi versiyonları destekliyorsa , bayt kalıplarını belirtmek için
+  <a class="reference external" href="http://packages.python.org/six">altı</a> projesini  ve onun  <tt class="docutils literal"><span class="pre">b()</span></tt> fonksiyonunu kullanmalısınız . Metin
+  kalıpları için altı&#8217;nın <tt class="docutils literal"><span class="pre">u()</span></tt> fonksiyonunu ya da <tt class="docutils literal"><span class="pre">u</span></tt> ön eki kullanabilirsiniz .</p>
   </div>
   <div class="section" id="decide-what-apis-will-accept">
-  <h5>Decide what APIs Will Accept<a class="headerlink" href="#decide-what-apis-will-accept" title="Permalink to this headline">¶</a></h5>
-  <p>In Python 2 it was very easy to accidentally create an API that accepted both
-  bytes and textual data. But in Python 3, thanks to the more strict handling of
-  disparate types, this loose usage of bytes and text together tends to fail.</p>
+  <h5>Uygulama Programlama Arayüzünün Neleri Kabul Edeceğine Karar Verme<a class="headerlink" href="#decide-what-apis-will-accept" title="Permalink to this headline">¶</a></h5>
+  <p>Python 2'de yanlışlıkla metinsel veya bayt datayı aynı anda kabul edebilecek bir UPA oluşturmak çok kolaydır . 
+  Ama Python 3'te, farklı tiplerin daha kesin olarak ele alınması sayesinde,
+  bayt ve metinlerin bir arada bulunduğu bu gevşek kullanım tarzı hataya sebebiyet verir.</p>
   <p>Take the dict <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">u'a':</span> <span class="pre">'text'}</span></tt> in Python 2.6. It creates the
   dict <tt class="docutils literal"><span class="pre">{u'a':</span> <span class="pre">'text'}</span></tt> since <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">==</span> <span class="pre">u'a'</span></tt>. But in Python 3 the equivalent
   dict creates <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">'a':</span> <span class="pre">'text'}</span></tt>, i.e., no lost data. Similar
