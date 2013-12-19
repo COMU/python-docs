@@ -309,16 +309,19 @@
   <p>Python 2'de yanlışlıkla metinsel veya bayt datayı aynı anda kabul edebilecek bir UPA oluşturmak çok kolaydır . 
   Ama Python 3'te, farklı tiplerin daha kesin olarak ele alınması sayesinde,
   bayt ve metinlerin bir arada bulunduğu bu gevşek kullanım tarzı hataya sebebiyet verir.</p>
-  <p>Take the dict <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">u'a':</span> <span class="pre">'text'}</span></tt> in Python 2.6. It creates the
-  dict <tt class="docutils literal"><span class="pre">{u'a':</span> <span class="pre">'text'}</span></tt> since <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">==</span> <span class="pre">u'a'</span></tt>. But in Python 3 the equivalent
-  dict creates <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">'a':</span> <span class="pre">'text'}</span></tt>, i.e., no lost data. Similar
-  issues can crop up when transitioning Python 2 code to Python 3.</p>
-  <p>This means you need to choose what an API is going to accept and create and
-  consistently stick to that API in both Python 2 and 3.</p>
+  <p>Python 2.6'da <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bayt',</span> <span class="pre">u'a':</span> <span class="pre">'metin'}</span></tt> şeklinde bir sözlük alın.
+  <tt class="docutils literal"><span class="pre">b'a'</span> <span class="pre">==</span> <span class="pre">u'a'</span></tt> olduğundan beri 
+  <tt class="docutils literal"><span class="pre">{u'a':</span> <span class="pre">'text'}</span></tt> şeklinde bir sözlük oluşturur . 
+  Ama Python 3'te eşdeğeri 
+  <tt class="docutils literal"><span class="pre">{b'a':</span> <span class="pre">'bytes',</span> <span class="pre">'a':</span> <span class="pre">'text'}</span></tt> şeklinde bir sözlük yaratır ,
+  başka bir deyişle, veri kaybı olmaz . 
+  Benzer durumlar  Python 2 kodunu Python 3'e geçirirken ortaya çıkabilir .</p>
+  <p>Bu bir UPA'nın ne kabul edeceğini ve oluşturacağını seçmeniz ve hem Python 2 hem 3'te
+  o UPA'yı istikrarlı şekilde kullanmanız gerektiği manasına gelir.</p>
   </div>
   <div class="section" id="bytes-unicode-comparison">
-  <h5>Bytes / Unicode Comparison<a class="headerlink" href="#bytes-unicode-comparison" title="Permalink to this headline">¶</a></h5>
-  <p>In Python 3, mixing bytes and unicode is forbidden in most situations; it
+  <h5>Bayt / Unicode Karşılaştırması<a class="headerlink" href="#bytes-unicode-comparison" title="Permalink to this headline">¶</a></h5>
+  <p>Python 3'te bir çok durum için, bayt ve unicodeların karıştırılması yasaktır  ; it
   will raise a <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><tt class="xref py py-class docutils literal"><span class="pre">TypeError</span></tt></a> where Python 2 would have attempted an implicit
   coercion between types.  However, there is one case where it doesn&#8217;t and
   it can be very misleading:</p>
