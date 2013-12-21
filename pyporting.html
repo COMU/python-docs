@@ -367,7 +367,7 @@
   <span class="go">b&#39;y&#39;</span>
   </pre></div>
   </div>
-  <p>Geriye kalan tek beklenmedik olay sınır aşımıdır, parçalam geriye<tt class="docutils literal"><span class="pre">IndexError</span></tt> istisnasını fırlatmak yerine
+  <p>Geriye kalan tek beklenmedik olay sınır aşımıdır, parçalama geriye <tt class="docutils literal"><span class="pre">IndexError</span></tt> istisnasını fırlatmak yerine
   boş bir bayt objesi döndürür :</p>
   <div class="highlight-python3"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="s">&quot;xyz&quot;</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
   <span class="gt">Traceback (most recent call last):</span>
@@ -383,7 +383,7 @@
   <p>Python 2'de, objeler hem string hem unicode gösterimleri ile kendilerini belirtebilir . 
   Python 3'te, yapılabilse bile, sadece string göstermi vardır. Bu geliştiricilerin kendi <tt class="docutils literal"><span class="pre">__str__()</span></tt>
   methodlarıyla dikkatsizce yaptıkları öngörülemez sonuçları olan işler sayesinde  bir sorun haline gelebilir
-  (örneğin, eğer <tt class="docutils literal"><span class="pre">unicode(self).encode('utf8')</span></tt> deyimin
+  (örneğin, eğer <tt class="docutils literal"><span class="pre">unicode(self).encode('utf8')</span></tt> deyimini
   <tt class="docutils literal"><span class="pre">__str__()</span></tt> metodunuzun gövdesinde kullanırsanız sonsuz yineleme oluşturursunuz ).</p>
   <p>Bu durumdan sıyrılmak için iki yol vardır. Biri ihtiyaca göre hazırlanmış 2to3 düzelticisi.
   <a class="reference external" href="http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/">http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/</a> blog yazısı
@@ -442,39 +442,37 @@
   yakınlarına taşındı.</p>
   </div>
   <div class="section" id="updating-doctests">
-  <h4>Döküman Testlerini Güncelleme<a class="headerlink" href="#updating-doctests" title="Permalink to this headline">¶</a></h4>
-  <p><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> will attempt to generate fixes for doctests that it comes across. It&#8217;s
-  not perfect, though. If you wrote a monolithic set of doctests (e.g., a single
-  docstring containing all of your doctests), you should at least consider
-  breaking the doctests up into smaller pieces to make it more manageable to fix.
-  Otherwise it might very well be worth your time and effort to port your tests
-  to <a class="reference internal" href="../library/unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a>.</p>
+  <h4>Doctestleri Güncelleme<a class="headerlink" href="#updating-doctests" title="Permalink to this headline">¶</a></h4>
+  <p><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> doctestlerin karşılaştığı sorunlara çözüm üretmeye çalışacaktır. 
+  Yine de bu işte harika değildir. Eğer yekpare bir doctest serisi yazarsanız (örneğin, tek bir docstringin bütün dostestlerinizi kapsaması), 
+  en azından doctestleri daha kolay düzeltilebilir hale getirmek için küçük parçalara bölmeyi düşünmelisiniz.
+  Aksi takdirde testlerinizi <a class="reference internal" href="../library/unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a>e aktarmak size çok çaba ve zamana mal olacaktır.</p>
   </div>
   <div class="section" id="update-map-for-imbalanced-input-sequences">
-  <h4>Update <cite>map</cite> for imbalanced input sequences<a class="headerlink" href="#update-map-for-imbalanced-input-sequences" title="Permalink to this headline">¶</a></h4>
-  <p>With Python 2, <cite>map</cite> would pad input sequences of unequal length with
-  <cite>None</cite> values, returning a sequence as long as the longest input sequence.</p>
-  <p>With Python 3, if the input sequences to <cite>map</cite> are of unequal length, <cite>map</cite>
-  will stop at the termination of the shortest of the sequences. For full
-  compatibility with <cite>map</cite> from Python 2.x, also wrap the sequences in
-  <a class="reference internal" href="../library/itertools.html#itertools.zip_longest" title="itertools.zip_longest"><tt class="xref py py-func docutils literal"><span class="pre">itertools.zip_longest()</span></tt></a>, e.g. <tt class="docutils literal"><span class="pre">map(func,</span> <span class="pre">*sequences)</span></tt> becomes
-  <tt class="docutils literal"><span class="pre">list(map(func,</span> <span class="pre">itertools.zip_longest(*sequences)))</span></tt>.</p>
+  <h4><cite>map</cite> fonksiyonunu istikrarsız girdi dizileri için güncelleme <a class="headerlink" href="#update-map-for-imbalanced-input-sequences" title="Permalink to this headline">¶</a></h4>
+  <p>Python 2 ile, <cite>map</cite> fonksiyonu eşit uzunluğa sahip olmayan girdi dizilerini <cite>None</cite> değerleri ile
+  dolduracaktır, en uzun dizi kadar bir dizi geri döndürecektir.</p>
+  <p>Python 3 ile,Python 2 sürümlerindeki <cite>map</cite> fonskiyonuyla tam uyum için, 
+  aynı zamanda
+  <a class="reference internal" href="../library/itertools.html#itertools.zip_longest" title="itertools.zip_longest"><tt class="xref py py-func docutils literal"><span class="pre">itertools.zip_longest()</span></tt></a>'daki dizileri kapsamak için 
+  <cite>map</cite> fonksiyonuna verilen diziler eşit uzunluğa sahip değilse , <cite>map</cite> fonksiyonu
+  en kısa dizinin sonunda duracaktır.Örneğin <tt class="docutils literal"><span class="pre">map(fonskiyon,</span> <span class="pre">*diziler)</span></tt> 
+  <tt class="docutils literal"><span class="pre">list(map(fonskiyon,</span> <span class="pre">itertools.zip_longest(*diziler)))</span></tt> e dönüşecektir.</p>
   </div>
   </div>
   <div class="section" id="eliminate-3-warnings">
-  <h3>Eliminate <tt class="docutils literal"><span class="pre">-3</span></tt> Warnings<a class="headerlink" href="#eliminate-3-warnings" title="Permalink to this headline">¶</a></h3>
-  <p>When you run your application&#8217;s test suite, run it using the <tt class="docutils literal"><span class="pre">-3</span></tt> flag passed
-  to Python. This will cause various warnings to be raised during execution about
-  things that 2to3 cannot handle automatically (e.g., modules that have been
-  removed). Try to eliminate those warnings to make your code even more portable
-  to Python 3.</p>
+  <h3><tt class="docutils literal"><span class="pre">-3</span></tt> Uyarılarını Giderme<a class="headerlink" href="#eliminate-3-warnings" title="Permalink to this headline">¶</a></h3>
+  <p>Uygulamanızın test paketini çalıştırdığınız zaman , Python'a aktarılan <tt class="docutils literal"><span class="pre">-3</span></tt> işaretini kullanarak çalıştırınız. 
+  Bu çalıştırma sırasında 2to3'ün otomatik olarak halledemeyeceği durumlar hakkında 
+  çeşitli uyarılar ortaya çıkaracaktır (örneğin , modüller silinmiştir). 
+  Bu uyarıları kodunuzu Pyton 3'e daha da aktarilabilir kılmak için gidermeye çalılın.</p>
   </div>
   <div class="section" id="run-2to3">
-  <h3>Run 2to3<a class="headerlink" href="#run-2to3" title="Permalink to this headline">¶</a></h3>
-  <p>Once you have made your Python 2 code future-compatible with Python 3, it&#8217;s
-  time to use <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> to actually port your code.</p>
+  <h3>2to3'ü çalıştırma<a class="headerlink" href="#run-2to3" title="Permalink to this headline">¶</a></h3>
+  <p>Bir defa Python 2 kodunuzu Python 3 ile gelecek-uyumlu hale getirdiğinizde  ,  
+  <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a>'ü kodunuzu aktarmak için fiilen kullanma zamanı gelmiştir .</p>
   <div class="section" id="manually">
-  <h4>Manually<a class="headerlink" href="#manually" title="Permalink to this headline">¶</a></h4>
+  <h4>El ile yapma <a class="headerlink" href="#manually" title="Permalink to this headline">¶</a></h4>
   <p>To manually convert source code using <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a>, you use the <tt class="docutils literal"><span class="pre">2to3</span></tt> script that
   is installed with Python 2.6 and later.:</p>
   <div class="highlight-python3"><div class="highlight"><pre><span class="mi">2</span><span class="n">to3</span> <span class="o">&lt;</span><span class="n">directory</span> <span class="ow">or</span> <span class="n">file</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span>
