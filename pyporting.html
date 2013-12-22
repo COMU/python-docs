@@ -510,20 +510,20 @@
   </pre></div>
   </div>
   <p>Bu sizin, projenizin ayrıca Python 3 versiyonunu dağıtma zorunluluğundan kurtaracaktır. 
-  Projenizde bir geliştirme yaptığınızda kodunuzu Python 3'te test etmeniz gerektiği için yine de buna ihtiyaç duyulmaktadır .</p>
+  Projenizde bir geliştirme yaptığınızda kodunuzu Python 3'te test etmeniz gerektiği için yine de ayrı bir Python 3 kopyasına ihtiyaç duyulmaktadır .</p>
   </div>
   </div>
   <div class="section" id="verify-test">
-  <h3>Verify &amp; Test<a class="headerlink" href="#verify-test" title="Permalink to this headline">¶</a></h3>
-  <p>At this point you should (hopefully) have your project converted in such a way
-  that it works in Python 3. Verify it by running your unit tests and making sure
-  nothing has gone awry. If you miss something then figure out how to fix it in
-  Python 3, backport to your Python 2 code, and run your code through 2to3 again
-  to verify the fix transforms properly.</p>
+  <h3>Doğrulama &amp; Test etme<a class="headerlink" href="#verify-test" title="Permalink to this headline">¶</a></h3>
+  <p>Bu noktada projenizi (umarız) Python 3'te çalışacak şekilde çevirmiş olmalısınız. 
+  Ünite testleriniz uygulayarak hiç bir şeyin ters gitmediğini doğrulayın . 
+  Eğer bir şeyleri gözden kaçırdıysanız Python 3'te nasıl çözebileceğinizi bulun, 
+  Python 2' versiyonunuza ters dönüştürme yapın , ve kodunuzda 2to3'ü dönüşümlerin doğru şekilde yapıldığını doğrulamak için
+  tekrar çalıştırın .</p>
   </div>
   </div>
   <div class="section" id="python-2-3-compatible-source">
-  <span id="use-same-source"></span><h2>Python 2/3 Compatible Source<a class="headerlink" href="#python-2-3-compatible-source" title="Permalink to this headline">¶</a></h2>
+  <span id="use-same-source"></span><h2>Python 2/3 Uyumlu Kaynak<a class="headerlink" href="#python-2-3-compatible-source" title="Permalink to this headline">¶</a></h2>
   <p>While it may seem counter-intuitive, you can write Python code which is
   source-compatible between Python 2 &amp; 3. It does lead to code that is not
   entirely idiomatic Python (e.g., having to extract the currently raised
