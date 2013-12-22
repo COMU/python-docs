@@ -489,9 +489,10 @@
   </div>
   <div class="section" id="during-installation">
   <h4>Yükleme Esnasında<a class="headerlink" href="#during-installation" title="Permalink to this headline">¶</a></h4>
-  <p>Kullanıcılarını projenizi Python 3 için yüklediği sırada , you can have either
-  <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><tt class="xref py py-mod docutils literal"><span class="pre">distutils</span></tt></a> or <a class="reference external" href="http://packages.python.org/distribute/">Distribute</a> run <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> on your behalf.
-  For distutils, use the following idiom:</p>
+  <p>Kullanıcılarını projenizi Python 3 için yüklediği sırada ,
+  <a class="reference internal" href="../library/distutils.html#module-distutils" title="distutils: Support for building and installing Python modules into an existing Python installation."><tt class="xref py py-mod docutils literal"><span class="pre">Modül Dağıtım Araçları</span></tt></a>nın veya <a class="reference external" href="http://packages.python.org/distribute/">Dağıtma(Distribute)</a> projesinin sizin yerinizi 
+  <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a>'ü çalıştırmasını sağlayabilirsiniz.
+  Modül Dağıtım Araçları için, aşağıdaki deyimi kullanın:</p>
   <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>  <span class="c"># Python 3</span>
     <span class="kn">from</span> <span class="nn">distutils.command.build_py</span> <span class="k">import</span> <span class="n">build_py_2to3</span> <span class="k">as</span> <span class="n">build_py</span>
   <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c"># Python 2</span>
@@ -502,15 +503,14 @@
   <span class="p">)</span>
   </pre></div>
   </div>
-  <p>For Distribute:</p>
+  <p>Dağıtma projesi için:</p>
   <div class="highlight-python3"><div class="highlight"><pre><span class="n">setup</span><span class="p">(</span><span class="n">use_2to3</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
     <span class="c"># ...</span>
   <span class="p">)</span>
   </pre></div>
   </div>
-  <p>This will allow you to not have to distribute a separate Python 3 version of
-  your project. It does require, though, that when you perform development that
-  you at least build your project and use the built Python 3 source for testing.</p>
+  <p>Bu sizin, projenizin ayrıca Python 3 versiyonunu dağıtma zorunluluğundan kurtaracaktır. 
+  Projenizde bir geliştirme yaptığınızda kodunuzu Python 3'te test etmeniz gerektiği için yine de buna ihtiyaç duyulmaktadır .</p>
   </div>
   </div>
   <div class="section" id="verify-test">
