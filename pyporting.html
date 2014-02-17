@@ -537,53 +537,46 @@
   <p>Aşağıdakiler Python 2 &amp; 3'ü aynı kaynak koduyla desteklemeye çalışma durumunda gerekli olacaktır.</p>
   <div class="section" id="follow-the-steps-for-using-2to3">
   <h3><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a>'ü Kullanmak İçin İzlenecek Adımlar <a class="headerlink" href="#follow-the-steps-for-using-2to3" title="Permalink to this headline">¶</a></h3>
-  <p>All of the steps outlined in how to
-  <a class="reference internal" href="#use-2to3"><em>port Python 2 code with 2to3</em></a> apply
-  to creating a Python 2/3 codebase. This includes trying only support Python 2.6
-  or newer (the <a class="reference internal" href="../library/__future__.html#module-__future__" title="__future__: Future statement definitions"><tt class="xref py py-mod docutils literal"><span class="pre">__future__</span></tt></a> statements work in Python 3 without issue),
-  eliminating warnings that are triggered by <tt class="docutils literal"><span class="pre">-3</span></tt>, etc.</p>
-  <p>You should even consider running <a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a> over your code (without committing the
-  changes). This will let you know where potential pain points are within your
-  code so that you can fix them properly before they become an issue.</p>
+  <p><a class="reference internal" href="#use-2to3"><em>2to3 ile Python 2 kodunu dönüştürme</em></a>de altı çizilen bütün noktalar Python 2/3 kod tabanı oluşturmada kullanılır.
+  Bu, sadece Python 2.6 ve yenisini destekleme (the <a class="reference internal" href="../library/__future__.html#module-__future__" title="__future__: Future statement definitions"><tt class="xref py py-mod docutils literal"><span class="pre">__future__</span></tt></a> ifadeleri  Python 3'te sorunsuz çalışmaktadır),
+  <tt class="docutils literal"><span class="pre">-3</span></tt> tarafından tetiklenen uyarıları aşma, ve benzerlerini içerir.</p>
+  <p><a class="reference external" href="http://docs.python.org/py3k/library/2to3.html">2to3</a>'ü kodunuzda düzenli olarak çalıştırmayı göz önünde bulundurmalısınız(değişiklikleri işlemeden).
+  Bu size kodunuzdaki olası hatalı bölgeleri görüp onları soruna dönüşmeden uygun şekilde çözme imkanı tanır.</p>
   </div>
   <div class="section" id="use-six">
-  <h3>Use <a class="reference external" href="http://packages.python.org/six">six</a><a class="headerlink" href="#use-six" title="Permalink to this headline">¶</a></h3>
-  <p>The <a class="reference external" href="http://packages.python.org/six">six</a> project contains many things to help you write portable Python code.
-  You should make sure to read its documentation from beginning to end and use
-  any and all features it provides. That way you will minimize any mistakes you
-  might make in writing cross-version code.</p>
+  <h3><a class="reference external" href="http://packages.python.org/six">Altı(six)</a><a class="headerlink" href="#use-six" title="Permalink to this headline"> projesini kullanın ¶</a></h3>
+  <p><a class="reference external" href="http://packages.python.org/six">Altı(six)</a> projesi size dönüştürülebilir Python kodu yazmak için yardımcı olacak bir çok şey barındırmaktadı.
+  Projenin dökümantasyonunu baştan sona okuduğunuzdan emin olun ve projenin içerdiği herhangi bir veya bütün özellikleri kullanın. 
+  Bu yolla geçiş versiyon kodunuzu yaparken yapacağınız hataları en aza indirmiş olacaksınız.</p>
   </div>
   <div class="section" id="capturing-the-currently-raised-exception">
-  <h3>Capturing the Currently Raised Exception<a class="headerlink" href="#capturing-the-currently-raised-exception" title="Permalink to this headline">¶</a></h3>
-  <p>One change between Python 2 and 3 that will require changing how you code (if
-  you support <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> and earlier) is
-  accessing the currently raised exception.  In Python 2.5 and earlier the syntax
-  to access the current exception is:</p>
+  <h3>Kullanılan İstisna Fırlamalarını Yakalama<a class="headerlink" href="#capturing-the-currently-raised-exception" title="Permalink to this headline">¶</a></h3>
+  <p>Python 2 ve 3 arasındaki değişikliklerden biri de kodlama yaparken mevcut istisnalara ulaşım tarzınızı değiştirme gerekliliğidir
+  (eğer <a class="reference external" href="http://www.python.org/2.5.x">Python 2.5</a> ve öncesini destekliyorsanız).  
+  Pyton 2.5 ve öncesinde kullanılan istisnalara ulaşmak için uygulanan sözdimi budur:</p>
   <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
   <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span>
-    <span class="c"># Current exception is &#39;exc&#39;</span>
+    <span class="c"># Kullanılan istisna &#39;exc&#39;dir</span>
     <span class="k">pass</span>
   </pre></div>
   </div>
-  <p>This syntax changed in Python 3 (and backported to <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> and later)
-  to:</p>
+  <p>Bu sözdizimi Python 3'te şöyle değişmiştir(ve <a class="reference external" href="http://www.python.org/2.6.x">Python 2.6</a> ve öncesine geri dönüştürülmüştür):</p>
   <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
   <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-    <span class="c"># Current exception is &#39;exc&#39;</span>
-    <span class="c"># In Python 3, &#39;exc&#39; is restricted to the block; Python 2.6 will &quot;leak&quot;</span>
+    <span class="c"># Kullanılan istisna &#39;exc&#39;dir</span>
+    <span class="c"># Python 3'te, &#39;exc&#39; blok ile sınırlandırılmıştır ; Python 2.6 &quot;sızma&quot; yapacaktır</span>
     <span class="k">pass</span>
   </pre></div>
   </div>
-  <p>Because of this syntax change you must change to capturing the current
-  exception to:</p>
+  <p>Bu sözdizimi değişikliği yüzünden kullanılan istisna yakalamanızı şuna dönüştürmelisiniz:</p>
   <div class="highlight-python3"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
   <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">sys</span>
     <span class="n">exc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="c"># Current exception is &#39;exc&#39;</span>
+    <span class="c"># Kullanılan istisna &#39;exc&#39;dir</span>
     <span class="k">pass</span>
   </pre></div>
   </div>
