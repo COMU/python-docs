@@ -580,28 +580,25 @@
     <span class="k">pass</span>
   </pre></div>
   </div>
-  <p>You can get more information about the raised exception from
-  <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a> than simply the current exception instance, but you most
-  likely don&#8217;t need it.</p>
+  <p>
+  <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a>dan basitçe kullanılan istisna fırlatma durumundan daha fazla bilgi alabilirsiniz,
+  ama çoğunlukla buna gerek duyulmaz.</p>
   <div class="admonition note">
-  <p class="first admonition-title">Note</p>
-  <p>In Python 3, the traceback is attached to the exception instance
-  through the <tt class="docutils literal"><span class="pre">__traceback__</span></tt> attribute. If the instance is saved in
-  a local variable that persists outside of the <tt class="docutils literal"><span class="pre">except</span></tt> block, the
-  traceback will create a reference cycle with the current frame and its
-  dictionary of local variables.  This will delay reclaiming dead
-  resources until the next cyclic <a class="reference internal" href="../glossary.html#term-garbage-collection"><em class="xref std std-term">garbage collection</em></a> pass.</p>
-  <p class="last">In Python 2, this problem only occurs if you save the traceback itself
-  (e.g. the third element of the tuple returned by <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a>)
-  in a variable.</p>
+  <p class="first admonition-title">Not</p>
+  <p>Python 3'te, izdökümü <tt class="docutils literal"><span class="pre">__traceback__</span></tt> özelliğiyle istisna örneğine bağlanır . 
+  Eğer örnek <tt class="docutils literal"><span class="pre">except</span></tt> bloğu dışında devam eden bir lokal değişkene kayıt edildiyse,
+  izdökümü(traceback) özelliği mevcut çerçeve ve onun lokal değişken sözlüğüyle bir referans döngü oluşturur.  
+  Bu bir sonraki döngüsel <a class="reference internal" href="../glossary.html#term-garbage-collection"><em class="xref std std-term">çöp toplama</em></a> olana kadar ölü kaynakların geri kazanılmasını geçiktirecektir.</p>
+  <p class="last">Python 2'de,bu problem ancak izdökümünün
+  (örneğin <a class="reference internal" href="../library/sys.html#sys.exc_info" title="sys.exc_info"><tt class="xref py py-func docutils literal"><span class="pre">sys.exc_info()</span></tt></a> tarafından döndürülen bir değişkenler dizisinin üçüncü elemanı)
+  bir değişkene kaydederseniz oluşacaktır.</p>
   </div>
   </div>
   </div>
   <div class="section" id="other-resources">
-  <h2>Other Resources<a class="headerlink" href="#other-resources" title="Permalink to this headline">¶</a></h2>
-  <p>The authors of the following blog posts, wiki pages, and books deserve special
-  thanks for making public their tips for porting Python 2 code to Python 3 (and
-  thus helping provide information for this document):</p>
+  <h2>Diğer Kaynaklar <a class="headerlink" href="#other-resources" title="Permalink to this headline">¶</a></h2>
+  <p>Aşağıda belirtilen blog yazıları,wiki sayfaları ve kitapların yazarlarıdır. Her biri Pyton 2 kodunu 3'e dönüştürme konusunda 
+  önerilerini topluma açık yaptıkları (ve bize bu kaynağı hazırlamakta bilgi sağladıkları için) için özellikle teşekkürü hakediyorlar :</p>
   <ul class="simple">
   <li><a class="reference external" href="http://python3porting.com/">http://python3porting.com/</a></li>
   <li><a class="reference external" href="http://docs.pythonsprints.com/python3_porting/py-porting.html">http://docs.pythonsprints.com/python3_porting/py-porting.html</a></li>
@@ -612,8 +609,8 @@
   <li><a class="reference external" href="http://wiki.python.org/moin/PortingPythonToPy3k">http://wiki.python.org/moin/PortingPythonToPy3k</a></li>
   <li><a class="reference external" href="https://wiki.ubuntu.com/Python/3">https://wiki.ubuntu.com/Python/3</a></li>
   </ul>
-  <p>If you feel there is something missing from this document that should be added,
-  please email the <a class="reference external" href="http://mail.python.org/mailman/listinfo/python-porting">python-porting</a> mailing list.</p>
+  <p>Eğer bu kaynakta bir şeylerin eksik olduğunu düşünüyor ve eklenmesini istiyorsanız,
+  lütfen <a class="reference external" href="http://mail.python.org/mailman/listinfo/python-porting">python-porting</a> mail listesine mail atınız.</p>
   </div>
   </div>
   
